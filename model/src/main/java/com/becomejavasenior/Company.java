@@ -3,6 +3,7 @@ package com.becomejavasenior;
 import com.becomejavasenior.deal.Deal;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,6 +18,8 @@ public class Company extends Identity {
     private static final long serialVersionUID = 1L;
 
     private User responsibleUser;
+
+    private List<Contact> contacts;
 
     private String name;
 
@@ -47,6 +50,10 @@ public class Company extends Identity {
 
     public User getResponsibleUser() {
         return responsibleUser;
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
     }
 
     public String getName() {
@@ -99,6 +106,10 @@ public class Company extends Identity {
 
     public void setResponsibleUser(User responsibleUser) {
         this.responsibleUser = responsibleUser;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public void setName(String name) {
