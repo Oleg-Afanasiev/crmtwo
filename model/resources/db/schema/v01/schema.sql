@@ -1,2 +1,0 @@
-CREATE SCHEMA crm
-       AUTHORIZATION postgres;
