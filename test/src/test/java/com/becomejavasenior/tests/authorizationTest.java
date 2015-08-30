@@ -1,6 +1,7 @@
 package com.becomejavasenior.tests;
 
 import com.becomejavasenior.core.BaseTest;
+import com.becomejavasenior.core.web.pages.LoginPageCrmtwo;
 import org.testng.annotations.Test;
 
 /**
@@ -10,7 +11,7 @@ public class authorizationTest extends BaseTest{
 
     @Test
     public void authorizationTestMethod(){
-        driver.get("http://localhost:8080");
-        try {Thread.sleep(20000);} catch (Exception e){}
+        new LoginPageCrmtwo(driver).loadAndWaitUntilAvailable();
+        //try {Thread.sleep(20000);} catch (Exception e){}
     }
 }

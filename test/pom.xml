@@ -12,11 +12,6 @@
     <artifactId>crm-system-test</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.9.6</version>
-        </dependency>
-    </dependencies>
 
+    </dependencies>
 </project>
