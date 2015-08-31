@@ -1,6 +1,8 @@
 package com.becomejavasenior.core.web.pages;
 
 import com.becomejavasenior.core.web.WebPage;
+import com.becomejavasenior.core.web.elements.Button;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -25,6 +27,11 @@ public class UserHomePageCrmtwo extends WebPage<UserHomePageCrmtwo>{
     public boolean isAvailable() {
         return false;
 
+    }
+
+    public LoginPageCrmtwo loadAsUser() {
+        load();
+        return new LoginPageCrmtwo(driver).waitUntilAvalible();
     }
 
 }

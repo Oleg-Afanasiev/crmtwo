@@ -11,7 +11,10 @@ public class authorizationTest extends BaseTest{
 
     @Test
     public void authorizationTestMethod(){
-        new LoginPageCrmtwo(driver).loadAndWaitUntilAvailable();
-        //try {Thread.sleep(20000);} catch (Exception e){}
+        new LoginPageCrmtwo(driver)
+                .loadAndWaitUntilAvailable()
+                .loginAs("test@test.test", "test");
+
+        try {Thread.sleep(20000);} catch (Exception e){}
     }
 }

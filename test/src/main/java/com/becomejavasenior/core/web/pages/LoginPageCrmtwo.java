@@ -32,9 +32,12 @@ public class LoginPageCrmtwo extends WebPage<LoginPageCrmtwo>{
 
     }
 
-//    public UserHomePageCrmtwo loginAs(String email, String password) {
-//        return this;
-//    }
+    public UserHomePageCrmtwo loginAs(String email, String password) {
+        getEmailInput().inputText(email);
+        getPasswordInput().inputText(password);
+        getEnterButton().click();
+        return new UserHomePageCrmtwo(driver).waitUntilAvalible();
+    }
 
     private TextInput getEmailInput(){
         return new TextInput(driver, By.id("loginID"));

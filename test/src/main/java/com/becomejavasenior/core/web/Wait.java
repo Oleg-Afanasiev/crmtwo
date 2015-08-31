@@ -28,7 +28,7 @@ public class Wait<T extends Component<T>> {
             timePassed = timePassed + delay();
         }
         if (!this.component.isAvailable()){
-            throw new TimeoutException("Timeout after " + DEFAULT_TIMEOUT + "ms. waiting for " + this.component.getClass().getSimpleName() + "to be available.");
+            throw new TimeoutException("Timeout after " + DEFAULT_TIMEOUT + "ms. waiting for " + this.component.getClass().getSimpleName() + " to be available.");
         }
         return this.component;
     }
