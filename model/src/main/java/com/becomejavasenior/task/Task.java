@@ -61,6 +61,10 @@ public class Task extends Identity {
         return contact;
     }
 
+    public TaskPeriod getTaskPeriod() {
+        return taskPeriod;
+    }
+
     public Date getDueDate() {
         return dueDate;
     }
@@ -91,6 +95,10 @@ public class Task extends Identity {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public void setTaskPeriod(TaskPeriod taskPeriod) {
+        this.taskPeriod = taskPeriod;
     }
 
     public void setDeal(Deal deal) {

@@ -20,7 +20,7 @@ public class Contact extends Identity {
 
     private User responsibleUser;
 
-    private String  name;
+    private String name;
 
     private String jobPosition;
 

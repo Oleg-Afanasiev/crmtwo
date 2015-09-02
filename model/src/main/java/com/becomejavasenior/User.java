@@ -13,7 +13,7 @@ public class User extends Identity {
 
     private static final long serialVersionUID = 1L;
 
-    //Role field temporary ignored
+    private Role role;
 
     private String userName;
 
@@ -30,6 +30,10 @@ public class User extends Identity {
     private boolean isDeleted;
 
     public User() {
+    }
+
+    public Role getRole() {
+        return role;
     }
 
     public String getUserName() {
@@ -58,6 +62,10 @@ public class User extends Identity {
 
     public boolean isDeleted() {
         return isDeleted;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public void setUserName(String userName) {

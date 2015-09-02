@@ -23,7 +23,7 @@ public class Deal extends Identity {
 
     private String name;
 
-    private BigDecimal bugget;
+    private BigDecimal budget;
 
     private Date created;
 
@@ -55,8 +55,8 @@ public class Deal extends Identity {
         return name;
     }
 
-    public BigDecimal getBugget() {
-        return bugget;
+    public BigDecimal getBudget() {
+        return budget;
     }
 
     public Date getCreated() {
@@ -99,8 +99,8 @@ public class Deal extends Identity {
         this.name = name;
     }
 
-    public void setBugget(BigDecimal bugget) {
-        this.bugget = bugget;
+    public void setBudget(BigDecimal budget) {
+        this.budget = budget;
     }
 
     public void setCreated(Date created) {

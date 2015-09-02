@@ -25,9 +25,9 @@ public class Company extends Identity {
 
     private String email;
 
-    private String webAdress;
+    private String webAddress;
 
-    private String adress;
+    private String address;
 
     private Date created;
 
@@ -64,12 +64,12 @@ public class Company extends Identity {
         return email;
     }
 
-    public String getWebAdress() {
-        return webAdress;
+    public String getWebAddress() {
+        return webAddress;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
     public Date getCreated() {
@@ -120,12 +120,12 @@ public class Company extends Identity {
         this.email = email;
     }
 
-    public void setWebAdress(String webAdress) {
-        this.webAdress = webAdress;
+    public void setWebAddress(String webAddress) {
+        this.webAddress = webAddress;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setCreated(Date created) {
