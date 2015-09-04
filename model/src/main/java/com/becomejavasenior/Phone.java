@@ -11,14 +11,14 @@ public class Phone extends Identity {
 
     private static final long serialVersionUID = 1L;
 
-    private int phoneType;
+    private PhoneType phoneType;
 
     private String number;
 
     public Phone() {
     }
 
-    public int getPhoneType() {
+    public PhoneType getPhoneType() {
         return phoneType;
     }
 
@@ -26,7 +26,7 @@ public class Phone extends Identity {
         return number;
     }
 
-    public void setPhoneType(int phoneType) {
+    public void setPhoneType(PhoneType phoneType) {
         this.phoneType = phoneType;
     }
 

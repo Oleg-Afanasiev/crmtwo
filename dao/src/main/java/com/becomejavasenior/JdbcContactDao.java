@@ -23,15 +23,15 @@ public class JdbcContactDao implements ContactDao {
             "  contact.created, " +
             "  contact.updated, " +
             "  contact.is_deleted " +
-            "FROM " +
-            "  contact ";
+            "FROM crm.contact " +
+            "WHERE contact.is_deleted = FALSE ";
 
     public JdbcContactDao() {
         this.jdbcDBConnUtils = new JdbcDBConnUtils();
     }
 
     public Contact getById(int id) throws SQLException {
-        String sqlGetById = generalGetSql + "WHERE contact_id = ?";
+        String sqlGetById = generalGetSql + "AND contact_id = ?";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -99,7 +99,7 @@ public class JdbcContactDao implements ContactDao {
     }
 
     public boolean delete(int id) throws SQLException {
-        String deleteSql = "Update contact SET is_deleted = true WHERE contact_id = ?";
+        String deleteSql = "Update crm.contact SET is_deleted = true WHERE contact_id = ?";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -125,7 +125,7 @@ public class JdbcContactDao implements ContactDao {
     public Contact create(Contact contact) throws SQLException {
         if(contact.getId()!=0) throw new DaoException("Contact already exist");
 
-        String insertSQL = "INSERT INTO contact "
+        String insertSQL = "INSERT INTO crm.contact "
                 + "(company_id, responsible_user_id, \"name\", job_position, email, skype, created, updated, is_deleted) "
                 + "VALUES (?,?,?,?,?,?,?,?,?)";
 
@@ -160,7 +160,7 @@ public class JdbcContactDao implements ContactDao {
     }
 
     public void update(Contact contact) throws SQLException {
-        String updateSql = "UPDATE contact SET " +
+        String updateSql = "UPDATE crm.contact SET " +
                 "company_id = ?, " +
                 "responsible_user_id = ?, " +
                 "\"name\" = ?, " +
