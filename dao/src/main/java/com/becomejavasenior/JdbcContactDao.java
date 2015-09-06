@@ -8,7 +8,7 @@ import java.util.Date;
  * Contact DAO implementation
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * @version 0.2
  */
 
 public class JdbcContactDao implements ContactDao {
@@ -30,11 +30,12 @@ public class JdbcContactDao implements ContactDao {
         this.jdbcDBConnUtils = new JdbcDBConnUtils();
     }
 
-    public Contact getById(int id) throws SQLException {
+    public Contact getById(int id) throws DBException {
         String sqlGetById = generalGetSql + "AND contact_id = ?";
 
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         Contact contact = new Contact();
 
@@ -42,7 +43,7 @@ public class JdbcContactDao implements ContactDao {
             connection = jdbcDBConnUtils.getConnection();
             preparedStatement = jdbcDBConnUtils.getPreparedStatement(connection, sqlGetById);
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 contact.setId(resultSet.getInt("contact_id"));
@@ -57,23 +58,27 @@ public class JdbcContactDao implements ContactDao {
         } catch (SQLException e) {
             throw new DBSystemException("Can't execute SQL = '" + sqlGetById + "'", e);
         } finally {
-            if(connection != null) connection.close();
-            if(preparedStatement != null) preparedStatement.close();
+            jdbcDBConnUtils.closeQuietly(resultSet);
+            jdbcDBConnUtils.closeQuietly(preparedStatement);
+            jdbcDBConnUtils.closeQuietly(connection);
         }
+        jdbcDBConnUtils.finalizeConn();
 
         return contact.getId() == 0 ? null : contact;
     }
 
-    public List<Contact> getAll() throws SQLException {
+    public List<Contact> getAll() throws DBException {
+        String sqlGetAll = generalGetSql + " ORDER BY contact.contact_id";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         List<Contact> contactList = new ArrayList<Contact>();
 
         try {
             connection = jdbcDBConnUtils.getConnection();
-            preparedStatement = jdbcDBConnUtils.getPreparedStatement(connection, generalGetSql);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement = jdbcDBConnUtils.getPreparedStatement(connection, sqlGetAll);
+            resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 Contact contact = new Contact();
@@ -90,15 +95,18 @@ public class JdbcContactDao implements ContactDao {
                 contactList.add(contact);
             }
         } catch (SQLException e) {
-            throw new DBSystemException("Can't execute SQL = '" + generalGetSql + "'", e);
+            throw new DBSystemException("Can't execute SQL = '" + sqlGetAll + "'", e);
         } finally {
-            if(connection != null) connection.close();
-            if(preparedStatement != null) preparedStatement.close();
+            jdbcDBConnUtils.closeQuietly(resultSet);
+            jdbcDBConnUtils.closeQuietly(preparedStatement);
+            jdbcDBConnUtils.closeQuietly(connection);
         }
+        jdbcDBConnUtils.finalizeConn();
+
         return contactList;
     }
 
-    public boolean delete(int id) throws SQLException {
+    public boolean delete(int id) throws DBException {
         String deleteSql = "Update crm.contact SET is_deleted = true WHERE contact_id = ?";
 
         Connection connection = null;
@@ -112,17 +120,18 @@ public class JdbcContactDao implements ContactDao {
             preparedStatement.setInt(1, id);
 
             result = preparedStatement.executeUpdate();
-        } catch (Error e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new DBSystemException("Can't execute SQL = '" + deleteSql + "'", e);
         } finally {
-            if(connection != null) connection.close();
-            if(preparedStatement != null) preparedStatement.close();
+            jdbcDBConnUtils.closeQuietly(preparedStatement);
+            jdbcDBConnUtils.closeQuietly(connection);
         }
+        jdbcDBConnUtils.finalizeConn();
 
         return result == 1;
     }
 
-    public Contact create(Contact contact) throws SQLException {
+    public Contact create(Contact contact) throws DBException {
         if(contact.getId()!=0) throw new DaoException("Contact already exist");
 
         String insertSQL = "INSERT INTO crm.contact "
@@ -152,14 +161,15 @@ public class JdbcContactDao implements ContactDao {
         } catch (SQLException e) {
             throw new DBSystemException("Can't execute SQL = '" + insertSQL + "'", e);
         } finally {
-            if(connection != null) connection.close();
-            if(preparedStatement != null) preparedStatement.close();
+            jdbcDBConnUtils.closeQuietly(preparedStatement);
+            jdbcDBConnUtils.closeQuietly(connection);
         }
+        jdbcDBConnUtils.finalizeConn();
 
         return newId == 0 ? null : getById(newId);
     }
 
-    public void update(Contact contact) throws SQLException {
+    public void update(Contact contact) throws DBException {
         String updateSql = "UPDATE crm.contact SET " +
                 "company_id = ?, " +
                 "responsible_user_id = ?, " +
@@ -191,8 +201,9 @@ public class JdbcContactDao implements ContactDao {
         } catch (SQLException e) {
             throw new DBSystemException("Can't execute SQL = '" + updateSql + "'", e);
         } finally {
-            if(connection != null) connection.close();
-            if(preparedStatement != null) preparedStatement.close();
+            jdbcDBConnUtils.closeQuietly(preparedStatement);
+            jdbcDBConnUtils.closeQuietly(connection);
         }
+        jdbcDBConnUtils.finalizeConn();
     }
 }
