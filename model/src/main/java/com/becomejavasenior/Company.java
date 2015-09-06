@@ -1,6 +1,7 @@
 package com.becomejavasenior;
 
 import com.becomejavasenior.deal.Deal;
+import com.becomejavasenior.phone.Phone;
 
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Set;
  * JavaBean class describes Company model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * @version 0.2
  */
 
 public class Company extends Identity {
@@ -158,5 +159,21 @@ public class Company extends Identity {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "company_id='" + this.getId() + '\'' +
+                ", responsibleUser=" + responsibleUser +
+                ", contacts=" + contacts +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", webAddress='" + webAddress + '\'' +
+                ", address='" + address + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", isDeleted=" + isDeleted +
+                '}';
     }
 }

@@ -6,7 +6,7 @@ import com.becomejavasenior.Identity;
  * JavaBean class describes TaskPeriod model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * @version 0.2
  */
 
 public class TaskPeriod extends Identity {
@@ -24,5 +24,13 @@ public class TaskPeriod extends Identity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskPeriod{" +
+                "period_id='" + this.getId() + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

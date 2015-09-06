@@ -6,7 +6,7 @@ import com.becomejavasenior.Identity;
  * JavaBean class describes DealStatus model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * @version 0.2
  */
 
 public class DealStatus extends Identity {
@@ -24,5 +24,13 @@ public class DealStatus extends Identity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "DealStatus{" +
+                "status_id='" + this.getId() + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

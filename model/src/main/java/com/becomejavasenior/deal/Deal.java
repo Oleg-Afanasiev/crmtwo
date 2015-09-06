@@ -10,14 +10,14 @@ import java.util.Set;
  * JavaBean class describes Deal model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * @version 0.2
  */
 
 public class Deal extends Identity {
 
     private static final long serialVersionUID = 1L;
 
-    private User responsibleUserId;
+    private User responsibleUser;
 
     private DealStatus dealStatus;
 
@@ -43,8 +43,8 @@ public class Deal extends Identity {
     }
 
 
-    public User getResponsibleUserId() {
-        return responsibleUserId;
+    public User getResponsibleUser() {
+        return responsibleUser;
     }
 
     public DealStatus getDealStatus() {
@@ -87,8 +87,8 @@ public class Deal extends Identity {
         return contacts;
     }
 
-    public void setResponsibleUserId(User responsibleUserId) {
-        this.responsibleUserId = responsibleUserId;
+    public void setResponsibleUser(User responsibleUser) {
+        this.responsibleUser = responsibleUser;
     }
 
     public void setDealStatus(DealStatus dealStatus) {
@@ -129,5 +129,19 @@ public class Deal extends Identity {
 
     public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    @Override
+    public String toString() {
+        return "Deal{" +
+                "deal_id='" + this.getId() + '\'' +
+                ", responsibleUserId=" + responsibleUser +
+                ", dealStatus=" + dealStatus +
+                ", name='" + name + '\'' +
+                ", budget=" + budget +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", isDeleted=" + isDeleted +
+                '}';
     }
 }

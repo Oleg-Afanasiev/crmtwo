@@ -9,7 +9,7 @@ import java.util.Date;
  * JavaBean class describes Task model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * @version 0.2
  */
 
 public class Task extends Identity {
@@ -127,5 +127,23 @@ public class Task extends Identity {
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "task_id='" + this.getId() + '\'' +
+                ", taskType=" + taskType +
+                ", responsibleUserId=" + responsibleUserId +
+                ", company=" + company +
+                ", deal=" + deal +
+                ", contact=" + contact +
+                ", taskPeriod=" + taskPeriod +
+                ", dueDate=" + dueDate +
+                ", comments=" + comments +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", isDeleted=" + isDeleted +
+                '}';
     }
 }

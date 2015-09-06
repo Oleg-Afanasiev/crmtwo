@@ -7,7 +7,7 @@ import java.util.Date;
  * JavaBean class describes File model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.2
+ * @version 0.3
  */
 
 public class File extends Identity {
@@ -55,5 +55,16 @@ public class File extends Identity {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    @Override
+    public String toString() {
+        return "File{" +
+                "file_id='" + this.getId() + '\'' +
+                ", path='" + path + '\'' +
+                ", mimeType='" + mimeType + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                '}';
     }
 }

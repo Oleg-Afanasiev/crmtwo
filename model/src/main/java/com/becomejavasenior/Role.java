@@ -4,7 +4,7 @@ package com.becomejavasenior;
  * JavaBean class describes Role model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * @version 0.2
  */
 
 public class Role extends Identity {
@@ -32,5 +32,14 @@ public class Role extends Identity {
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "role_id='" + this.getId() + '\'' +
+                ", name='" + name + '\'' +
+                ", isDeleted=" + isDeleted +
+                '}';
     }
 }

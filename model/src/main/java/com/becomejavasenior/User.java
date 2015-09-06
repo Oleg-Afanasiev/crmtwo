@@ -6,7 +6,7 @@ import java.util.Date;
  * JavaBean class describes User model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * @version 0.2
  */
 
 public class User extends Identity {
@@ -93,5 +93,20 @@ public class User extends Identity {
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id='" + this.getId() + '\'' +
+                ", role=" + role +
+                ", userName='" + userName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", email='" + email + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", isDeleted=" + isDeleted +
+                '}';
     }
 }

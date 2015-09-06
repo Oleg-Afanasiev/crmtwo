@@ -6,7 +6,7 @@ import java.util.Date;
  * JavaBean class describes Comment model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.2
+ * @version 0.3
  */
 
 public class Comment extends Identity {
@@ -54,5 +54,16 @@ public class Comment extends Identity {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id='" + this.getId() + '\'' +
+                ", name='" + name + '\'' +
+                ", comment='" + comment + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                '}';
     }
 }

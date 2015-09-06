@@ -1,6 +1,7 @@
 package com.becomejavasenior;
 
 import com.becomejavasenior.deal.Deal;
+import com.becomejavasenior.phone.Phone;
 
 import java.util.Date;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.Set;
  * JavaBean class describes Contact model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.2
+ * @version 0.3
  */
 
 public class Contact extends Identity {
@@ -158,5 +159,21 @@ public class Contact extends Identity {
 
     public void setDeals(Set<Deal> deals) {
         this.deals = deals;
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "contact_id='" + this.getId() + '\'' +
+                ", company=" + company +
+                ", responsibleUser=" + responsibleUser +
+                ", name='" + name + '\'' +
+                ", jobPosition='" + jobPosition + '\'' +
+                ", email='" + email + '\'' +
+                ", skype='" + skype + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", isDeleted=" + isDeleted +
+                '}';
     }
 }
