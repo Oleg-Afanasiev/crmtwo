@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * @version 0.1
  */
 
-public class DBException extends SQLException {
+public class DBException extends Exception {
 
     public DBException() {
     }
