@@ -30,3 +30,4 @@ ALTER TABLE crmtwo.crm.comment ALTER COLUMN is_deleted SET DEFAULT FALSE;
 ALTER TABLE crmtwo.crm.comment ALTER COLUMN created SET DEFAULT now();
 ALTER TABLE crmtwo.crm.comment ALTER COLUMN updated SET DEFAULT now();
 
+ALTER TABLE crm.deal ALTER COLUMN budget TYPE NUMERIC USING budget::NUMERIC;
