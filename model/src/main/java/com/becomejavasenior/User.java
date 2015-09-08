@@ -3,87 +3,37 @@ package com.becomejavasenior;
 import java.util.Date;
 
 /**
- * JavaBean class describes User model
- *
- * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * Created by Dmytro Tsapko on 9/6/2015.
  */
+public interface User extends Identity {
+    public String getUserName();
 
-public class User extends Identity {
+    public String getLastName();
 
-    private static final long serialVersionUID = 1L;
+    public String getFirstName();
 
-    //Role field temporary ignored
+    public String getEmail();
 
-    private String userName;
+    public Date getCreated();
 
-    private String lastName;
+    public Date getUpdated();
 
-    private String firstName;
+    public boolean isDeleted();
 
-    private String email;
+    public void setUserName(String userName);
 
-    private Date created;
+    public void setLastName(String lastName);
+    public void setEmail(String email);
 
-    private Date updated;
+    public void setCreated(Date created);
 
-    private boolean isDeleted;
+    public void setUpdated(Date updated);
 
-    public User() {
-    }
+    public void setIsDeleted(boolean isDeleted);
 
-    public String getUserName() {
-        return userName;
-    }
+    public int getRole_id();
 
-    public String getLastName() {
-        return lastName;
-    }
+    public void setRole_id(int role_id);
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
+    public void setFirstName(String firstName);
 }

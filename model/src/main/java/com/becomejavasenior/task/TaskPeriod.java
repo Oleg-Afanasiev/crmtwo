@@ -3,26 +3,12 @@ package com.becomejavasenior.task;
 import com.becomejavasenior.Identity;
 
 /**
- * JavaBean class describes TaskPeriod model
- *
- * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * Created by Dmytro Tsapko on 9/7/2015.
  */
+public interface TaskPeriod extends Identity {
 
-public class TaskPeriod extends Identity {
+    public String getName();
 
-    private static final long serialVersionUID = 1L;
+    public void setName(String name);
 
-    private String name;
-
-    public TaskPeriod() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

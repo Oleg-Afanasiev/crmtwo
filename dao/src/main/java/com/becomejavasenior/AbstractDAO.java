@@ -7,7 +7,7 @@ import java.util.Collection;
  */
 public interface AbstractDAO<T> {
 
-    boolean saveOrUpdate(T entity);
+    void saveOrUpdate(T entity);
 
     T getById(long id);
 

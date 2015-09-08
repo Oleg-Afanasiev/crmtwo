@@ -1,59 +1,26 @@
 package com.becomejavasenior;
 
-
 import java.util.Date;
 
 /**
- * JavaBean class describes File model
- *
- * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.2
+ * Created by Dmytro Tsapko on 9/6/2015.
  */
+public interface File extends Identity {
 
-public class File extends Identity {
+    public String getPath();
 
-    private static final long serialVersionUID = 1L;
+    public String getMimeType();
 
-    private String path;
+    public Date getCreated();
 
-    private String mimeType;
+    public Date getUpdated();
 
-    private Date created;
+    public void setPath(String path);
 
-    private Date updated;
+    public void setMimeType(String mimeType);
 
-    public File() {
-    }
+    public void setCreated(Date created);
 
-    public String getPath() {
-        return path;
-    }
+    public void setUpdated(Date updated);
 
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
 }

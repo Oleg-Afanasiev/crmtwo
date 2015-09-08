@@ -1,36 +1,17 @@
 package com.becomejavasenior;
 
 /**
- * JavaBean class describes Phone model
- *
- * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.2
+ * Created by Dmytro Tsapko on 9/6/2015.
  */
+public interface Phone extends Identity {
 
-public class Phone extends Identity {
+    public int getPhoneType();
 
-    private static final long serialVersionUID = 1L;
+    public String getNumber();
 
-    private int phoneType;
+    public void setPhoneType(int phoneType);
 
-    private String number;
+    public void setNumber(String number);
 
-    public Phone() {
-    }
 
-    public int getPhoneType() {
-        return phoneType;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setPhoneType(int phoneType) {
-        this.phoneType = phoneType;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
 }

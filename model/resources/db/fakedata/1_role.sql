@@ -1,0 +1,10 @@
+INSERT INTO crm.role (name, is_deleted) VALUES ('admin', false);
+INSERT INTO crm.role (name, is_deleted) VALUES ('operator', false);
+INSERT INTO crm.role (name, is_deleted) VALUES ('engineer', false);
+INSERT INTO crm.role (name, is_deleted) VALUES ('read_only', false);
+INSERT INTO crm.role (name, is_deleted) VALUES ('sysadm', false);
+INSERT INTO crm.role (name, is_deleted) VALUES ('mpp', false);
+INSERT INTO crm.role (name, is_deleted) VALUES ('gsdt', false);
+INSERT INTO crm.role (name, is_deleted) VALUES ('backup', false);
+INSERT INTO crm.role (name, is_deleted) VALUES ('guest', false);
+INSERT INTO crm.role (name, is_deleted) VALUES ('custom', false);

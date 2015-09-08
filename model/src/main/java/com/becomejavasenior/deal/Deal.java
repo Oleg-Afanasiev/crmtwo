@@ -7,127 +7,52 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * JavaBean class describes Deal model
- *
- * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * Created by Dmytro Tsapko on 9/7/2015.
  */
+public interface Deal extends Identity {
 
-public class Deal extends Identity {
+    public UserImpl getResponsibleUserId();
 
-    private static final long serialVersionUID = 1L;
+    public DealStatusImpl getDealStatus();
 
-    private User responsibleUserId;
+    public String getName();
 
-    private DealStatus dealStatus;
+    public BigDecimal getBugget();
 
-    private String name;
+    public Date getCreated();
 
-    private BigDecimal bugget;
+    public Date getUpdated();
 
-    private Date created;
+    public boolean isDeleted();
 
-    private Date updated;
+    public Set<TagImpl> getTags();
 
-    private boolean isDeleted;
+    public Set<FileImpl> getFiles();
 
-    private Set<Tag> tags;
+    public Set<CommentImpl> getComments();
 
-    private Set<File> files;
+    public Set<ContactImpl> getContacts();
 
-    private Set<Comment> comments;
+    public void setResponsibleUserId(UserImpl responsibleUserId);
 
-    private Set<Contact> contacts;
+    public void setDealStatus(DealStatusImpl dealStatus);
 
-    public Deal() {
-    }
+    public void setName(String name);
 
+    public void setBugget(BigDecimal bugget);
 
-    public User getResponsibleUserId() {
-        return responsibleUserId;
-    }
+    public void setCreated(Date created);
 
-    public DealStatus getDealStatus() {
-        return dealStatus;
-    }
+    public void setUpdated(Date updated);
 
-    public String getName() {
-        return name;
-    }
+    public void setIsDeleted(boolean isDeleted);
 
-    public BigDecimal getBugget() {
-        return bugget;
-    }
+    public void setTags(Set<TagImpl> tags);
 
-    public Date getCreated() {
-        return created;
-    }
+    public void setFiles(Set<FileImpl> files);
 
-    public Date getUpdated() {
-        return updated;
-    }
+    public void setComments(Set<CommentImpl> comments);
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
+    public void setContacts(Set<ContactImpl> contacts);
 
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public Set<File> getFiles() {
-        return files;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public Set<Contact> getContacts() {
-        return contacts;
-    }
-
-    public void setResponsibleUserId(User responsibleUserId) {
-        this.responsibleUserId = responsibleUserId;
-    }
-
-    public void setDealStatus(DealStatus dealStatus) {
-        this.dealStatus = dealStatus;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setBugget(BigDecimal bugget) {
-        this.bugget = bugget;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public void setFiles(Set<File> files) {
-        this.files = files;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public void setContacts(Set<Contact> contacts) {
-        this.contacts = contacts;
-    }
 }

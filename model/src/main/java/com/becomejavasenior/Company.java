@@ -1,151 +1,66 @@
 package com.becomejavasenior;
 
 import com.becomejavasenior.deal.Deal;
+import com.becomejavasenior.deal.DealImpl;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
 /**
- * JavaBean class describes Company model
- *
- * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * Created by user on 9/6/2015.
  */
+public interface Company extends Identity {
 
-public class Company extends Identity {
+    User getResponsibleUser();
 
-    private static final long serialVersionUID = 1L;
+    String getName();
 
-    private User responsibleUser;
+    String getEmail();
 
-    private String name;
+    String getWebAdress();
 
-    private String email;
+    String getAdress();
 
-    private String webAdress;
+    Date getCreated();
 
-    private String adress;
+    Date getUpdated();
 
-    private Date created;
+    boolean isDeleted();
 
-    private Date updated;
+    Set<Phone> getPhones();
 
-    private boolean isDeleted;
+    Set<Deal> getDeals();
 
-    private Set<Phone> phones;
+    Set<Tag> getTags();
 
-    private Set<Deal> deals;
+    Set<File> getFiles();
 
-    private Set<Tag> tags;
+    Set<Comment> getComments();
 
-    private Set<File> files;
+    void setResponsibleUser(User responsibleUser);
 
-    private Set<Comment> comments;
+    void setName(String name);
 
-    public Company() {
-    }
+    void setEmail(String email);
 
-    public User getResponsibleUser() {
-        return responsibleUser;
-    }
+    void setWebAdress(String webAdress);
 
-    public String getName() {
-        return name;
-    }
+    void setAdress(String adress);
 
-    public String getEmail() {
-        return email;
-    }
+    void setCreated(Date created);
 
-    public String getWebAdress() {
-        return webAdress;
-    }
+    void setUpdated(Date updated);
 
-    public String getAdress() {
-        return adress;
-    }
+    void setIsDeleted(boolean isDeleted);
 
-    public Date getCreated() {
-        return created;
-    }
+    void setPhones(Set<Phone> phones);
 
-    public Date getUpdated() {
-        return updated;
-    }
+    void setDeals(Set<Deal> deals);
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
+    void setTags(Set<Tag> tags);
 
-    public Set<Phone> getPhones() {
-        return phones;
-    }
+    void setFiles(Set<File> files);
 
-    public Set<Deal> getDeals() {
-        return deals;
-    }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public Set<File> getFiles() {
-        return files;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setResponsibleUser(User responsibleUser) {
-        this.responsibleUser = responsibleUser;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setWebAdress(String webAdress) {
-        this.webAdress = webAdress;
-    }
-
-    public void setAdress(String adress) {
-        this.adress = adress;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public void setPhones(Set<Phone> phones) {
-        this.phones = phones;
-    }
-
-    public void setDeals(Set<Deal> deals) {
-        this.deals = deals;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public void setFiles(Set<File> files) {
-        this.files = files;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
+    void setComments(Set<Comment> comments);
 }
