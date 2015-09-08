@@ -1,6 +1,8 @@
 package com.becomejavasenior;
 
 import com.becomejavasenior.deal.Deal;
+import com.becomejavasenior.deal.DealDAO;
+import com.becomejavasenior.deal.DealImpl;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -25,14 +27,12 @@ public class Test2 {
 //        System.out.println(p);
 //        pd.delete(p);
 //        System.out.println(p);
-        Contact contact = new ContactImpl();
-        ContactDAO cd = DaoFactoryDMTS.getContactDAO();
+        Deal deal = new DealImpl();
+        DealDAO dao = DaoFactoryDMTS.getDealDAO();
 
-        Contact c = cd.getById(2);
-        System.out.println(c);
-        User u = c.getResponsibleUser();
-        Company company = c.getCompany();
-        System.out.println(company);
+        Deal deal1 = dao.getById(2);
+        System.out.println(deal1);
+        User u = deal1.getResponsibleUser();
         System.out.println(u);
 
 

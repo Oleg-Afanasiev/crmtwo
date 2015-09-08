@@ -24,7 +24,6 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         CONFIG_GET_ID.put("getFiles", "SELECT file_id FROM crm.company_file WHERE company_id  = ?");
         CONFIG_GET_ID.put("getComments", "SELECT comment_id FROM crm.company_comment WHERE company_id  = ?");
         CONFIG_GET_ID.put("getResponsibleUser", "SELECT responsible_user_id FROM crm.company WHERE company_id  = ?");
-
     }
 
     @Override
@@ -69,7 +68,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
 
     @Override
     protected void setParamsForSaveOrUpdate(PreparedStatement statement, Company entity) throws SQLException {
-        Long id = ((Identity)entity).getId();
+        Long id = entity.getId();
 
         statement.setLong(1,entity.getResponsibleUser().getId());
         statement.setString(2, entity.getName());
@@ -120,9 +119,9 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
                             {
                                 Collection<Long> ids = getRelatedIds(methodName, instance);
                                 Set<Phone> set = new HashSet<>();
-                                PhoneDAO pd = DaoFactoryDMTS.getPhoneDAO();
+                                PhoneDAO dao = DaoFactoryDMTS.getPhoneDAO();
                                 for(Long id : ids){
-                                    set.add(pd.getById(id));
+                                    set.add(dao.getById(id));
                                 }
                                 result = set;
                                 ((Company)instance).setPhones((Set<Phone>) result);
@@ -132,9 +131,9 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
                             {
                                 Collection<Long> ids = getRelatedIds(methodName, instance);
                                 Set<Deal> set = new HashSet<>();
-                                DealDAO dd = DaoFactoryDMTS.getDealDAO();
+                                DealDAO dao = DaoFactoryDMTS.getDealDAO();
                                 for(Long id : ids){
-                                    set.add(dd.getById(id));
+                                    set.add(dao.getById(id));
                                 }
                                 result = set;
                                 ((Company)instance).setDeals((Set<Deal>) result);
@@ -144,9 +143,9 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
                             {
                                 Collection<Long> ids = getRelatedIds(methodName, instance);
                                 Set<Tag> set = new HashSet<Tag>();
-                                TagDAO td = DaoFactoryDMTS.getTagDAO();
+                                TagDAO dao = DaoFactoryDMTS.getTagDAO();
                                 for(Long id : ids){
-                                    set.add(td.getById(id));
+                                    set.add(dao.getById(id));
                                 }
                                 result = set;
                                 ((Company)instance).setTags((Set<Tag>) result);
@@ -156,9 +155,9 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
                             {
                                 Collection<Long> ids = getRelatedIds(methodName, instance);
                                 Set<File> set = new HashSet<File>();
-                                FileDAO fd = DaoFactoryDMTS.getFileDAO();
+                                FileDAO dao = DaoFactoryDMTS.getFileDAO();
                                 for(Long id : ids){
-                                    set.add(fd.getById(id));
+                                    set.add(dao.getById(id));
                                 }
                                 result = set;
                                 ((Company)instance).setFiles((Set<File>) result);
@@ -168,9 +167,9 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
                             {
                                 Collection<Long> ids = getRelatedIds(methodName, instance);
                                 Set<Comment> set = new HashSet<Comment>();
-                                CommentDAO cd = DaoFactoryDMTS.getCommentDAO();
+                                CommentDAO dao = DaoFactoryDMTS.getCommentDAO();
                                 for(Long id : ids){
-                                    set.add(cd.getById(id));
+                                    set.add(dao.getById(id));
                                 }
                                 result = set;
                                 ((Company)instance).setComments((Set<Comment>) result);

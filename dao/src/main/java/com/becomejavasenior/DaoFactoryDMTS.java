@@ -46,7 +46,7 @@ public class DaoFactoryDMTS {
     }
 
     public static DealDAO getDealDAO(){
-        return new DealDAOImpl();
+        return new DealDAOImpl(connection);
     }
 
     public static DealStatusDAO getDealStatusDAO(){

@@ -11,13 +11,13 @@ import java.util.Set;
  */
 public interface Deal extends Identity {
 
-    public UserImpl getResponsibleUserId();
+    public User getResponsibleUser();
 
-    public DealStatusImpl getDealStatus();
+    public DealStatus getDealStatus();
 
     public String getName();
 
-    public BigDecimal getBugget();
+    public BigDecimal getBudget();
 
     public Date getCreated();
 
@@ -25,21 +25,23 @@ public interface Deal extends Identity {
 
     public boolean isDeleted();
 
-    public Set<TagImpl> getTags();
+    public Set<Tag> getTags();
 
-    public Set<FileImpl> getFiles();
+    public Set<File> getFiles();
 
-    public Set<CommentImpl> getComments();
+    public Set<Comment> getComments();
 
-    public Set<ContactImpl> getContacts();
+    public Set<Contact> getContacts();
 
-    public void setResponsibleUserId(UserImpl responsibleUserId);
+    public Set<Company> getCompanies();
 
-    public void setDealStatus(DealStatusImpl dealStatus);
+    public void setResponsibleUser(User responsibleUser);
+
+    public void setDealStatus(DealStatus dealStatus);
 
     public void setName(String name);
 
-    public void setBugget(BigDecimal bugget);
+    public void setBudget(BigDecimal budget);
 
     public void setCreated(Date created);
 
@@ -47,12 +49,14 @@ public interface Deal extends Identity {
 
     public void setIsDeleted(boolean isDeleted);
 
-    public void setTags(Set<TagImpl> tags);
+    public void setTags(Set<Tag> tags);
 
-    public void setFiles(Set<FileImpl> files);
+    public void setFiles(Set<File> files);
 
-    public void setComments(Set<CommentImpl> comments);
+    public void setComments(Set<Comment> comments);
 
-    public void setContacts(Set<ContactImpl> contacts);
+    public void setContacts(Set<Contact> contacts);
+
+    public void setCompanies(Set<Company> companies);
 
 }

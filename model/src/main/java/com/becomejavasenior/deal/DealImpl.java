@@ -17,13 +17,13 @@ public class DealImpl extends IdentityImpl  implements Identity, Deal  {
 
     private static final long serialVersionUID = 1L;
 
-    private UserImpl responsibleUserId;
+    private User responsibleUser;
 
-    private DealStatusImpl dealStatus;
+    private DealStatus dealStatus;
 
     private String name;
 
-    private BigDecimal bugget;
+    private BigDecimal budget;
 
     private Date created;
 
@@ -31,103 +31,149 @@ public class DealImpl extends IdentityImpl  implements Identity, Deal  {
 
     private boolean isDeleted;
 
-    private Set<TagImpl> tags;
+    private Set<Tag> tags;
 
-    private Set<FileImpl> files;
+    private Set<File> files;
 
-    private Set<CommentImpl> comments;
+    private Set<Comment> comments;
 
-    private Set<ContactImpl> contacts;
+    private Set<Contact> contacts;
+
+    private Set<Company> companies;
 
     public DealImpl() {
     }
 
-
-    public UserImpl getResponsibleUserId() {
-        return responsibleUserId;
+    @Override
+    public User getResponsibleUser() {
+        return responsibleUser;
     }
 
-    public DealStatusImpl getDealStatus() {
+    @Override
+    public DealStatus getDealStatus() {
         return dealStatus;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
-    public BigDecimal getBugget() {
-        return bugget;
+    @Override
+    public BigDecimal getBudget() {
+        return budget;
     }
 
+    @Override
     public Date getCreated() {
         return created;
     }
 
+    @Override
     public Date getUpdated() {
         return updated;
     }
 
+    @Override
     public boolean isDeleted() {
         return isDeleted;
     }
 
-    public Set<TagImpl> getTags() {
+    @Override
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public Set<FileImpl> getFiles() {
+    @Override
+    public Set<File> getFiles() {
         return files;
     }
 
-    public Set<CommentImpl> getComments() {
+    @Override
+    public Set<Comment> getComments() {
         return comments;
     }
 
-    public Set<ContactImpl> getContacts() {
+    @Override
+    public Set<Contact> getContacts() {
         return contacts;
     }
 
-    public void setResponsibleUserId(UserImpl responsibleUserId) {
-        this.responsibleUserId = responsibleUserId;
+    @Override
+    public Set<Company> getCompanies() {
+        return companies;
     }
 
-    public void setDealStatus(DealStatusImpl dealStatus) {
+    @Override
+    public void setResponsibleUser(User responsibleUser) {
+        this.responsibleUser = responsibleUser;
+    }
+
+    @Override
+    public void setDealStatus(DealStatus dealStatus) {
         this.dealStatus = dealStatus;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setBugget(BigDecimal bugget) {
-        this.bugget = bugget;
+    @Override
+    public void setBudget(BigDecimal budget) {
+        this.budget = budget;
     }
 
+    @Override
     public void setCreated(Date created) {
         this.created = created;
     }
 
+    @Override
     public void setUpdated(Date updated) {
         this.updated = updated;
     }
 
+    @Override
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
 
-    public void setTags(Set<TagImpl> tags) {
+    @Override
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
-    public void setFiles(Set<FileImpl> files) {
+    @Override
+    public void setFiles(Set<File> files) {
         this.files = files;
     }
 
-    public void setComments(Set<CommentImpl> comments) {
+    @Override
+    public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
 
-    public void setContacts(Set<ContactImpl> contacts) {
+    @Override
+    public void setContacts(Set<Contact> contacts) {
         this.contacts = contacts;
+    }
+
+    @Override
+    public void setCompanies(Set<Company> companies) {
+        this.companies = companies;
+    }
+
+    @Override
+    public String toString() {
+        return "DealImpl{" +
+                "id=" + super.getId() +
+                ", dealStatus=" + dealStatus +
+                ", name='" + name + '\'' +
+                ", budget=" + budget +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", isDeleted=" + isDeleted +
+                '}';
     }
 }

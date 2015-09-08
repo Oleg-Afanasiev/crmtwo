@@ -105,16 +105,16 @@ INSERT INTO crmtwo.crm.tag (name) VALUES ('Africa');
 
 TRUNCATE TABLE crmtwo.crm.task_type RESTART IDENTITY CASCADE;
 INSERT INTO crmtwo.crm.task_type (task_type_id, name) VALUES (1, 'Follow-up');
-INSERT INTO crmtwo.crm.task_type (task_type_id, name) VALUES (2, '???????');
-INSERT INTO crmtwo.crm.task_type (task_type_id, name) VALUES (3, '??????');
+INSERT INTO crmtwo.crm.task_type (task_type_id, name) VALUES (2, 'Встреча');
+INSERT INTO crmtwo.crm.task_type (task_type_id, name) VALUES (3, 'Другой');
 
 TRUNCATE TABLE crmtwo.crm.task_period RESTART IDENTITY CASCADE;
-INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (1, '???????');
-INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (2, '??????');
-INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (3, '????????? ??????');
-INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (4, '????????? ?????');
-INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (5, '????????? ???');
-INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (6, '????????? (????? ????)');
+INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (1, 'Сегодня');
+INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (2, 'Завтра');
+INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (3, 'Следующая неделя');
+INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (4, 'Следующий месяц');
+INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (5, 'Следующий год');
+INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (6, 'Календарь (выбор даты)');
 
 TRUNCATE TABLE crmtwo.crm.company RESTART IDENTITY CASCADE;
 INSERT INTO crmtwo.crm.company (responsible_user_id, name, email, web_address, address, created, updated, is_deleted)
@@ -155,6 +155,13 @@ INSERT INTO crmtwo.crm.contact (company_id, responsible_user_id, name, job_posit
 VALUES (7, 25, 'Petrov', 'director', 'peda@gmail.com', 'peda_skyp', current_timestamp, current_timestamp, FALSE );
 INSERT INTO crmtwo.crm.contact (company_id, responsible_user_id, name, job_position, email, skype, created, updated, is_deleted)
 VALUES (6, 26, 'water clear', 'salesman', 'sasma@gmail.com', 'sasam_skyp', current_timestamp, current_timestamp, FALSE );
+
+INSERT INTO crmtwo.crm.deal_status (name) VALUES ('идут переговоры');
+INSERT INTO crmtwo.crm.deal_status (name) VALUES ('сделали предложение');
+INSERT INTO crmtwo.crm.deal_status (name) VALUES ('ожидаем ответ клиента');
+
+INSERT INTO crmtwo.crm.deal (responsible_user_id, status_id, name, budget, created, updated, is_deleted)
+VALUES (23, 1, 'сделка на миллион', 1000000, current_timestamp, current_timestamp, FALSE);
 
 
 
