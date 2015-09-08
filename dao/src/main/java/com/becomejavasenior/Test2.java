@@ -1,9 +1,12 @@
 package com.becomejavasenior;
 
+import com.becomejavasenior.deal.Deal;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.Collection;
 
 /**
  * Created by user on 9/3/2015.
@@ -27,9 +30,10 @@ public class Test2 {
 
         Company c = cd.getById(2);
         System.out.println(c);
-        User u = c.getResponsibleUser();
+        Collection<Deal> u = c.getDeals();
         System.out.println(u);
-
+        u = c.getDeals();
+        System.out.println(u);
 
 
         DaoFactoryDMTS.closeConnection();

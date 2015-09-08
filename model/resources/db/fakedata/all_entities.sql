@@ -116,3 +116,33 @@ INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (4, '????????
 INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (5, '????????? ???');
 INSERT INTO crmtwo.crm.task_period (period_id, period_name) VALUES (6, '????????? (????? ????)');
 
+TRUNCATE TABLE crmtwo.crm.company RESTART IDENTITY CASCADE;
+INSERT INTO crmtwo.crm.company (responsible_user_id, name, email, web_address, address, created, updated, is_deleted)
+VALUES (1, 'Goodle', 'goodle@doodle.com', 'goodle.com', '123, Pushkin str., San-Francisco', '2015-08-21 18:00:00', '2015-08-21 18:00:00', 'false');
+INSERT INTO crmtwo.crm.company (responsible_user_id, name, email, web_address, address, created, updated, is_deleted)
+VALUES (2, 'Yampex', 'yampex@yanpex.com', 'yampex.com', '124, Long str., Dehli', '2015-08-21 19:00:00', '2015-08-21 19:00:00', 'false');
+INSERT INTO crmtwo.crm.company (responsible_user_id, name, email, web_address, address, created, updated, is_deleted)
+VALUES (3, 'Duck', 'Duck@doodle.com', 'Duck.com', '125, High str., Trenchtown', '2015-08-22 14:00:00', '2015-08-22 14:00:00', 'false');
+
+TRUNCATE TABLE crmtwo.crm.company_phone RESTART IDENTITY CASCADE;
+INSERT INTO crmtwo.crm.company_phone (company_id, phone_number_id) VALUES (1, 1);
+INSERT INTO crmtwo.crm.company_phone (company_id, phone_number_id) VALUES (1, 2);
+INSERT INTO crmtwo.crm.company_phone (company_id, phone_number_id) VALUES (1, 3);
+INSERT INTO crmtwo.crm.company_phone (company_id, phone_number_id) VALUES (2, 4);
+INSERT INTO crmtwo.crm.company_phone (company_id, phone_number_id) VALUES (2, 5);
+INSERT INTO crmtwo.crm.company_phone (company_id, phone_number_id) VALUES (3, 6);
+INSERT INTO crmtwo.crm.company_phone (company_id, phone_number_id) VALUES (3, 7);
+INSERT INTO crmtwo.crm.company_phone (company_id, phone_number_id) VALUES (3, 8);
+
+TRUNCATE TABLE crmtwo.crm.company_comment RESTART IDENTITY CASCADE;
+INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (1, 1);
+INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (1, 2);
+INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (2, 1);
+INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (2, 3);
+INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (3, 1);
+INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (3, 2);
+INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (4, 1);
+INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (4, 2);
+INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (5, 1);
+INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (5, 2);
+

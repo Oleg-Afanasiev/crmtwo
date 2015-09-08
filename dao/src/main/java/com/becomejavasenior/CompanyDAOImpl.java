@@ -86,7 +86,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
 
     @Override
     protected Company mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
-        Company company = new CompanyImpl();
+        final Company company = new CompanyImpl();
         super.setPrivateField(company, "id", resultSet.getLong("company_id"));
         company.setName(resultSet.getString("name"));
         company.setEmail(resultSet.getString("email"));

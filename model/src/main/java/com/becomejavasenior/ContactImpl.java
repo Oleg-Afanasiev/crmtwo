@@ -1,5 +1,6 @@
 package com.becomejavasenior;
 
+import com.becomejavasenior.deal.Deal;
 import com.becomejavasenior.deal.DealImpl;
 
 import java.util.Date;
@@ -18,7 +19,7 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact  {
 
     private Company company;
 
-    private UserImpl responsibleUser;
+    private User responsibleUser;
 
     private String  name;
 
@@ -34,15 +35,15 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact  {
 
     private boolean isDeleted;
 
-    private Set<FileImpl> files;
+    private Set<File> files;
 
-    private Set<CommentImpl> comments;
+    private Set<Comment> comments;
 
-    private Set<TagImpl> tags;
+    private Set<Tag> tags;
 
-    private Set<PhoneImpl> phones;
+    private Set<Phone> phones;
 
-    private Set<DealImpl> deals;
+    private Set<Deal> deals;
 
     public ContactImpl() {
     }
@@ -52,11 +53,11 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact  {
         return name;
     }
 
-    public UserImpl getResponsibleUser() {
+    public User getResponsibleUser() {
         return responsibleUser;
     }
 
-    public Set<PhoneImpl> getPhones() {
+    public Set<Phone> getPhones() {
         return phones;
     }
 
@@ -88,19 +89,19 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact  {
         return isDeleted;
     }
 
-    public Set<FileImpl> getFiles() {
+    public Set<File> getFiles() {
         return files;
     }
 
-    public Set<CommentImpl> getComments() {
+    public Set<Comment> getComments() {
         return comments;
     }
 
-    public Set<TagImpl> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public Set<DealImpl> getDeals() {
+    public Set<Deal> getDeals() {
         return deals;
     }
 
@@ -108,11 +109,11 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact  {
         this.name = name;
     }
 
-    public void setResponsibleUser(UserImpl responsibleUser) {
+    public void setResponsibleUser(User responsibleUser) {
         this.responsibleUser = responsibleUser;
     }
 
-    public void setPhones(Set<PhoneImpl> phones) {
+    public void setPhones(Set<Phone> phones) {
         this.phones = phones;
     }
 
@@ -144,19 +145,19 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact  {
         this.isDeleted = isDeleted;
     }
 
-    public void setFiles(Set<FileImpl> files) {
+    public void setFiles(Set<File> files) {
         this.files = files;
     }
 
-    public void setComments(Set<CommentImpl> comments) {
+    public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
 
-    public void setTags(Set<TagImpl> tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
-    public void setDeals(Set<DealImpl> deals) {
+    public void setDeals(Set<Deal> deals) {
         this.deals = deals;
     }
 }

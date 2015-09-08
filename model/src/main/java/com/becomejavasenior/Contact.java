@@ -1,5 +1,6 @@
 package com.becomejavasenior;
 
+import com.becomejavasenior.deal.Deal;
 import com.becomejavasenior.deal.DealImpl;
 
 import java.util.Date;
@@ -12,9 +13,9 @@ public interface Contact extends Identity {
 
     public String getName();
 
-    public UserImpl getResponsibleUser();
+    public User getResponsibleUser();
 
-    public Set<PhoneImpl> getPhones();
+    public Set<Phone> getPhones();
 
     public String getJobPosition();
 
@@ -30,19 +31,19 @@ public interface Contact extends Identity {
 
     public boolean isDeleted();
 
-    public Set<FileImpl> getFiles();
+    public Set<File> getFiles();
 
-    public Set<CommentImpl> getComments();
+    public Set<Comment> getComments();
 
-    public Set<TagImpl> getTags();
+    public Set<Tag> getTags();
 
-    public Set<DealImpl> getDeals();
+    public Set<Deal> getDeals();
 
     public void setName(String name);
 
-    public void setResponsibleUser(UserImpl responsibleUser);
+    public void setResponsibleUser(User responsibleUser);
 
-    public void setPhones(Set<PhoneImpl> phones);
+    public void setPhones(Set<Phone> phones);
 
     public void setJobPosition(String jobPosition);
 
@@ -58,12 +59,12 @@ public interface Contact extends Identity {
 
     public void setIsDeleted(boolean isDeleted);
 
-    public void setFiles(Set<FileImpl> files);
+    public void setFiles(Set<File> files);
 
-    public void setComments(Set<CommentImpl> comments);
+    public void setComments(Set<Comment> comments);
 
-    public void setTags(Set<TagImpl> tags);
+    public void setTags(Set<Tag> tags);
 
-    public void setDeals(Set<DealImpl> deals);
+    public void setDeals(Set<Deal> deals);
 
 }
