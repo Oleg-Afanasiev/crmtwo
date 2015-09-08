@@ -155,7 +155,6 @@ public class CompanyImpl extends IdentityImpl implements Company {
     public String toString() {
         return "Company{" +
                 "id=" + super.getId() +
-                ", responsibleUser=" + responsibleUser +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", webAdress='" + webAdress + '\'' +

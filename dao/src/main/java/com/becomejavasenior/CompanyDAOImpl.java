@@ -107,7 +107,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         return proxy;
     }
 
-    private <T> Object loadEntities(Method method, T instance, Object[] args)
+    private <T extends Identity> Object loadEntities(Method method, T instance, Object[] args)
             throws InvocationTargetException, IllegalAccessException, SQLException {
         Object result = method.invoke(instance, args);
         if(result != null){

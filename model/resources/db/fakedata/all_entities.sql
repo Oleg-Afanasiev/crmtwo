@@ -146,3 +146,15 @@ INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (4, 2);
 INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (5, 1);
 INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES (5, 2);
 
+INSERT INTO crmtwo.crm.contact (company_id, responsible_user_id, name, job_position, email, skype, created, updated, is_deleted)
+VALUES (2, 23, 'Vasiliy Pupkin', 'manager', 'pupkav@gmail.com', 'vpupka_skyp', current_timestamp, current_timestamp, FALSE );
+
+INSERT INTO crmtwo.crm.contact (company_id, responsible_user_id, name, job_position, email, skype, created, updated, is_deleted)
+VALUES (5, 24, 'Sidiriv', 'operator', 'siop@gmail.com', 'siop_skyp', current_timestamp, current_timestamp, FALSE );
+INSERT INTO crmtwo.crm.contact (company_id, responsible_user_id, name, job_position, email, skype, created, updated, is_deleted)
+VALUES (7, 25, 'Petrov', 'director', 'peda@gmail.com', 'peda_skyp', current_timestamp, current_timestamp, FALSE );
+INSERT INTO crmtwo.crm.contact (company_id, responsible_user_id, name, job_position, email, skype, created, updated, is_deleted)
+VALUES (6, 26, 'water clear', 'salesman', 'sasma@gmail.com', 'sasam_skyp', current_timestamp, current_timestamp, FALSE );
+
+
+

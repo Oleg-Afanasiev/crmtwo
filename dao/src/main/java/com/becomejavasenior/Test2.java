@@ -25,15 +25,16 @@ public class Test2 {
 //        System.out.println(p);
 //        pd.delete(p);
 //        System.out.println(p);
-        Company company = new CompanyImpl();
-        CompanyDAO cd = DaoFactoryDMTS.getCompanyDAO();
+        Contact contact = new ContactImpl();
+        ContactDAO cd = DaoFactoryDMTS.getContactDAO();
 
-        Company c = cd.getById(2);
+        Contact c = cd.getById(2);
         System.out.println(c);
-        Collection<Deal> u = c.getDeals();
+        User u = c.getResponsibleUser();
+        Company company = c.getCompany();
+        System.out.println(company);
         System.out.println(u);
-        u = c.getDeals();
-        System.out.println(u);
+
 
 
         DaoFactoryDMTS.closeConnection();

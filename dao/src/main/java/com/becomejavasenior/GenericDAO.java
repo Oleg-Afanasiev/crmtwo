@@ -107,11 +107,11 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         return statement.getResultSet();
     }
 
-    protected Collection<Long> getRelatedIds(String methodName, Object instance) throws SQLException {
+    protected Collection<Long> getRelatedIds(String methodName, Identity instance) throws SQLException {
         ArrayList<Long> result = new ArrayList<>();
         String query = getConfig().get(methodName);
         PreparedStatement ps = connection.prepareStatement(query);
-        ps.setLong(1, ((Identity)instance).getId());
+        ps.setLong(1, instance.getId());
 
         ps.execute();
         ResultSet rs = ps.getResultSet();

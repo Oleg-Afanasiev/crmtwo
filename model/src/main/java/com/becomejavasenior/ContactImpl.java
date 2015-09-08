@@ -160,4 +160,18 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact  {
     public void setDeals(Set<Deal> deals) {
         this.deals = deals;
     }
+
+    @Override
+    public String toString() {
+        return "ContactImpl{" +
+                "id=" + super.getId() +
+                ", name='" + name + '\'' +
+                ", jobPosition='" + jobPosition + '\'' +
+                ", email='" + email + '\'' +
+                ", skype='" + skype + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", isDeleted=" + isDeleted +
+                '}';
+    }
 }
