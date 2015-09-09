@@ -163,5 +163,9 @@ INSERT INTO crmtwo.crm.deal_status (name) VALUES ('ожидаем ответ к�
 INSERT INTO crmtwo.crm.deal (responsible_user_id, status_id, name, budget, created, updated, is_deleted)
 VALUES (23, 1, 'сделка на миллион', 1000000, current_timestamp, current_timestamp, FALSE);
 
+INSERT INTO crmtwo.crm.task (task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, comment, created, updated, is_deleted)
+VALUES (1, 23, 2, 2, 2, 5, current_timestamp, 'olollo comment', current_timestamp, current_timestamp, FALSE );
+INSERT INTO crmtwo.crm.task (task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, comment, created, updated, is_deleted)
+VALUES (2, 23, 2, 2, 3, 4, current_timestamp , '222olollo comment', current_timestamp, current_timestamp, FALSE );
 
 

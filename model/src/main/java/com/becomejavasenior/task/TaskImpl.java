@@ -1,9 +1,11 @@
 package com.becomejavasenior.task;
 
 import com.becomejavasenior.*;
+import com.becomejavasenior.deal.Deal;
 import com.becomejavasenior.deal.DealImpl;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * JavaBean class describes TaskImpl model
@@ -16,21 +18,21 @@ public class TaskImpl extends IdentityImpl implements Identity, Task  {
 
     private static final long serialVersionUID = 1L;
 
-    private TaskTypeImpl taskType;
+    private TaskType taskType;
 
-    private UserImpl responsibleUserId;
+    private User responsibleUser;
 
     private Company company;
 
-    private DealImpl deal;
+    private Deal deal;
 
-    private ContactImpl contact;
+    private Contact contact;
 
-    private TaskPeriodImpl taskPeriod;
+    private TaskPeriod taskPeriod;
 
     private Date dueDate;
 
-    private CommentImpl comments;
+    private Set<Comment> comments;
 
     private Date created;
 
@@ -41,23 +43,28 @@ public class TaskImpl extends IdentityImpl implements Identity, Task  {
     public TaskImpl() {
     }
 
-    public TaskTypeImpl getTaskType() {
+    @Override
+    public TaskPeriod getTaskPeriod() {
+        return taskPeriod;
+    }
+
+    public TaskType getTaskType() {
         return taskType;
     }
 
-    public UserImpl getResponsibleUserId() {
-        return responsibleUserId;
+    public User getResponsibleUser() {
+        return responsibleUser;
     }
 
     public Company getCompany() {
         return company;
     }
 
-    public DealImpl getDeal() {
+    public Deal getDeal() {
         return deal;
     }
 
-    public ContactImpl getContact() {
+    public Contact getContact() {
         return contact;
     }
 
@@ -65,7 +72,7 @@ public class TaskImpl extends IdentityImpl implements Identity, Task  {
         return dueDate;
     }
 
-    public CommentImpl getComments() {
+    public Set<Comment> getComments() {
         return comments;
     }
 
@@ -81,23 +88,28 @@ public class TaskImpl extends IdentityImpl implements Identity, Task  {
         return isDeleted;
     }
 
-    public void setTaskType(TaskTypeImpl taskType) {
+    @Override
+    public void setTaskPeriod(TaskPeriod taskPeriod) {
+        this.taskPeriod = taskPeriod;
+    }
+
+    public void setTaskType(TaskType taskType) {
         this.taskType = taskType;
     }
 
-    public void setResponsibleUserId(UserImpl responsibleUserId) {
-        this.responsibleUserId = responsibleUserId;
+    public void setResponsibleUser(User responsibleUser) {
+        this.responsibleUser = responsibleUser;
     }
 
     public void setCompany(Company company) {
         this.company = company;
     }
 
-    public void setDeal(DealImpl deal) {
+    public void setDeal(Deal deal) {
         this.deal = deal;
     }
 
-    public void setContact(ContactImpl contact) {
+    public void setContact(Contact contact) {
         this.contact = contact;
     }
 
@@ -105,7 +117,7 @@ public class TaskImpl extends IdentityImpl implements Identity, Task  {
         this.dueDate = dueDate;
     }
 
-    public void setComments(CommentImpl comments) {
+    public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
 
