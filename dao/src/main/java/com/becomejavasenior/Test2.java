@@ -3,6 +3,8 @@ package com.becomejavasenior;
 import com.becomejavasenior.deal.Deal;
 import com.becomejavasenior.deal.DealDAO;
 import com.becomejavasenior.deal.DealImpl;
+import com.becomejavasenior.task.Task;
+import com.becomejavasenior.task.TaskDAO;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -28,11 +30,11 @@ public class Test2 {
 //        pd.delete(p);
 //        System.out.println(p);
         Deal deal = new DealImpl();
-        DealDAO dao = DaoFactoryDMTS.getDealDAO();
+        TaskDAO dao = DaoFactoryDMTS.getTaskDAO();
 
-        Deal deal1 = dao.getById(2);
-        System.out.println(deal1);
-        User u = deal1.getResponsibleUser();
+        Task task = dao.getById(1);
+        System.out.println(task);
+        User u = task.getResponsibleUser();
         System.out.println(u);
 
 

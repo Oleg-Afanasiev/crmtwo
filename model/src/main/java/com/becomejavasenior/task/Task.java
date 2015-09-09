@@ -2,7 +2,7 @@ package com.becomejavasenior.task;
 
 import com.becomejavasenior.*;
 import com.becomejavasenior.deal.Deal;
-import com.becomejavasenior.deal.DealImpl;
+
 
 import java.util.Date;
 import java.util.Set;
@@ -13,6 +13,8 @@ import java.util.Set;
 public interface Task extends Identity {
 
     public TaskPeriod getTaskPeriod();
+
+    public String getDescription();
 
     public TaskType getTaskType();
 
@@ -35,6 +37,8 @@ public interface Task extends Identity {
     public boolean isDeleted();
 
     public void setTaskPeriod(TaskPeriod taskPeriod);
+
+    public void setDescription(String description);
 
     public void setTaskType(TaskType taskType);
 

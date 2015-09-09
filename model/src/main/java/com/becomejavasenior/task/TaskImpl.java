@@ -2,7 +2,6 @@ package com.becomejavasenior.task;
 
 import com.becomejavasenior.*;
 import com.becomejavasenior.deal.Deal;
-import com.becomejavasenior.deal.DealImpl;
 
 import java.util.Date;
 import java.util.Set;
@@ -19,6 +18,8 @@ public class TaskImpl extends IdentityImpl implements Identity, Task  {
     private static final long serialVersionUID = 1L;
 
     private TaskType taskType;
+
+    private String description;
 
     private User responsibleUser;
 
@@ -43,9 +44,13 @@ public class TaskImpl extends IdentityImpl implements Identity, Task  {
     public TaskImpl() {
     }
 
-    @Override
+
     public TaskPeriod getTaskPeriod() {
         return taskPeriod;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public TaskType getTaskType() {
@@ -88,9 +93,12 @@ public class TaskImpl extends IdentityImpl implements Identity, Task  {
         return isDeleted;
     }
 
-    @Override
     public void setTaskPeriod(TaskPeriod taskPeriod) {
         this.taskPeriod = taskPeriod;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setTaskType(TaskType taskType) {
@@ -131,5 +139,20 @@ public class TaskImpl extends IdentityImpl implements Identity, Task  {
 
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    @Override
+    public String toString() {
+        return "TaskImpl{" +
+                "id=" + super.getId() +
+                ", taskType=" + taskType +
+                ", description='" + description + '\'' +
+                ", responsibleUser=" + responsibleUser +
+                ", taskPeriod=" + taskPeriod +
+                ", dueDate=" + dueDate +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", isDeleted=" + isDeleted +
+                '}';
     }
 }
