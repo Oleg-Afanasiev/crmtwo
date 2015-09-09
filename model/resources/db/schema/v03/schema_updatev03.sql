@@ -31,3 +31,5 @@ ALTER TABLE crmtwo.crm.comment ALTER COLUMN created SET DEFAULT now();
 ALTER TABLE crmtwo.crm.comment ALTER COLUMN updated SET DEFAULT now();
 
 ALTER TABLE crm.deal ALTER COLUMN budget TYPE NUMERIC USING budget::NUMERIC;
+
+ALTER TABLE crmtwo.crm.task RENAME COLUMN comment TO description;
