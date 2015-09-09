@@ -32,6 +32,11 @@ public class PhoneDAOImpl extends GenericDAO<Phone> implements PhoneDAO {
     }
 
     @Override
+    protected void saveRelations(Phone entity) throws SQLException {
+        /*NOP*/
+    }
+
+    @Override
     protected Map<String, String> getConfig() {
         return null;
     }

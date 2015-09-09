@@ -48,6 +48,11 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
     }
 
     @Override
+    protected void saveRelations(Deal entity) throws SQLException {
+        throw new UnsupportedOperationException("FIX ME BABY");
+    }
+
+    @Override
     protected Map<String, String> getConfig() {
         return CONFIG_GET_ID;
     }

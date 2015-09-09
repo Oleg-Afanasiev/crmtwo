@@ -32,6 +32,11 @@ public class TaskTypeDAOImpl extends GenericDAO<TaskType> implements TaskTypeDAO
     }
 
     @Override
+    protected void saveRelations(TaskType entity) throws SQLException {
+        /*NOP*/
+    }
+
+    @Override
     protected Map<String, String> getConfig() {
         throw new UnsupportedOperationException();
     }

@@ -2,7 +2,6 @@ package com.becomejavasenior.task;
 
 import com.becomejavasenior.*;
 import com.becomejavasenior.deal.Deal;
-import com.becomejavasenior.deal.DealDAO;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -25,6 +24,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         CONFIG_GET_ID.put("getContact", "SELECT contact_id FROM crm.task WHERE task_id  = ?");
         CONFIG_GET_ID.put("getCompany", "SELECT company_id FROM crm.task WHERE task.task_id  = ?");
         CONFIG_GET_ID.put("getTaskType", "SELECT task_type_id FROM crm.task WHERE task_id = ?");
+        CONFIG_GET_ID.put("getTaskPeriod", "SELECT period_id FROM crm.task WHERE task_id = ?");
     }
 
     String saveNewTask =    "INSERT INTO crmtwo.crm.task (task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated, is_deleted)\n" +
@@ -99,7 +99,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         InvocationHandler handler = new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return loadEntities(method, task, args);
+                return improveMethods(method, task, args);
             }
         };
         Task proxy =
@@ -107,7 +107,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         return proxy;
     }
 
-    private <T extends Identity> Object loadEntities(Method method, T instance, Object[] args)
+    private <T extends Identity> Object improveMethods(Method method, T instance, Object[] args)
             throws InvocationTargetException, IllegalAccessException, SQLException {
         Object result = method.invoke(instance, args);
         if(result != null){
@@ -149,6 +149,13 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
                 ((Task)instance).setTaskType((TaskType) result);
             }
             break;
+            case "getTaskPeriod":
+            {
+                Collection<Long> ids = getRelatedIds(methodName, instance);
+                result = DaoFactoryDMTS.getTaskPeriodDAO().getById(ids.iterator().next());
+                ((Task)instance).setTaskPeriod((TaskPeriod) result);
+            }
+            break;
             case "getCompany":
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
@@ -170,5 +177,53 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         return result;
     }
 
+    @Override
+    protected void saveRelations(Task entity) throws SQLException {
 
+        Set<Comment> comments = entity.getComments();
+        if(comments != null && !comments.isEmpty()){
+            Set<Long> ids = new HashSet<>();
+            for (Comment comment : comments){
+                DaoFactoryDMTS.getCommentDAO().saveOrUpdate(comment);
+                ids.add(comment.getId());
+            }
+
+            clearRelationsWithComments(entity, ids);
+            writeRelationsWithComments(entity, ids);
+
+        }
+
+    }
+
+    private void clearRelationsWithComments(Task entity, Set<Long> comments) throws SQLException {
+        String clearQuery = "DELETE FROM crmtwo.crm.task_comment WHERE task_id = " + entity.getId();
+        try(Statement statement = connection.createStatement()){
+            System.out.println(clearQuery);
+            statement.executeUpdate(clearQuery);
+        }catch (SQLException e){
+            throw new DAOException("Can't delete relations with comments", e);
+        }
+    }
+
+    private void writeRelationsWithComments(Task entity, Set<Long> comments)throws SQLException{
+        Long entityId = entity.getId();
+        String clearQuery = "INSERT INTO crmtwo.crm.task_comment (task_id, comment_id) VALUES ";
+        StringBuilder builder = new StringBuilder(clearQuery);
+        for (Iterator<Long> iterator = comments.iterator(); iterator.hasNext(); ) {
+            builder.append("( ");
+            builder.append(entityId);
+            builder.append(", ");
+            Long id = iterator.next();
+            builder.append(id);
+            builder.append(" )");
+            if(iterator.hasNext()) builder.append(", ");
+        }
+        builder.append(" ;");
+        try(Statement statement = connection.createStatement()){
+            System.out.println(builder.toString());
+            statement.executeUpdate(builder.toString());
+        }catch (SQLException e){
+            throw new DAOException("Can't update relations with comments", e);
+        }
+    }
 }

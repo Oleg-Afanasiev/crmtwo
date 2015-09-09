@@ -39,6 +39,11 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
     }
 
     @Override
+    protected void saveRelations(User entity) throws SQLException {
+        /*NOP*/
+    }
+
+    @Override
     protected Map<String, String> getConfig() {
         return null;
     }

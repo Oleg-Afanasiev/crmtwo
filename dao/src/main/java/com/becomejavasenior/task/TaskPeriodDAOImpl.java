@@ -33,6 +33,11 @@ public class TaskPeriodDAOImpl extends GenericDAO<TaskPeriod> implements TaskPer
     }
 
     @Override
+    protected void saveRelations(TaskPeriod entity) throws SQLException {
+        /*NOP*/
+    }
+
+    @Override
     protected Map<String, String> getConfig() {
         throw new UnsupportedOperationException();
     }

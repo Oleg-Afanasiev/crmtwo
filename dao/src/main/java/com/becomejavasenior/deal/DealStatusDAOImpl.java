@@ -31,6 +31,11 @@ public class DealStatusDAOImpl extends GenericDAO<DealStatus> implements DealSta
     }
 
     @Override
+    protected void saveRelations(DealStatus entity) throws SQLException {
+        /*NOP*/
+    }
+
+    @Override
     protected Map<String, String> getConfig() {
         throw new UnsupportedOperationException();
     }

@@ -30,6 +30,11 @@ public class TagDAOImpl extends GenericDAO<Tag> implements TagDAO {
     }
 
     @Override
+    protected void saveRelations(Tag entity) throws SQLException {
+        /*NOP*/
+    }
+
+    @Override
     protected Map<String, String> getConfig() {
         return null;
     }

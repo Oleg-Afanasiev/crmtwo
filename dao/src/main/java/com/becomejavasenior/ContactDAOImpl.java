@@ -49,6 +49,11 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
     }
 
     @Override
+    protected void saveRelations(Contact entity) throws SQLException {
+        throw new UnsupportedOperationException("FIX ME BABY!!!");
+    }
+
+    @Override
     protected Map<String, String> getConfig() {
         return CONFIG_GET_ID;
     }

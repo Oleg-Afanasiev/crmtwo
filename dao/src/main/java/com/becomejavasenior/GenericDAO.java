@@ -18,12 +18,14 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
 
 
     public void saveOrUpdate(T entity) {
+
         Long id = entity.getId();
 
         String query = getQueryForSaveOrUpdate(id);
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet rs = executePreparedStatementForUpdate(statement, entity)) {
+            this.connection.setAutoCommit(false);
 
             if (this.hasResultSet && rs != null && rs.next()) {
                 id = rs.getLong(1);
@@ -34,11 +36,20 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
                     throw new DAOException("Entity wasn't updated");
                 }
             }
-
+            saveRelations(entity);
+            connection.commit();
         } catch (SQLException | IllegalAccessException | NoSuchFieldException e) {
             throw new DAOException("Can't save or update entity", e);
+        }finally {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                throw new DAOException("Can't rollback operation", e);
+            }
         }
     }
+
+    protected abstract void saveRelations(T entity) throws SQLException;
 
     public T getById(long id) {
         T entity = null;
@@ -60,8 +71,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
     public void delete(T entity) { //todo what I have to do with object after deleting? clear ID?
 
         if (entity.getId() != null) {
-            try {
-                PreparedStatement statement = connection.prepareStatement(getQueryForDelete());
+            try (PreparedStatement statement = connection.prepareStatement(getQueryForDelete())){
                 statement.setLong(1, entity.getId());
                 statement.execute();
             } catch (SQLException e) {
@@ -110,6 +120,9 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
     protected Collection<Long> getRelatedIds(String methodName, Identity instance) throws SQLException {
         ArrayList<Long> result = new ArrayList<>();
         String query = getConfig().get(methodName);
+
+        if(query == null)throw new DAOException("Can't find query to find related entities");
+
         PreparedStatement ps = connection.prepareStatement(query);
         ps.setLong(1, instance.getId());
 

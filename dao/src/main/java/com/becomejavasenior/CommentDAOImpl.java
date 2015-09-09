@@ -28,6 +28,11 @@ public class CommentDAOImpl extends GenericDAO<Comment> implements CommentDAO {
     }
 
     @Override
+    protected void saveRelations(Comment entity) {
+        /*NOP*/
+    }
+
+    @Override
     protected Map<String, String> getConfig() {
         return null;
     }

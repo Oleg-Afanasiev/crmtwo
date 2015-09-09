@@ -11,6 +11,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * Created by user on 9/3/2015.
@@ -33,10 +34,14 @@ public class Test2 {
         TaskDAO dao = DaoFactoryDMTS.getTaskDAO();
 
         Task task = dao.getById(1);
-        System.out.println(task);
-        User u = task.getResponsibleUser();
-        System.out.println(u);
-
+        Set<Comment> comments = task.getComments();
+        System.out.println(comments);
+        Comment c = comments.iterator().next();
+        System.out.println(c);
+        comments.remove(c);
+        System.out.println(comments);
+        task.setComments(comments);
+        dao.saveOrUpdate(task);
 
 
         DaoFactoryDMTS.closeConnection();

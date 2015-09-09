@@ -27,6 +27,11 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
     }
 
     @Override
+    protected void saveRelations(Company entity) throws SQLException {
+        throw new UnsupportedOperationException("FIX ME BABY");
+    }
+
+    @Override
     protected Map<String, String> getConfig(){
         return CONFIG_GET_ID;
     }
@@ -98,7 +103,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         InvocationHandler handler = new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return loadEntities(method, company, args);
+                return impruveMethods(method, company, args);
             }
         };
         Company proxy =
@@ -106,7 +111,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         return proxy;
     }
 
-    private <T extends Identity> Object loadEntities(Method method, T instance, Object[] args)
+    private <T extends Identity> Object impruveMethods(Method method, T instance, Object[] args)
             throws InvocationTargetException, IllegalAccessException, SQLException {
         Object result = method.invoke(instance, args);
         if(result != null){

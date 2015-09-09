@@ -28,6 +28,11 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
 
 
     @Override
+    protected void saveRelations(File entity) throws SQLException {
+        /*NOP*/
+    }
+
+    @Override
     protected Map<String, String> getConfig() {
         return null;
     }
