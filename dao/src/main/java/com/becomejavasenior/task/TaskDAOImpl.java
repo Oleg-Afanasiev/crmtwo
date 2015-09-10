@@ -187,18 +187,14 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
                 DaoFactoryDMTS.getCommentDAO().saveOrUpdate(comment);
                 ids.add(comment.getId());
             }
-
             clearRelationsWithComments(entity, ids);
             writeRelationsWithComments(entity, ids);
-
         }
-
     }
 
     private void clearRelationsWithComments(Task entity, Set<Long> comments) throws SQLException {
         String clearQuery = "DELETE FROM crmtwo.crm.task_comment WHERE task_id = " + entity.getId();
         try(Statement statement = connection.createStatement()){
-            System.out.println(clearQuery);
             statement.executeUpdate(clearQuery);
         }catch (SQLException e){
             throw new DAOException("Can't delete relations with comments", e);
@@ -207,8 +203,8 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
 
     private void writeRelationsWithComments(Task entity, Set<Long> comments)throws SQLException{
         Long entityId = entity.getId();
-        String clearQuery = "INSERT INTO crmtwo.crm.task_comment (task_id, comment_id) VALUES ";
-        StringBuilder builder = new StringBuilder(clearQuery);
+        String insertQuery = "INSERT INTO crmtwo.crm.task_comment (task_id, comment_id) VALUES ";
+        StringBuilder builder = new StringBuilder(insertQuery);
         for (Iterator<Long> iterator = comments.iterator(); iterator.hasNext(); ) {
             builder.append("( ");
             builder.append(entityId);
@@ -220,7 +216,6 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         }
         builder.append(" ;");
         try(Statement statement = connection.createStatement()){
-            System.out.println(builder.toString());
             statement.executeUpdate(builder.toString());
         }catch (SQLException e){
             throw new DAOException("Can't update relations with comments", e);

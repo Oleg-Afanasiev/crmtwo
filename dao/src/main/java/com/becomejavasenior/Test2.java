@@ -30,18 +30,18 @@ public class Test2 {
 //        System.out.println(p);
 //        pd.delete(p);
 //        System.out.println(p);
-        Deal deal = new DealImpl();
-        TaskDAO dao = DaoFactoryDMTS.getTaskDAO();
 
-        Task task = dao.getById(1);
-        Set<Comment> comments = task.getComments();
-        System.out.println(comments);
-        Comment c = comments.iterator().next();
-        System.out.println(c);
-        comments.remove(c);
-        System.out.println(comments);
-        task.setComments(comments);
-        dao.saveOrUpdate(task);
+        ContactDAO dao = DaoFactoryDMTS.getContactDAO();
+
+        Contact contact = dao.getById(1);
+        Set<File> files = contact.getFiles();
+        System.out.println(files);
+        File t = files.iterator().next();
+        System.out.println(t);
+        files.remove(t);
+        System.out.println(files);
+        contact.setFiles(files);
+        dao.saveOrUpdate(contact);
 
 
         DaoFactoryDMTS.closeConnection();

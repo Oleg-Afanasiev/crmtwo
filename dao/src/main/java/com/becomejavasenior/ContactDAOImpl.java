@@ -2,6 +2,7 @@ package com.becomejavasenior;
 
 import com.becomejavasenior.deal.Deal;
 import com.becomejavasenior.deal.DealDAO;
+import com.becomejavasenior.task.Task;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -49,11 +50,6 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
     }
 
     @Override
-    protected void saveRelations(Contact entity) throws SQLException {
-        throw new UnsupportedOperationException("FIX ME BABY!!!");
-    }
-
-    @Override
     protected Map<String, String> getConfig() {
         return CONFIG_GET_ID;
     }
@@ -75,7 +71,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
 
     @Override
     protected void setParamsForSaveOrUpdate(PreparedStatement statement, Contact entity) throws SQLException {
-        Long id = ((Identity)entity).getId();
+        Long id = entity.getId();
         statement.setLong(1, entity.getCompany().getId());
         statement.setLong(2, entity.getResponsibleUser().getId());
         statement.setString(3, entity.getName());
@@ -201,6 +197,216 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
                 break;
         }
         return result;
+    }
+
+    @Override
+    protected void saveRelations(Contact entity) throws SQLException {
+        Set<Comment> comments = entity.getComments();
+        if(comments != null && !comments.isEmpty()){
+            Set<Long> ids = new HashSet<>();
+            for (Comment comment : comments){
+                DaoFactoryDMTS.getCommentDAO().saveOrUpdate(comment);
+                ids.add(comment.getId());
+            }
+            clearRelationsWithComments(entity);
+            writeRelationsWithComments(entity, ids);
+        }
+
+        Set<Tag> tags = entity.getTags();
+        if(tags != null && !tags.isEmpty()){
+            Set<Long> ids = new HashSet<>();
+            for(Tag tag : tags){
+                DaoFactoryDMTS.getTagDAO().saveOrUpdate(tag);
+                ids.add(tag.getId());
+            }
+            clearRelationsWithTags(entity);
+            writeRelationsWithTags(entity, ids);
+        }
+
+        Set<File> files = entity.getFiles();
+        if(files != null && !files.isEmpty()){
+            Set<Long> ids = new HashSet<>();
+            for(File file : files){
+                DaoFactoryDMTS.getFileDAO().saveOrUpdate(file);
+                ids.add(file.getId());
+            }
+            clearRelationsWithFiles(entity);
+            writeRelationsWithFiles(entity, ids);
+        }
+
+        Set<Deal> deals = entity.getDeals();
+        if(deals != null && !deals.isEmpty()){
+            Set<Long> ids = new HashSet<>();
+            for(Deal deal : deals){
+                DaoFactoryDMTS.getDealDAO().saveOrUpdate(deal);
+                ids.add(deal.getId());
+            }
+            clearRelationsWithDeals(entity);
+            writeRelationsWithDeals(entity, ids);
+        }
+
+        Set<Phone> phones = entity.getPhones();
+        if(phones != null && !phones.isEmpty()){
+            Set<Long> ids = new HashSet<>();
+            for(Phone phone : phones){
+                DaoFactoryDMTS.getPhoneDAO().saveOrUpdate(phone);
+                ids.add(phone.getId());
+            }
+            clearRelationsWithPhones(entity);
+            writeRelationsWithPhones(entity, ids);
+        }
+
+
+    }
+
+    private void clearRelationsWithComments(Contact entity) throws SQLException {
+        String clearQuery = "DELETE FROM crmtwo.crm.contact_comment WHERE contact_id = " + entity.getId();
+        try(Statement statement = connection.createStatement()){
+            statement.executeUpdate(clearQuery);
+        }catch (SQLException e){
+            throw new DAOException("Can't delete relations with comments", e);
+        }
+    }
+
+    private void writeRelationsWithComments(Contact entity, Set<Long> comments)throws SQLException{
+        Long entityId = entity.getId();
+        String insertQuery = "INSERT INTO crmtwo.crm.contact_comment (contact_id, comment_id) VALUES ";
+        StringBuilder builder = new StringBuilder(insertQuery);
+        for (Iterator<Long> iterator = comments.iterator(); iterator.hasNext(); ) {
+            builder.append("( ");
+            builder.append(entityId);
+            builder.append(", ");
+            Long id = iterator.next();
+            builder.append(id);
+            builder.append(" )");
+            if(iterator.hasNext()) builder.append(", ");
+        }
+        builder.append(" ;");
+        try(Statement statement = connection.createStatement()){
+            statement.executeUpdate(builder.toString());
+        }catch (SQLException e){
+            throw new DAOException("Can't update relations with comments", e);
+        }
+    }
+
+    private void clearRelationsWithTags(Contact entity) throws SQLException {
+        String clearQuery = "DELETE FROM crmtwo.crm.contact_tag WHERE contact_id = " + entity.getId();
+        try(Statement statement = connection.createStatement()){
+            statement.executeUpdate(clearQuery);
+        }catch (SQLException e){
+            throw new DAOException("Can't delete relations with tags", e);
+        }
+    }
+
+    private void writeRelationsWithTags(Contact entity, Set<Long> tags)throws SQLException{
+        Long entityId = entity.getId();
+        String insertQuery = "INSERT INTO crmtwo.crm.contact_tag (contact_id, tag_id) VALUES ";
+        StringBuilder builder = new StringBuilder(insertQuery);
+        for (Iterator<Long> iterator = tags.iterator(); iterator.hasNext(); ) {
+            builder.append("( ");
+            builder.append(entityId);
+            builder.append(", ");
+            Long id = iterator.next();
+            builder.append(id);
+            builder.append(" )");
+            if(iterator.hasNext()) builder.append(", ");
+        }
+        builder.append(" ;");
+        try(Statement statement = connection.createStatement()){
+            statement.executeUpdate(builder.toString());
+        }catch (SQLException e){
+            throw new DAOException("Can't update relations with tags", e);
+        }
+    }
+
+    private void clearRelationsWithFiles(Contact entity) throws SQLException {
+        String clearQuery = "DELETE FROM crmtwo.crm.contact_file WHERE contact_id = " + entity.getId();
+        try(Statement statement = connection.createStatement()){
+            statement.executeUpdate(clearQuery);
+        }catch (SQLException e){
+            throw new DAOException("Can't delete relations with files", e);
+        }
+    }
+
+    private void writeRelationsWithFiles(Contact entity, Set<Long> files)throws SQLException{
+        Long entityId = entity.getId();
+        String insertQuery = "INSERT INTO crmtwo.crm.contact_file (contact_id, file_id) VALUES ";
+        StringBuilder builder = new StringBuilder(insertQuery);
+        for (Iterator<Long> iterator = files.iterator(); iterator.hasNext(); ) {
+            builder.append("( ");
+            builder.append(entityId);
+            builder.append(", ");
+            Long id = iterator.next();
+            builder.append(id);
+            builder.append(" )");
+            if(iterator.hasNext()) builder.append(", ");
+        }
+        builder.append(" ;");
+        try(Statement statement = connection.createStatement()){
+            statement.executeUpdate(builder.toString());
+        }catch (SQLException e){
+            throw new DAOException("Can't update relations with files", e);
+        }
+    }
+
+    private void clearRelationsWithDeals(Contact entity) throws SQLException {
+        String clearQuery = "DELETE FROM crmtwo.crm.deal_contact WHERE contact_id = " + entity.getId();
+        try(Statement statement = connection.createStatement()){
+            statement.executeUpdate(clearQuery);
+        }catch (SQLException e){
+            throw new DAOException("Can't delete relations with deals", e);
+        }
+    }
+
+    private void writeRelationsWithDeals(Contact entity, Set<Long> deals)throws SQLException{
+        Long entityId = entity.getId();
+        String insertQuery = "INSERT INTO crmtwo.crm.deal_contact (contact_id, deal_id) VALUES ";
+        StringBuilder builder = new StringBuilder(insertQuery);
+        for (Iterator<Long> iterator = deals.iterator(); iterator.hasNext(); ) {
+            builder.append("( ");
+            builder.append(entityId);
+            builder.append(", ");
+            Long id = iterator.next();
+            builder.append(id);
+            builder.append(" )");
+            if(iterator.hasNext()) builder.append(", ");
+        }
+        builder.append(" ;");
+        try(Statement statement = connection.createStatement()){
+            statement.executeUpdate(builder.toString());
+        }catch (SQLException e){
+            throw new DAOException("Can't update relations with deals", e);
+        }
+    }
+
+    private void clearRelationsWithPhones(Contact entity) throws SQLException {
+        String clearQuery = "DELETE FROM crmtwo.crm.contact_phone WHERE contact_id = " + entity.getId();
+        try(Statement statement = connection.createStatement()){
+            statement.executeUpdate(clearQuery);
+        }catch (SQLException e){
+            throw new DAOException("Can't delete relations with phones", e);
+        }
+    }
+
+    private void writeRelationsWithPhones(Contact entity, Set<Long> deals)throws SQLException{
+        Long entityId = entity.getId();
+        String insertQuery = "INSERT INTO crmtwo.crm.contact_phone (contact_id, phone_number_id) VALUES ";
+        StringBuilder builder = new StringBuilder(insertQuery);
+        for (Iterator<Long> iterator = deals.iterator(); iterator.hasNext(); ) {
+            builder.append("( ");
+            builder.append(entityId);
+            builder.append(", ");
+            Long id = iterator.next();
+            builder.append(id);
+            builder.append(" )");
+            if(iterator.hasNext()) builder.append(", ");
+        }
+        builder.append(" ;");
+        try(Statement statement = connection.createStatement()){
+            statement.executeUpdate(builder.toString());
+        }catch (SQLException e){
+            throw new DAOException("Can't update relations with phones", e);
+        }
     }
 
 
