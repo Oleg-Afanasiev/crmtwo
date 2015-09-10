@@ -1,31 +1,29 @@
-package com.becomejavasenior;
+package com.becomejavasenior.jdbc.deal;
 
-import com.becomejavasenior.jdbc.deal.Deal;
+import com.becomejavasenior.*;
 
-
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
 /**
- * JavaBean class describes Company model
+ * JavaBean class describes DealImpl model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
  * @version 0.1
  */
 
-public class CompanyImpl extends IdentityImpl implements Company {
+public class DealImpl extends IdentityImpl  implements Identity, Deal  {
 
     private static final long serialVersionUID = 1L;
 
     private User responsibleUser;
 
+    private DealStatus dealStatus;
+
     private String name;
 
-    private String email;
-
-    private String webAdress;
-
-    private String adress;
+    private BigDecimal budget;
 
     private Date created;
 
@@ -33,132 +31,146 @@ public class CompanyImpl extends IdentityImpl implements Company {
 
     private boolean isDeleted;
 
-    private Set<Phone> phones;
-
-    private Set<Deal> deals;
-
     private Set<Tag> tags;
 
     private Set<File> files;
 
     private Set<Comment> comments;
 
-    public CompanyImpl() {
+    private Set<Contact> contacts;
+
+    private Set<Company> companies;
+
+    public DealImpl() {
     }
 
     @Override
     public User getResponsibleUser() {
         return responsibleUser;
     }
+
+    @Override
+    public DealStatus getDealStatus() {
+        return dealStatus;
+    }
+
     @Override
     public String getName() {
         return name;
     }
+
     @Override
-    public String getEmail() {
-        return email;
+    public BigDecimal getBudget() {
+        return budget;
     }
-    @Override
-    public String getWebAdress() {
-        return webAdress;
-    }
-    @Override
-    public String getAdress() {
-        return adress;
-    }
+
     @Override
     public Date getCreated() {
         return created;
     }
+
     @Override
     public Date getUpdated() {
         return updated;
     }
+
     @Override
     public boolean isDeleted() {
         return isDeleted;
     }
-    @Override
-    public Set<Phone> getPhones() {
-        return phones;
-    }
-    @Override
-    public Set<Deal> getDeals() {
-        return deals;
-    }
+
     @Override
     public Set<Tag> getTags() {
         return tags;
     }
+
     @Override
     public Set<File> getFiles() {
         return files;
     }
+
     @Override
     public Set<Comment> getComments() {
         return comments;
     }
+
+    @Override
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    @Override
+    public Set<Company> getCompanies() {
+        return companies;
+    }
+
     @Override
     public void setResponsibleUser(User responsibleUser) {
         this.responsibleUser = responsibleUser;
     }
+
+    @Override
+    public void setDealStatus(DealStatus dealStatus) {
+        this.dealStatus = dealStatus;
+    }
+
     @Override
     public void setName(String name) {
         this.name = name;
     }
+
     @Override
-    public void setEmail(String email) {
-        this.email = email;
+    public void setBudget(BigDecimal budget) {
+        this.budget = budget;
     }
-    @Override
-    public void setWebAdress(String webAdress) {
-        this.webAdress = webAdress;
-    }
-    @Override
-    public void setAdress(String adress) {
-        this.adress = adress;
-    }
+
     @Override
     public void setCreated(Date created) {
         this.created = created;
     }
+
     @Override
     public void setUpdated(Date updated) {
         this.updated = updated;
     }
+
     @Override
     public void setIsDeleted(boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
-    @Override
-    public void setPhones(Set<Phone> phones) {
-        this.phones = phones;
-    }
-    @Override
-    public void setDeals(Set<Deal> deals) {
-        this.deals = deals;
-    }
+
     @Override
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
+
     @Override
     public void setFiles(Set<File> files) {
         this.files = files;
     }
+
     @Override
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
 
     @Override
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    @Override
+    public void setCompanies(Set<Company> companies) {
+        this.companies = companies;
+    }
+
+    @Override
     public String toString() {
-        return "Company{" +
+        return "DealImpl{" +
                 "id=" + super.getId() +
+                ", dealStatus=" + dealStatus +
                 ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", webAdress='" + webAdress + '\'' +
-                ", adress='" + adress + '\'' +
+                ", budget=" + budget +
                 ", created=" + created +
                 ", updated=" + updated +
                 ", isDeleted=" + isDeleted +
