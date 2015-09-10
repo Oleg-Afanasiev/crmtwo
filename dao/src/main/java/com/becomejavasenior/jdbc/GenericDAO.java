@@ -27,7 +27,6 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet rs = executePreparedStatementForUpdate(statement, entity)) {
-            this.connection.setAutoCommit(false);
 
             if (this.hasResultSet && rs != null && rs.next()) {
                 id = rs.getLong(1);
@@ -39,15 +38,8 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
                 }
             }
             saveRelations(entity);
-            connection.commit();
         } catch (SQLException | IllegalAccessException | NoSuchFieldException e) {
             throw new DAOException("Can't save or update entity", e);
-        }finally {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                throw new DAOException("Can't rollback operation", e);
-            }
         }
     }
 

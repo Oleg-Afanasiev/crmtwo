@@ -3,7 +3,7 @@ package com.becomejavasenior.jdbc.task;
 import com.becomejavasenior.*;
 import com.becomejavasenior.jdbc.CommentDAO;
 import com.becomejavasenior.jdbc.DAOException;
-import com.becomejavasenior.jdbc.DaoFactory;
+import com.becomejavasenior.jdbc.DaoManager;
 import com.becomejavasenior.jdbc.GenericDAO;
 import com.becomejavasenior.jdbc.deal.Deal;
 
@@ -123,7 +123,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
             case "getDeal":
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoFactory.getDealDAO().getById(ids.iterator().next());
+                result = DaoManager.getInstance().getDealDAO().getById(ids.iterator().next());
                 ((Task)instance).setDeal((Deal) result);
             }
             break;
@@ -131,7 +131,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 Set<Comment> set = new HashSet<Comment>();
-                CommentDAO dao = DaoFactory.getCommentDAO();
+                CommentDAO dao = DaoManager.getInstance().getCommentDAO();
                 for(Long id : ids){
                     set.add(dao.getById(id));
                 }
@@ -142,35 +142,35 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
             case "getResponsibleUser":
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoFactory.getUserDAO().getById(ids.iterator().next());
+                result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
                 ((Task)instance).setResponsibleUser((User) result);
             }
             break;
             case "getTaskType":
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoFactory.getTaskTypeDAO().getById(ids.iterator().next());
+                result = DaoManager.getInstance().getTaskTypeDAO().getById(ids.iterator().next());
                 ((Task)instance).setTaskType((TaskType) result);
             }
             break;
             case "getTaskPeriod":
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoFactory.getTaskPeriodDAO().getById(ids.iterator().next());
+                result = DaoManager.getInstance().getTaskPeriodDAO().getById(ids.iterator().next());
                 ((Task)instance).setTaskPeriod((TaskPeriod) result);
             }
             break;
             case "getCompany":
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoFactory.getCompanyDAO().getById(ids.iterator().next());
+                result = DaoManager.getInstance().getCompanyDAO().getById(ids.iterator().next());
                 ((Task)instance).setCompany((Company) result);
             }
             break;
             case "getContact":
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoFactory.getContactDAO().getById(ids.iterator().next());
+                result = DaoManager.getInstance().getContactDAO().getById(ids.iterator().next());
                 ((Task)instance).setContact((Contact) result);
             }
             break;
@@ -188,7 +188,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         if(comments != null && !comments.isEmpty()){
             Set<Long> ids = new HashSet<>();
             for (Comment comment : comments){
-                DaoFactory.getCommentDAO().saveOrUpdate(comment);
+                DaoManager.getInstance().getCommentDAO().saveOrUpdate(comment);
                 ids.add(comment.getId());
             }
             clearRelationsWithComments(entity, ids);

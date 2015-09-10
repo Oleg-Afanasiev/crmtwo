@@ -122,7 +122,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 Set<Phone> set = new HashSet<>();
-                PhoneDAO pd = DaoFactory.getPhoneDAO();
+                PhoneDAO pd = DaoManager.getInstance().getPhoneDAO();
                 for(Long id : ids){
                     set.add(pd.getById(id));
                 }
@@ -134,7 +134,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 Set<Deal> set = new HashSet<>();
-                DealDAO dd = DaoFactory.getDealDAO();
+                DealDAO dd = DaoManager.getInstance().getDealDAO();
                 for(Long id : ids){
                     set.add(dd.getById(id));
                 }
@@ -146,7 +146,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 Set<Tag> set = new HashSet<Tag>();
-                TagDAO td = DaoFactory.getTagDAO();
+                TagDAO td = DaoManager.getInstance().getTagDAO();
                 for(Long id : ids){
                     set.add(td.getById(id));
                 }
@@ -158,7 +158,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 Set<File> set = new HashSet<File>();
-                FileDAO fd = DaoFactory.getFileDAO();
+                FileDAO fd = DaoManager.getInstance().getFileDAO();
                 for(Long id : ids){
                     set.add(fd.getById(id));
                 }
@@ -170,7 +170,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 Set<Comment> set = new HashSet<Comment>();
-                CommentDAO cd = DaoFactory.getCommentDAO();
+                CommentDAO cd = DaoManager.getInstance().getCommentDAO();
                 for(Long id : ids){
                     set.add(cd.getById(id));
                 }
@@ -181,14 +181,14 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
             case "getResponsibleUser":
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoFactory.getUserDAO().getById(ids.iterator().next());
+                result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
                 ((Contact)instance).setResponsibleUser((User) result);
             }
             break;
             case "getCompany":
             {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoFactory.getCompanyDAO().getById(ids.iterator().next());
+                result = DaoManager.getInstance().getCompanyDAO().getById(ids.iterator().next());
                 ((Contact)instance).setCompany((Company) result);
             }
             break;
@@ -205,7 +205,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         if(comments != null && !comments.isEmpty()){
             Set<Long> ids = new HashSet<>();
             for (Comment comment : comments){
-                DaoFactory.getCommentDAO().saveOrUpdate(comment);
+                DaoManager.getInstance().getCommentDAO().saveOrUpdate(comment);
                 ids.add(comment.getId());
             }
             clearRelationsWithComments(entity);
@@ -216,7 +216,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         if(tags != null && !tags.isEmpty()){
             Set<Long> ids = new HashSet<>();
             for(Tag tag : tags){
-                DaoFactory.getTagDAO().saveOrUpdate(tag);
+                DaoManager.getInstance().getTagDAO().saveOrUpdate(tag);
                 ids.add(tag.getId());
             }
             clearRelationsWithTags(entity);
@@ -227,7 +227,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         if(files != null && !files.isEmpty()){
             Set<Long> ids = new HashSet<>();
             for(File file : files){
-                DaoFactory.getFileDAO().saveOrUpdate(file);
+                DaoManager.getInstance().getFileDAO().saveOrUpdate(file);
                 ids.add(file.getId());
             }
             clearRelationsWithFiles(entity);
@@ -238,7 +238,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         if(deals != null && !deals.isEmpty()){
             Set<Long> ids = new HashSet<>();
             for(Deal deal : deals){
-                DaoFactory.getDealDAO().saveOrUpdate(deal);
+                DaoManager.getInstance().getDealDAO().saveOrUpdate(deal);
                 ids.add(deal.getId());
             }
             clearRelationsWithDeals(entity);
@@ -249,7 +249,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         if(phones != null && !phones.isEmpty()){
             Set<Long> ids = new HashSet<>();
             for(Phone phone : phones){
-                DaoFactory.getPhoneDAO().saveOrUpdate(phone);
+                DaoManager.getInstance().getPhoneDAO().saveOrUpdate(phone);
                 ids.add(phone.getId());
             }
             clearRelationsWithPhones(entity);
