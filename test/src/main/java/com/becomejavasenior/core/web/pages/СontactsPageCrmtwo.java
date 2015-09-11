@@ -1,6 +1,8 @@
 package com.becomejavasenior.core.web.pages;
 
 import com.becomejavasenior.core.web.WebPage;
+import com.becomejavasenior.core.web.elements.Link;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -23,13 +25,17 @@ public class СontactsPageCrmtwo extends WebPage<СontactsPageCrmtwo>{
 
     @Override
     public boolean isAvailable() {
-        return false;
+        return getAddContactLink().isAvailable();
 
     }
 
     public LoginPageCrmtwo loadAsUser() {
         load();
         return new LoginPageCrmtwo(driver).waitUntilAvalible();
+    }
+
+    private Link getAddContactLink(){
+        return new Link(driver, By.xpath("//a[contains(@href, 'contactAddForm')]"));
     }
 
 }
