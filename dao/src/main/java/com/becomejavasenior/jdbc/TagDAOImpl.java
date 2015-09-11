@@ -15,18 +15,18 @@ import java.util.Map;
 public class TagDAOImpl extends GenericDAO<Tag> implements TagDAO {
 
     String saveNewTag = "INSERT INTO crmtwo.crm.tag (name) \n" +
-                        "VALUES (?) RETURNING tag_id;";
+            "VALUES (?) RETURNING tag_id;";
 
-    String updateTag =  "UPDATE crmtwo.crm.tag SET (name) = (?)\n" +
-                        "WHERE tag_id = ?;";
+    String updateTag = "UPDATE crmtwo.crm.tag SET (name) = (?)\n" +
+            "WHERE tag_id = ?;";
 
     String getTagById = "SELECT *\n" +
-                        "FROM crmtwo.crm.tag\n" +
-                        "WHERE tag_id = ?;";
+            "FROM crmtwo.crm.tag\n" +
+            "WHERE tag_id = ?;";
 
-    String deleteTag =  "DELETE\n" +
-                        "FROM crmtwo.crm.tag\n" +
-                        "WHERE tag_id = ?;";
+    String deleteTag = "DELETE\n" +
+            "FROM crmtwo.crm.tag\n" +
+            "WHERE tag_id = ?;";
 
     public TagDAOImpl(Connection connection) {
         this.connection = connection;
@@ -61,7 +61,7 @@ public class TagDAOImpl extends GenericDAO<Tag> implements TagDAO {
     protected void setParamsForSaveOrUpdate(PreparedStatement statement, Tag entity) throws SQLException {
         Long id = entity.getId();
         statement.setString(1, entity.getName());
-        if(id != null){
+        if (id != null) {
             statement.setLong(2, id);
         }
     }

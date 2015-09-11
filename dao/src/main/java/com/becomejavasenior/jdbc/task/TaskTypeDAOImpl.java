@@ -13,18 +13,18 @@ import java.util.Map;
  */
 public class TaskTypeDAOImpl extends GenericDAO<TaskType> implements TaskTypeDAO {
 
-    String saveNewTaskType =    "INSERT INTO crmtwo.crm.task_type (name) \n" +
-                                "VALUES (?) RETURNING task_type_id;";
+    String saveNewTaskType = "INSERT INTO crmtwo.crm.task_type (name) \n" +
+            "VALUES (?) RETURNING task_type_id;";
 
     String updateTaskType = "UPDATE crmtwo.crm.task_type SET (name)=(?)\n" +
-                            "WHERE task_type_id = ?";
+            "WHERE task_type_id = ?";
 
-    String getTaskTypeById =    "SELECT task_type_id, name\n" +
-                                "FROM crmtwo.crm.task_type\n" +
-                                "WHERE task_type_id = ?";
+    String getTaskTypeById = "SELECT task_type_id, name\n" +
+            "FROM crmtwo.crm.task_type\n" +
+            "WHERE task_type_id = ?";
 
     String deleteTaskType = "DELETE FROM crmtwo.crm.task_type\n" +
-                            "WHERE task_type_id = ?";
+            "WHERE task_type_id = ?";
 
 
     public TaskTypeDAOImpl(Connection connection) {
@@ -60,7 +60,7 @@ public class TaskTypeDAOImpl extends GenericDAO<TaskType> implements TaskTypeDAO
     protected void setParamsForSaveOrUpdate(PreparedStatement statement, TaskType entity) throws SQLException {
         Long id = entity.getId();
         statement.setString(1, entity.getName());
-        if(id != null){
+        if (id != null) {
             statement.setLong(2, id);
         }
     }

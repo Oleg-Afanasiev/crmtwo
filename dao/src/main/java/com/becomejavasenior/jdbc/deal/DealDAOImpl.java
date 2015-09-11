@@ -27,21 +27,21 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         CONFIG_GET_ID.put("getCompanies", "SELECT company_id FROM crm.deal_company WHERE deal_id  = ?");
     }
 
-    String saveNewDeal =    "INSERT INTO crmtwo.crm.deal (responsible_user_id, status_id, name, budget, created, updated, is_deleted)\n" +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING deal_id;";
+    String saveNewDeal = "INSERT INTO crmtwo.crm.deal (responsible_user_id, status_id, name, budget, created, updated, is_deleted)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING deal_id;";
 
     String updateDeal = "UPDATE crmtwo.crm.deal SET (responsible_user_id, status_id, name, budget, created, updated, is_deleted) =\n" +
-                        "(?, ?, ?, ?, ?, ?, ?)\n" +
-                        "WHERE deal_id = ?;";
+            "(?, ?, ?, ?, ?, ?, ?)\n" +
+            "WHERE deal_id = ?;";
 
-    String getDealById =    "SELECT deal_id, responsible_user_id, status_id, name, budget, created, updated, is_deleted \n" +
-                            "FROM crm.deal\n" +
-                            "WHERE deal_id = ? \n" +
-                            "AND is_deleted = FALSE ;";
+    String getDealById = "SELECT deal_id, responsible_user_id, status_id, name, budget, created, updated, is_deleted \n" +
+            "FROM crm.deal\n" +
+            "WHERE deal_id = ? \n" +
+            "AND is_deleted = FALSE ;";
 
     String deleteDeal = "UPDATE crmtwo.crm.deal SET (is_deleted) =\n" +
-                        "(TRUE)\n" +
-                        "WHERE deal_id = ?;";
+            "(TRUE)\n" +
+            "WHERE deal_id = ?;";
 
 
     public DealDAOImpl(Connection connection) {
@@ -79,7 +79,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         statement.setTimestamp(5, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(6, new Timestamp(entity.getUpdated().getTime()));
         statement.setBoolean(7, entity.isDeleted());
-        if(id != null){
+        if (id != null) {
             statement.setLong(8, id);
         }
     }
@@ -108,85 +108,78 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
     private <T extends Identity> Object loadEntities(Method method, T instance, Object[] args)
             throws InvocationTargetException, IllegalAccessException, SQLException {
         Object result = method.invoke(instance, args);
-        if(result != null){
+        if (result != null) {
             return result;
         }
         String methodName = method.getName();
 
         switch (methodName) {
-            case "getCompanies":
-            {
+            case "getCompanies": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 Set<Company> set = new HashSet<>();
                 CompanyDAO dao = DaoManager.getInstance().getCompanyDAO();
-                for(Long id : ids){
+                for (Long id : ids) {
                     set.add(dao.getById(id));
                 }
                 result = set;
-                ((Deal)instance).setCompanies((Set<Company>) result);
+                ((Deal) instance).setCompanies((Set<Company>) result);
             }
             break;
-            case "getDealStatus":
-            {
+            case "getDealStatus": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 DealStatusDAO dao = DaoManager.getInstance().getDealStatusDAO();
                 result = dao.getById(ids.iterator().next());
-                ((Deal)instance).setDealStatus((DealStatus) result);
+                ((Deal) instance).setDealStatus((DealStatus) result);
             }
             break;
-            case "getTags":
-            {
+            case "getTags": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 Set<Tag> set = new HashSet<Tag>();
                 TagDAO dao = DaoManager.getInstance().getTagDAO();
-                for(Long id : ids){
+                for (Long id : ids) {
                     set.add(dao.getById(id));
                 }
                 result = set;
-                ((Deal)instance).setTags((Set<Tag>) result);
+                ((Deal) instance).setTags((Set<Tag>) result);
             }
             break;
-            case "getFiles":
-            {
+            case "getFiles": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 Set<File> set = new HashSet<File>();
                 FileDAO dao = DaoManager.getInstance().getFileDAO();
-                for(Long id : ids){
+                for (Long id : ids) {
                     set.add(dao.getById(id));
                 }
                 result = set;
-                ((Deal)instance).setFiles((Set<File>) result);
+                ((Deal) instance).setFiles((Set<File>) result);
             }
             break;
-            case "getComments":
-            {
+            case "getComments": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 Set<Comment> set = new HashSet<Comment>();
                 CommentDAO dao = DaoManager.getInstance().getCommentDAO();
-                for(Long id : ids){
+                for (Long id : ids) {
                     set.add(dao.getById(id));
                 }
                 result = set;
-                ((Deal)instance).setComments((Set<Comment>) result);
+                ((Deal) instance).setComments((Set<Comment>) result);
             }
             break;
-            case "getResponsibleUser":
-            {
+            case "getResponsibleUser": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
-                ((Deal)instance).setResponsibleUser((User) result);
+                ((Deal) instance).setResponsibleUser((User) result);
             }
             break;
-            case "getContacts":
-            {
+            case "getContacts": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
                 Set<Contact> set = new HashSet<Contact>();
                 ContactDAO dao = DaoManager.getInstance().getContactDAO();
-                for(Long id : ids){
+                for (Long id : ids) {
                     set.add(dao.getById(id));
                 }
                 result = set;
-                ((Deal)instance).setContacts((Set<Contact>) result);
+                ((Deal) instance).setContacts((Set<Contact>) result);
             }
             default:
                 result = method.invoke(instance, args);
@@ -199,9 +192,9 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
     protected void saveRelations(Deal entity) throws SQLException {
 
         Set<Comment> comments = entity.getComments();
-        if(comments != null && !comments.isEmpty()){
+        if (comments != null && !comments.isEmpty()) {
             Set<Long> ids = new HashSet<>();
-            for (Comment comment : comments){
+            for (Comment comment : comments) {
                 DaoManager.getInstance().getCommentDAO().saveOrUpdate(comment);
                 ids.add(comment.getId());
             }
@@ -210,9 +203,9 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         }
 
         Set<Tag> tags = entity.getTags();
-        if(tags != null && !tags.isEmpty()){
+        if (tags != null && !tags.isEmpty()) {
             Set<Long> ids = new HashSet<>();
-            for(Tag tag : tags){
+            for (Tag tag : tags) {
                 DaoManager.getInstance().getTagDAO().saveOrUpdate(tag);
                 ids.add(tag.getId());
             }
@@ -221,9 +214,9 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         }
 
         Set<File> files = entity.getFiles();
-        if(files != null && !files.isEmpty()){
+        if (files != null && !files.isEmpty()) {
             Set<Long> ids = new HashSet<>();
-            for(File file : files){
+            for (File file : files) {
                 DaoManager.getInstance().getFileDAO().saveOrUpdate(file);
                 ids.add(file.getId());
             }
@@ -235,15 +228,15 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
 
     private void clearRelationsWithComments(Deal entity) throws SQLException {
         String clearQuery = "DELETE FROM crmtwo.crm.deal_comment WHERE deal_id = " + entity.getId();
-        try(Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             System.out.println(clearQuery);
             statement.executeUpdate(clearQuery);
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DAOException("Can't delete relations with comments", e);
         }
     }
 
-    private void writeRelationsWithComments(Deal entity, Set<Long> comments)throws SQLException{
+    private void writeRelationsWithComments(Deal entity, Set<Long> comments) throws SQLException {
         Long entityId = entity.getId();
         String insertQuery = "INSERT INTO crmtwo.crm.deal_comment (deal_id, comment_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
@@ -254,26 +247,26 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
             Long id = iterator.next();
             builder.append(id);
             builder.append(" )");
-            if(iterator.hasNext()) builder.append(", ");
+            if (iterator.hasNext()) builder.append(", ");
         }
         builder.append(" ;");
-        try(Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(builder.toString());
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DAOException("Can't update relations with comments", e);
         }
     }
 
     private void clearRelationsWithTags(Deal entity) throws SQLException {
         String clearQuery = "DELETE FROM crmtwo.crm.deal_tag WHERE deal_id = " + entity.getId();
-        try(Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(clearQuery);
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DAOException("Can't delete relations with tags", e);
         }
     }
 
-    private void writeRelationsWithTags(Deal entity, Set<Long> tags)throws SQLException{
+    private void writeRelationsWithTags(Deal entity, Set<Long> tags) throws SQLException {
         Long entityId = entity.getId();
         String insertQuery = "INSERT INTO crmtwo.crm.deal_tag (deal_id, tag_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
@@ -284,26 +277,26 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
             Long id = iterator.next();
             builder.append(id);
             builder.append(" )");
-            if(iterator.hasNext()) builder.append(", ");
+            if (iterator.hasNext()) builder.append(", ");
         }
         builder.append(" ;");
-        try(Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(builder.toString());
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DAOException("Can't update relations with tags", e);
         }
     }
 
     private void clearRelationsWithFiles(Deal entity) throws SQLException {
         String clearQuery = "DELETE FROM crmtwo.crm.deal_file WHERE deal_id = " + entity.getId();
-        try(Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(clearQuery);
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DAOException("Can't delete relations with files", e);
         }
     }
 
-    private void writeRelationsWithFiles(Deal entity, Set<Long> files)throws SQLException{
+    private void writeRelationsWithFiles(Deal entity, Set<Long> files) throws SQLException {
         Long entityId = entity.getId();
         String insertQuery = "INSERT INTO crmtwo.crm.deal_file (deal_id, file_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
@@ -314,13 +307,13 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
             Long id = iterator.next();
             builder.append(id);
             builder.append(" )");
-            if(iterator.hasNext()) builder.append(", ");
+            if (iterator.hasNext()) builder.append(", ");
         }
         builder.append(" ;");
-        try(Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             System.out.println(builder.toString());
             statement.executeUpdate(builder.toString());
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new DAOException("Can't update relations with files", e);
         }
     }

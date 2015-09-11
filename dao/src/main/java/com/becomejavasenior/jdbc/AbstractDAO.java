@@ -16,6 +16,4 @@ public interface AbstractDAO<T> {
     void deleteAll(Collection<? extends T> entities);
 
 
-
-
 }

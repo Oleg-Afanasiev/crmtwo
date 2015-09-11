@@ -6,6 +6,7 @@ import com.becomejavasenior.jdbc.deal.DealStatusDAO;
 import com.becomejavasenior.jdbc.deal.DealStatusDAOImpl;
 import com.becomejavasenior.jdbc.task.*;
 import org.apache.commons.dbcp2.BasicDataSource;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 public class DaoManager {
 
     private static BasicDataSource connectionPool;
-    private static ThreadLocal<DaoManager> daoManagerThreadLocal;
+    private static ThreadLocal<DaoManager> daoManagerThreadLocal = new ThreadLocal<>();;
     private Connection connection;
 
     {
@@ -24,88 +25,83 @@ public class DaoManager {
         connectionPool.setPassword("postgres");
         connectionPool.setDriverClassName("org.postgresql.Driver");
         connectionPool.setUrl("jdbc:postgresql://192.168.1.200:5432/crmtwo");
-        connectionPool.setInitialSize(10);
+        connectionPool.setInitialSize(50);
 
     }
 
-    public static DaoManager getInstance(){ //todo what about synchronization of this method
-
-        if (daoManagerThreadLocal == null) {
-            daoManagerThreadLocal = new ThreadLocal<>();
+    public static synchronized DaoManager getInstance() {
+        if(daoManagerThreadLocal.get() == null){
             daoManagerThreadLocal.set(new DaoManager());
         }
-
         return daoManagerThreadLocal.get();
     }
 
 
-//    public static void startConnection(){
-//        try {
-//            Class.forName("org.postgresql.Driver");
-//            connection =
-//                    DriverManager.getConnection("jdbc:postgresql://192.168.1.200:5432/crmtwo","postgres", "postgres");
-//        } catch (ClassNotFoundException e) {
-//            throw new DAOException("Can't load driver", e);
-//        } catch (SQLException e) {
-//            throw new DAOException("Can't get Connection", e);
-//        }
-//    }
-    private DaoManager(){
+    private DaoManager() {
         try {
             connection = connectionPool.getConnection();
+            connection.setAutoCommit(false);
         } catch (SQLException e) {
             throw new DAOException("Can't get connection from pool.", e);
         }
     }
 
 
-
-    public  DealDAO getDealDAO(){
+    public DealDAO getDealDAO() {
         return new DealDAOImpl(connection);
     }
 
-    public  DealStatusDAO getDealStatusDAO(){
+    public DealStatusDAO getDealStatusDAO() {
         return new DealStatusDAOImpl(connection);
     }
 
-    public  TaskDAO getTaskDAO(){
+    public TaskDAO getTaskDAO() {
         return new TaskDAOImpl(connection);
     }
 
-    public  TaskPeriodDAO getTaskPeriodDAO(){
+    public TaskPeriodDAO getTaskPeriodDAO() {
         return new TaskPeriodDAOImpl(connection);
     }
 
-    public  TaskTypeDAO getTaskTypeDAO(){
+    public TaskTypeDAO getTaskTypeDAO() {
         return new TaskTypeDAOImpl(connection);
     }
 
-    public  CommentDAO getCommentDAO(){
+    public CommentDAO getCommentDAO() {
         return new CommentDAOImpl(connection);
     }
 
-    public  CompanyDAO getCompanyDAO(){
+    public CompanyDAO getCompanyDAO() {
         return new CompanyDAOImpl(connection);
     }
 
-    public  ContactDAO getContactDAO(){
+    public ContactDAO getContactDAO() {
         return new ContactDAOImpl(connection);
     }
 
-    public  FileDAO getFileDAO(){
+    public FileDAO getFileDAO() {
         return new FileDAOImpl(connection);
     }
 
-    public  PhoneDAO getPhoneDAO(){
+    public PhoneDAO getPhoneDAO() {
         return new PhoneDAOImpl(connection);
     }
 
-    public  TagDAO getTagDAO(){
+    public TagDAO getTagDAO() {
         return new TagDAOImpl(connection);
     }
 
-    public  UserDAO getUserDAO(){
+    public UserDAO getUserDAO() {
         return new UserDAOImpl(connection);
     }
 
+    public void closeConnection() {
+
+        try{
+            this.connection.commit();
+            this.connection.close();
+        }catch (SQLException e){
+            throw new DAOException("Can't close connection", e);
+        }
+    }
 }

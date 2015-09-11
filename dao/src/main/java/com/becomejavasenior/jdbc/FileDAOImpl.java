@@ -15,19 +15,19 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
         this.connection = connection;
     }
 
-    String saveNewFile ="INSERT INTO crm.file (file_path, file_mime_type, created, updated)\n" +
-                        "VALUES (?, ?, ?, ?) RETURNING file_id;";
+    String saveNewFile = "INSERT INTO crm.file (file_path, file_mime_type, created, updated)\n" +
+            "VALUES (?, ?, ?, ?) RETURNING file_id;";
 
     String updateFile = "UPDATE crm.file SET (file_path, file_mime_type, created, updated) =\n" +
-                        "(?, ?, ?, ?)\n" +
-                        "WHERE file_id = ? ;";
+            "(?, ?, ?, ?)\n" +
+            "WHERE file_id = ? ;";
 
     String getFileById = "SELECT f.file_id, f.file_path, f.file_mime_type, f.created, f.updated\n" +
-                        "FROM crm.file f\n" +
-                        "WHERE file_id = ?";
+            "FROM crm.file f\n" +
+            "WHERE file_id = ?";
 
     String deleteFile = "DELETE FROM crm.file f\n" +
-                        "WHERE f.file_id = ?";
+            "WHERE f.file_id = ?";
 
 
     @Override
@@ -63,7 +63,7 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
         statement.setString(2, entity.getMimeType());
         statement.setTimestamp(3, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(4, new Timestamp(entity.getUpdated().getTime()));
-        if(entityId != null){
+        if (entityId != null) {
             statement.setLong(5, entityId);
         }
     }

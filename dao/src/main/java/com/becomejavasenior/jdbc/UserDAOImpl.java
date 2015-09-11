@@ -11,33 +11,33 @@ import java.util.Map;
  */
 public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
 
-    final String saveNewUser =  "INSERT INTO crm.\"user\" (role_id, username, last_name, first_name, email, created, updated, is_deleted)\n" +
-                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING user_id;";
+    final String saveNewUser = "INSERT INTO crm.\"user\" (role_id, username, last_name, first_name, email, created, updated, is_deleted)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING user_id;";
 
-    final String updateUser =   "UPDATE crm.\"user\"\n" +
-                                "SET (role_id, username, last_name, first_name, email, created, updated, is_deleted) =\n" +
-                                "(?, ?, ?, ?, ?, ?, ?, ?)\n" +
-                                "WHERE user_id = ? ;";
+    final String updateUser = "UPDATE crm.\"user\"\n" +
+            "SET (role_id, username, last_name, first_name, email, created, updated, is_deleted) =\n" +
+            "(?, ?, ?, ?, ?, ?, ?, ?)\n" +
+            "WHERE user_id = ? ;";
 
-    final String getUserById =  "SELECT\n" +
-                                "  u.user_id,\n" +
-                                "  u.role_id,\n" +
-                                "  u.username,\n" +
-                                "  u.last_name,\n" +
-                                "  u.first_name,\n" +
-                                "  u.email,\n" +
-                                "  u.created,\n" +
-                                "  u.updated,\n" +
-                                "  u.is_deleted\n" +
-                                "FROM crm.\"user\" u\n" +
-                                "WHERE u.user_id = ? " +
-                                "and u.is_deleted = false";
+    final String getUserById = "SELECT\n" +
+            "  u.user_id,\n" +
+            "  u.role_id,\n" +
+            "  u.username,\n" +
+            "  u.last_name,\n" +
+            "  u.first_name,\n" +
+            "  u.email,\n" +
+            "  u.created,\n" +
+            "  u.updated,\n" +
+            "  u.is_deleted\n" +
+            "FROM crm.\"user\" u\n" +
+            "WHERE u.user_id = ? " +
+            "and u.is_deleted = false";
 
-    final String deleteUser =   "DELETE FROM crm.\"user\"\n" +
-                                "WHERE user_id = ? ;";
+    final String deleteUser = "DELETE FROM crm.\"user\"\n" +
+            "WHERE user_id = ? ;";
 
 
-    public UserDAOImpl(Connection connection){
+    public UserDAOImpl(Connection connection) {
         this.connection = connection;
     }
 
@@ -52,15 +52,17 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id){
-       return id == null ? this.saveNewUser : this.updateUser;
+    protected String getQueryForSaveOrUpdate(Long id) {
+        return id == null ? this.saveNewUser : this.updateUser;
     }
+
     @Override
-    protected String getQueryForGetById(){
+    protected String getQueryForGetById() {
         return getUserById;
     }
+
     @Override
-    protected String getQueryForDelete(){
+    protected String getQueryForDelete() {
         return this.deleteUser;
     }
 
@@ -76,7 +78,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         statement.setTimestamp(6, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(7, new Timestamp(entity.getUpdated().getTime()));
         statement.setBoolean(8, entity.isDeleted());
-        if(id != null){
+        if (id != null) {
             statement.setLong(9, entity.getId());
         }
     }

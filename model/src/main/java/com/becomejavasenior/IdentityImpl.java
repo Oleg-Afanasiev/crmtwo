@@ -1,7 +1,7 @@
 package com.becomejavasenior;
 
 /**
- * Created by user on 9/6/2015.
+ * Created by Dmytro Tsapko on 9/6/2015.
  */
 public class IdentityImpl implements Identity {
 

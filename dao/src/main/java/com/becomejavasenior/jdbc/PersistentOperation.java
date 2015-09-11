@@ -6,14 +6,12 @@ package com.becomejavasenior.jdbc;
 public class PersistentOperation {
 
 
-    void doInPersistenceContext(){
+    void doInPersistenceContext() {
 
     }
 
 
-
-
-    public void execute(){
+    public void execute() {
 
     }
 

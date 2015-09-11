@@ -3,7 +3,10 @@ package com.becomejavasenior.jdbc;
 import com.becomejavasenior.Identity;
 
 import java.lang.reflect.Field;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,7 +36,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
                 setPrivateField(entity, "id", id);
             } else {
                 int updatedRowsCount = statement.getUpdateCount();
-                if(updatedRowsCount < 1){
+                if (updatedRowsCount < 1) {
                     throw new DAOException("Entity wasn't updated");
                 }
             }
@@ -51,7 +54,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         try (PreparedStatement statement = connection.prepareStatement(getQueryForGetById());
              ResultSet rs = executePreparedStatementForGetById(statement, id)) {
 
-            if(!rs.next()){
+            if (!rs.next()) {
                 throw new DAOException("Entity with specified ID wasn't found. Id = " + id);
             }
             entity = mapFieldsForGetById(rs);
@@ -65,7 +68,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
     public void delete(T entity) { //todo what I have to do with object after deleting? clear ID?
 
         if (entity.getId() != null) {
-            try (PreparedStatement statement = connection.prepareStatement(getQueryForDelete())){
+            try (PreparedStatement statement = connection.prepareStatement(getQueryForDelete())) {
                 statement.setLong(1, entity.getId());
                 statement.execute();
             } catch (SQLException e) {
@@ -115,14 +118,14 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         ArrayList<Long> result = new ArrayList<>();
         String query = getConfig().get(methodName);
 
-        if(query == null)throw new DAOException("Can't find query to find related entities");
+        if (query == null) throw new DAOException("Can't find query to find related entities");
 
         PreparedStatement ps = connection.prepareStatement(query);
         ps.setLong(1, instance.getId());
 
         ps.execute();
         ResultSet rs = ps.getResultSet();
-        while (rs.next()){
+        while (rs.next()) {
             result.add(rs.getLong(1));
         }
         return result;

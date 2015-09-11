@@ -14,20 +14,19 @@ import java.util.Map;
  */
 public class PhoneDAOImpl extends GenericDAO<Phone> implements PhoneDAO {
 
-    String saveNewPhone =   "INSERT INTO crmtwo.crm.phone (phone_type, phone_number) " +
-                            "VALUES (?, ?) RETURNING phone_number_id;";
+    String saveNewPhone = "INSERT INTO crmtwo.crm.phone (phone_type, phone_number) " +
+            "VALUES (?, ?) RETURNING phone_number_id;";
 
-    String updatePhone =    "UPDATE crmtwo.crm.phone SET (phone_type, phone_number) = (?, ?) \n" +
-                            "WHERE phone_number_id = ?;";
+    String updatePhone = "UPDATE crmtwo.crm.phone SET (phone_type, phone_number) = (?, ?) \n" +
+            "WHERE phone_number_id = ?;";
 
-    String getPhoneById =   "SELECT phone_number_id, phone_type, phone_number\n" +
-                            "FROM crm.phone\n" +
-                            "WHERE phone_number_id = ?;";
+    String getPhoneById = "SELECT phone_number_id, phone_type, phone_number\n" +
+            "FROM crm.phone\n" +
+            "WHERE phone_number_id = ?;";
 
-    String deletePhone =    "DELETE \n" +
-                            "FROM crm.phone\n" +
-                            "WHERE phone_number_id = ?;";
-
+    String deletePhone = "DELETE \n" +
+            "FROM crm.phone\n" +
+            "WHERE phone_number_id = ?;";
 
 
     public PhoneDAOImpl(Connection connection) {
@@ -64,7 +63,7 @@ public class PhoneDAOImpl extends GenericDAO<Phone> implements PhoneDAO {
         Long id = entity.getId();
         statement.setInt(1, entity.getPhoneType());
         statement.setString(2, entity.getNumber());
-        if(id != null){
+        if (id != null) {
             statement.setLong(3, id);
         }
     }
