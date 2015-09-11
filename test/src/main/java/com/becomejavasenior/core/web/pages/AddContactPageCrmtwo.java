@@ -45,14 +45,23 @@ public class AddContactPageCrmtwo extends WebPage<AddContactPageCrmtwo>{
 
     }
 
-    public AddContactPageCrmtwo addContactPageCrmtwo(String Name,
-                                                     String Tags,
-                                                     String JobPosition,
-                                                     String PhoneNumber,
-                                                     String Skype,
-                                                     String Message){
-        getAddContactButton().click();
-        return new AddContactPageCrmtwo(driver).waitUntilAvalible();
+    public СontactsPageCrmtwo addNewContactCrmtwo(String Name,
+                                                  String Tags,
+                                                  String JobPosition,
+                                                  String PhoneNumber,
+                                                  String Email,
+                                                  String Skype,
+                                                  String Message){
+        getNameAndSurnameInput().inputText(Name);
+        getTagsInput()          .inputText(Tags);
+        getJobPositionInput()   .inputText(JobPosition);
+        getPhoneNumberInput()   .inputText(PhoneNumber);
+        getEmailInput()         .inputText(Email);
+        getSkypeInput()         .inputText(Skype);
+        getMessageInput()       .inputText(Message);
+        getContactSubmitButton().click();
+
+        return new СontactsPageCrmtwo(driver).waitUntilAvalible();
     }
 
 
@@ -70,6 +79,10 @@ public class AddContactPageCrmtwo extends WebPage<AddContactPageCrmtwo>{
 
     private TextInput getPhoneNumberInput(){
         return new TextInput(driver, By.id("phoneNumber"));
+    }
+
+    private TextInput getEmailInput(){
+        return new TextInput(driver, By.id("email"));
     }
 
     private TextInput getSkypeInput(){
