@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
  */
 public class AddContactTest extends BaseTest {
 
-    @Test
+    @Test(alwaysRun = true)
     public void addContactTest(){
         new AddContactPageCrmtwo(driver)
                 .loadAndWaitUntilAvailable()
