@@ -24,7 +24,6 @@ public class UserGenerator {
 
     public String phoneNumber =  year + month + hour + minute + millisecond;
 
-
     public String email = "t" + year + month + hour + minute + millisecond + "@ya.ru";
 
     public String skypeLogin =  "testTag" + year + month + hour + minute + millisecond;
