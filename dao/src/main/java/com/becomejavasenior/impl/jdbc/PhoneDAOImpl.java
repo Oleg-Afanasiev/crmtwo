@@ -40,7 +40,12 @@ public class PhoneDAOImpl extends GenericDAO<Phone> implements PhoneDAO {
     }
 
     @Override
-    protected Map<String, String> getConfig() {
+    protected String getQueryForGetRange() {
+        return "SELECT * FROM crmtwo.crm.phone ORDER BY phone_number_id LIMIT ? offset ? ;";
+    }
+
+    @Override
+    protected Map<String, String> getMethodToQueryMap() {
         return null;
     }
 
@@ -70,7 +75,7 @@ public class PhoneDAOImpl extends GenericDAO<Phone> implements PhoneDAO {
     }
 
     @Override
-    protected Phone mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
+    protected Phone mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
         Phone phone = new PhoneImpl();
         super.setPrivateField(phone, "id", resultSet.getLong("phone_number_id"));
         phone.setPhoneType(resultSet.getInt("phone_type"));

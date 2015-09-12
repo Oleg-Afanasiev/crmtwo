@@ -51,7 +51,12 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
     }
 
     @Override
-    protected Map<String, String> getConfig() {
+    protected String getQueryForGetRange() {
+        return "SELECT * FROM crmtwo.crm.deal WHERE is_deleted = FALSE ORDER BY deal_id LIMIT ? offset ? ;";
+    }
+
+    @Override
+    protected Map<String, String> getMethodToQueryMap() {
         return CONFIG_GET_ID;
     }
 
@@ -87,7 +92,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
     }
 
     @Override
-    protected Deal mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
+    protected Deal mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
         final Deal deal = new DealImpl();
         super.setPrivateField(deal, "id", resultSet.getLong("deal_id"));
         deal.setName(resultSet.getString("name"));
@@ -197,7 +202,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         if (comments != null && !comments.isEmpty()) {
             Set<Long> ids = new HashSet<>();
             for (Comment comment : comments) {
-                DaoManager.getInstance().getCommentDAO().saveOrUpdate(comment);
+                DaoManager.getInstance().getCommentDAO().insertOrUpdate(comment);
                 ids.add(comment.getId());
             }
             clearRelationsWithComments(entity);
@@ -208,7 +213,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         if (tags != null && !tags.isEmpty()) {
             Set<Long> ids = new HashSet<>();
             for (Tag tag : tags) {
-                DaoManager.getInstance().getTagDAO().saveOrUpdate(tag);
+                DaoManager.getInstance().getTagDAO().insertOrUpdate(tag);
                 ids.add(tag.getId());
             }
             clearRelationsWithTags(entity);
@@ -219,7 +224,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         if (files != null && !files.isEmpty()) {
             Set<Long> ids = new HashSet<>();
             for (File file : files) {
-                DaoManager.getInstance().getFileDAO().saveOrUpdate(file);
+                DaoManager.getInstance().getFileDAO().insertOrUpdate(file);
                 ids.add(file.getId());
             }
             clearRelationsWithFiles(entity);

@@ -39,7 +39,12 @@ public class TaskTypeDAOImpl extends GenericDAO<TaskType> implements TaskTypeDAO
     }
 
     @Override
-    protected Map<String, String> getConfig() {
+    protected String getQueryForGetRange() {
+        return "SELECT * FROM crmtwo.crm.task_type ORDER BY task_type_id LIMIT ? offset ? ;";
+    }
+
+    @Override
+    protected Map<String, String> getMethodToQueryMap() {
         throw new UnsupportedOperationException();
     }
 
@@ -68,7 +73,7 @@ public class TaskTypeDAOImpl extends GenericDAO<TaskType> implements TaskTypeDAO
     }
 
     @Override
-    protected TaskType mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
+    protected TaskType mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
         final TaskType taskType = new TaskTypeImpl();
         super.setPrivateField(taskType, "id", resultSet.getLong("task_type_id"));
         taskType.setName(resultSet.getString("name"));

@@ -9,10 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 
@@ -21,10 +18,10 @@ import static java.util.Arrays.asList;
  */
 abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
     protected Connection connection;
+
     Boolean hasResultSet = false; //todo how can I fix that? suppose that we use one instance of DAO per thread
 
-
-    public void saveOrUpdate(T entity) {
+    public void insertOrUpdate(T entity) {
 
         Long id = entity.getId();
 
@@ -48,6 +45,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         }
     }
 
+
     protected abstract void saveRelations(T entity) throws SQLException;
 
     public T getById(long id) {
@@ -59,7 +57,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
             if (!rs.next()) {
                 throw new DAOException("Entity with specified ID wasn't found. Id = " + id);
             }
-            entity = mapFieldsForGetById(rs);
+            entity = mapFieldsFromResultSet(rs);
 
         } catch (SQLException | IllegalAccessException | NoSuchFieldException e) {
             throw new DAOException("Can't find entity", e);
@@ -87,7 +85,46 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         }
     }
 
-    public void setPrivateField(T entity, String fieldName, Object value) throws NoSuchFieldException, IllegalAccessException {
+    @Override
+    public Collection<? extends T> getRange(long from, long size) {
+        if(from < 0 || size < 1){
+           throw new IllegalArgumentException("Please put positive values of arguments");
+        }
+
+        List<T> result = new ArrayList<>();
+
+        try (PreparedStatement statement = connection.prepareStatement(getQueryForGetRange());
+             ResultSet rs = executePreparedStatementForGetRange(statement, from, size)) {
+
+
+            while (rs.next()) {
+                result.add(mapFieldsFromResultSet(rs));
+            }
+
+        } catch (SQLException | IllegalAccessException | NoSuchFieldException e) {
+            throw new DAOException("Can't find entity", e);
+        }
+        return result;
+    }
+
+    private ResultSet executePreparedStatementForGetRange(PreparedStatement statement, long from, long size) throws SQLException {
+        statement.setLong(1, size);
+        statement.setLong(2, from);
+        statement.execute();
+        return statement.getResultSet();
+    }
+
+    /**
+     *
+     * @param entity any object
+     * @param fieldName String with name of private field
+     * @param value value with will be set to field
+     * @throws NoSuchFieldException
+     * @throws IllegalAccessException
+     * This method collects all private fields from entity  class, his ancestors till Object class,
+     * takes field with defined name and sets defined value.
+     */
+    protected void setPrivateField(T entity, String fieldName, Object value) throws NoSuchFieldException, IllegalAccessException {
         List<Field> fields = new ArrayList<Field>();
         Class clazz = entity.getClass();
         while (!clazz.equals(Object.class)) {
@@ -118,7 +155,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
 
     protected Collection<Long> getRelatedIds(String methodName, Identity instance) throws SQLException {
         ArrayList<Long> result = new ArrayList<>();
-        String query = getConfig().get(methodName);
+        String query = getMethodToQueryMap().get(methodName);
 
         if (query == null) throw new DAOException("Can't find query to find related entities");
 
@@ -133,7 +170,9 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         return result;
     }
 
-    abstract protected Map<String, String> getConfig();
+    protected abstract String getQueryForGetRange();
+
+    abstract protected Map<String, String> getMethodToQueryMap();
 
     abstract protected String getQueryForSaveOrUpdate(Long id);
 
@@ -143,6 +182,6 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
 
     abstract protected void setParamsForSaveOrUpdate(PreparedStatement statement, T entity) throws SQLException;
 
-    abstract protected T mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException;
+    abstract protected T mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException;
 
 }

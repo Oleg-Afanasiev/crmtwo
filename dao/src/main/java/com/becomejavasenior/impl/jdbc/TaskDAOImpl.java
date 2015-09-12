@@ -52,7 +52,12 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
     }
 
     @Override
-    protected Map<String, String> getConfig() {
+    protected String getQueryForGetRange() {
+        return "SELECT * FROM crmtwo.crm.task WHERE is_deleted = FALSE ORDER BY task_id LIMIT ? offset ? ;";
+    }
+
+    @Override
+    protected Map<String, String> getMethodToQueryMap() {
         return CONFIG_GET_ID;
     }
 
@@ -91,7 +96,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
     }
 
     @Override
-    protected Task mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
+    protected Task mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
         final Task task = new TaskImpl();
         super.setPrivateField(task, "id", resultSet.getLong("task_id"));
         task.setDueDate(resultSet.getTimestamp("due_date"));
@@ -181,7 +186,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         if (comments != null && !comments.isEmpty()) {
             Set<Long> ids = new HashSet<>();
             for (Comment comment : comments) {
-                DaoManager.getInstance().getCommentDAO().saveOrUpdate(comment);
+                DaoManager.getInstance().getCommentDAO().insertOrUpdate(comment);
                 ids.add(comment.getId());
             }
             clearRelationsWithComments(entity, ids);

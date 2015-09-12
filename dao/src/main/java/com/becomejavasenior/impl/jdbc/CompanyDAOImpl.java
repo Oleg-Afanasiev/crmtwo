@@ -28,7 +28,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
     }
 
     @Override
-    protected Map<String, String> getConfig() {
+    protected Map<String, String> getMethodToQueryMap() {
         return CONFIG_GET_ID;
     }
 
@@ -85,7 +85,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
 
 
     @Override
-    protected Company mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
+    protected Company mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
         final Company company = new CompanyImpl();
         super.setPrivateField(company, "id", resultSet.getLong("company_id"));
         company.setName(resultSet.getString("name"));
@@ -191,7 +191,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         if (comments != null && !comments.isEmpty()) {
             Set<Long> ids = new HashSet<>();
             for (Comment comment : comments) {
-                DaoManager.getInstance().getCommentDAO().saveOrUpdate(comment);
+                DaoManager.getInstance().getCommentDAO().insertOrUpdate(comment);
                 ids.add(comment.getId());
             }
             clearRelationsWithComments(entity);
@@ -202,7 +202,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         if (tags != null && !tags.isEmpty()) {
             Set<Long> ids = new HashSet<>();
             for (Tag tag : tags) {
-                DaoManager.getInstance().getTagDAO().saveOrUpdate(tag);
+                DaoManager.getInstance().getTagDAO().insertOrUpdate(tag);
                 ids.add(tag.getId());
             }
             clearRelationsWithTags(entity);
@@ -213,7 +213,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         if (files != null && !files.isEmpty()) {
             Set<Long> ids = new HashSet<>();
             for (File file : files) {
-                DaoManager.getInstance().getFileDAO().saveOrUpdate(file);
+                DaoManager.getInstance().getFileDAO().insertOrUpdate(file);
                 ids.add(file.getId());
             }
             clearRelationsWithFiles(entity);
@@ -224,7 +224,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         if (deals != null && !deals.isEmpty()) {
             Set<Long> ids = new HashSet<>();
             for (Deal deal : deals) {
-                DaoManager.getInstance().getDealDAO().saveOrUpdate(deal);
+                DaoManager.getInstance().getDealDAO().insertOrUpdate(deal);
                 ids.add(deal.getId());
             }
             clearRelationsWithDeals(entity);
@@ -235,13 +235,18 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         if (phones != null && !phones.isEmpty()) {
             Set<Long> ids = new HashSet<>();
             for (Phone phone : phones) {
-                DaoManager.getInstance().getPhoneDAO().saveOrUpdate(phone);
+                DaoManager.getInstance().getPhoneDAO().insertOrUpdate(phone);
                 ids.add(phone.getId());
             }
             clearRelationsWithPhones(entity);
             writeRelationsWithPhones(entity, ids);
         }
 
+    }
+
+    @Override
+    protected String getQueryForGetRange() {
+        return "SELECT * FROM crmtwo.crm.company WHERE is_deleted = FALSE ORDER BY company_id LIMIT ? offset ? ;";
     }
 
     private void clearRelationsWithComments(Company entity) throws SQLException {

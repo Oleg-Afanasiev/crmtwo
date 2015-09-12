@@ -37,7 +37,12 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
     }
 
     @Override
-    protected Map<String, String> getConfig() {
+    protected String getQueryForGetRange() {
+        return "SELECT * FROM crmtwo.crm.file ORDER BY file_id LIMIT ? offset ? ;";
+    }
+
+    @Override
+    protected Map<String, String> getMethodToQueryMap() {
         return null;
     }
 
@@ -70,7 +75,7 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
     }
 
     @Override
-    protected File mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
+    protected File mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
         File file = new FileImpl();
 
         super.setPrivateField(file, "id", resultSet.getLong("file_id"));

@@ -38,7 +38,12 @@ public class DealStatusDAOImpl extends GenericDAO<DealStatus> implements DealSta
     }
 
     @Override
-    protected Map<String, String> getConfig() {
+    protected String getQueryForGetRange() {
+        return "SELECT * FROM crmtwo.crm.deal_status ORDER BY status_id LIMIT ? offset ? ;";
+    }
+
+    @Override
+    protected Map<String, String> getMethodToQueryMap() {
         throw new UnsupportedOperationException();
     }
 
@@ -68,7 +73,7 @@ public class DealStatusDAOImpl extends GenericDAO<DealStatus> implements DealSta
     }
 
     @Override
-    protected DealStatus mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
+    protected DealStatus mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
         DealStatus dealStatus = new DealStatusImpl();
         super.setPrivateField(dealStatus, "id", resultSet.getLong("status_id"));
         dealStatus.setName(resultSet.getString("name"));

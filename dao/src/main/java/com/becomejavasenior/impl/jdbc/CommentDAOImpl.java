@@ -37,7 +37,12 @@ public class CommentDAOImpl extends GenericDAO<Comment> implements CommentDAO {
     }
 
     @Override
-    protected Map<String, String> getConfig() {
+    protected String getQueryForGetRange() {
+        return "SELECT * FROM crmtwo.crm.comment WHERE is_deleted = FALSE ORDER BY comment_id LIMIT ? offset ? ;";
+    }
+
+    @Override
+    protected Map<String, String> getMethodToQueryMap() {
         return null;
     }
 
@@ -70,7 +75,7 @@ public class CommentDAOImpl extends GenericDAO<Comment> implements CommentDAO {
     }
 
     @Override
-    protected Comment mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
+    protected Comment mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
         Comment comment = new CommentImpl();
         super.setPrivateField(comment, "id", resultSet.getLong("comment_id"));
         comment.setName(resultSet.getString("name"));

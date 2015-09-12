@@ -7,7 +7,7 @@ import java.util.Collection;
  */
 public interface AbstractDAO<T> {
 
-    void saveOrUpdate(T entity);
+    void insertOrUpdate(T entity);
 
     T getById(long id);
 
@@ -15,5 +15,13 @@ public interface AbstractDAO<T> {
 
     void deleteAll(Collection<? extends T> entities);
 
+    /**
+     *
+     * @param from row number, min value 0
+     * @param size count of rows to select shall be grater then 0
+     * @return Collection of Entities
+     */
+
+    Collection<? extends T> getRange(long from, long size);
 
 }

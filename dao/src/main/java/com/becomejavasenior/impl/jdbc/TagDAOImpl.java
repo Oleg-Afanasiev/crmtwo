@@ -39,7 +39,12 @@ public class TagDAOImpl extends GenericDAO<Tag> implements TagDAO {
     }
 
     @Override
-    protected Map<String, String> getConfig() {
+    protected String getQueryForGetRange() {
+        return "SELECT * FROM crmtwo.crm.tag ORDER BY tag_id LIMIT ? offset ? ;";
+    }
+
+    @Override
+    protected Map<String, String> getMethodToQueryMap() {
         return null;
     }
 
@@ -68,7 +73,7 @@ public class TagDAOImpl extends GenericDAO<Tag> implements TagDAO {
     }
 
     @Override
-    protected Tag mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
+    protected Tag mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
         Tag tag = new TagImpl();
 
         super.setPrivateField(tag, "id", resultSet.getLong("tag_id"));

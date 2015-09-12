@@ -48,7 +48,12 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
     }
 
     @Override
-    protected Map<String, String> getConfig() {
+    protected String getQueryForGetRange() {
+        return "SELECT * FROM crmtwo.crm.user WHERE is_deleted = FALSE ORDER BY user_id LIMIT ? offset ? ;";
+    }
+
+    @Override
+    protected Map<String, String> getMethodToQueryMap() {
         return null;
     }
 
@@ -85,7 +90,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
     }
 
     @Override
-    protected User mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
+    protected User mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
         User user = new UserImpl();
 
         super.setPrivateField(user, "id", resultSet.getLong("user_id"));

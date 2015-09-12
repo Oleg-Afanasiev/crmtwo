@@ -40,7 +40,12 @@ public class TaskPeriodDAOImpl extends GenericDAO<TaskPeriod> implements TaskPer
     }
 
     @Override
-    protected Map<String, String> getConfig() {
+    protected String getQueryForGetRange() {
+        return "SELECT * FROM crmtwo.crm.task_period ORDER BY period_id LIMIT ? offset ? ;";
+    }
+
+    @Override
+    protected Map<String, String> getMethodToQueryMap() {
         throw new UnsupportedOperationException();
     }
 
@@ -69,7 +74,7 @@ public class TaskPeriodDAOImpl extends GenericDAO<TaskPeriod> implements TaskPer
     }
 
     @Override
-    protected TaskPeriod mapFieldsForGetById(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
+    protected TaskPeriod mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
         final TaskPeriod taskPeriod = new TaskPeriodImpl();
         super.setPrivateField(taskPeriod, "id", resultSet.getLong("period_id"));
         taskPeriod.setName(resultSet.getString("period_name"));
