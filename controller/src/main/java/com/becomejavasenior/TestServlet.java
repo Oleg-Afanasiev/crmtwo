@@ -1,14 +1,12 @@
 package com.becomejavasenior;
 
 import com.becomejavasenior.impl.DealImpl;
-import com.becomejavasenior.impl.jdbc.DaoManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * Created by Dmytro Tsapko on 9/11/2015.

@@ -1,6 +1,6 @@
-package com.becomejavasenior.impl.jdbc;
+package com.becomejavasenior;
 
-import com.becomejavasenior.*;
+import com.becomejavasenior.impl.jdbc.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.Connection;
@@ -16,11 +16,12 @@ public class DaoManager {
     private Connection connection;
 
     {
+        DaoProperties daoProperties = new DaoProperties();
         connectionPool = new BasicDataSource();
-        connectionPool.setUsername("postgres");
-        connectionPool.setPassword("postgres");
-        connectionPool.setDriverClassName("org.postgresql.Driver");
-        connectionPool.setUrl("jdbc:postgresql://192.168.1.200:5432/crmtwo");
+        connectionPool.setUsername(daoProperties.getProperty("user"));
+        connectionPool.setPassword(daoProperties.getProperty("password"));
+        connectionPool.setDriverClassName(daoProperties.getProperty("driver"));
+        connectionPool.setUrl(daoProperties.getProperty("url"));
         connectionPool.setInitialSize(50);
 
     }
