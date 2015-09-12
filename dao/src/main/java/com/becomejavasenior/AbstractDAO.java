@@ -22,6 +22,6 @@ public interface AbstractDAO<T> {
      * @return Collection of Entities
      */
 
-    Collection<? extends T> getRange(long from, long size);
+    Collection<T> getRange(long from, long size);
 
 }

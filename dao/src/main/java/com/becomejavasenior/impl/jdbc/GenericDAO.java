@@ -86,7 +86,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
     }
 
     @Override
-    public Collection<? extends T> getRange(long from, long size) {
+    public Collection<T> getRange(long from, long size) {
         if(from < 0 || size < 1){
            throw new IllegalArgumentException("Please put positive values of arguments");
         }
