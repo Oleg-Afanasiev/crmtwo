@@ -1,6 +1,6 @@
 package com.becomejavasenior;
 
-import com.becomejavasenior.jdbc.DaoManager;
+import com.becomejavasenior.impl.jdbc.DaoManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

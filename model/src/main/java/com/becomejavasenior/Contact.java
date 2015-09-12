@@ -1,7 +1,5 @@
 package com.becomejavasenior;
 
-import com.becomejavasenior.jdbc.deal.Deal;
-
 import java.util.Date;
 import java.util.Set;
 

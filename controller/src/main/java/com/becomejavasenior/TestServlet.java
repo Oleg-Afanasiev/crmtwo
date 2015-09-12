@@ -1,8 +1,7 @@
 package com.becomejavasenior;
 
-import com.becomejavasenior.jdbc.DaoManager;
-import com.becomejavasenior.jdbc.deal.Deal;
-import com.becomejavasenior.jdbc.deal.DealImpl;
+import com.becomejavasenior.impl.DealImpl;
+import com.becomejavasenior.impl.jdbc.DaoManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
