@@ -14,15 +14,13 @@ public interface Company extends Identity {
 
     String getEmail();
 
-    String getWebAdress();
+    String getWebAddress();
 
-    String getAdress();
+    String getAddress();
 
     Date getCreated();
 
     Date getUpdated();
-
-    boolean isDeleted();
 
     Set<Phone> getPhones();
 
@@ -47,8 +45,6 @@ public interface Company extends Identity {
     void setCreated(Date created);
 
     void setUpdated(Date updated);
-
-    void setIsDeleted(boolean isDeleted);
 
     void setPhones(Set<Phone> phones);
 

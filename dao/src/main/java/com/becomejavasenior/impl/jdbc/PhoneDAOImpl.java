@@ -15,20 +15,20 @@ import java.util.Map;
  */
 public class PhoneDAOImpl extends GenericDAO<Phone> implements PhoneDAO {
 
-    String saveNewPhone = "INSERT INTO crmtwo.crm.phone (phone_type, phone_number) " +
-            "VALUES (?, ?) RETURNING phone_number_id;";
+    private static final String saveNewPhone =  "INSERT INTO crmtwo.crm.phone (phone_type, phone_number) " +
+                                                "VALUES (?, ?) RETURNING phone_number_id;";
 
-    String updatePhone = "UPDATE crmtwo.crm.phone SET (phone_type, phone_number) = (?, ?) \n" +
-            "WHERE phone_number_id = ?;";
+    private static final String updatePhone =   "UPDATE crmtwo.crm.phone SET (phone_type, phone_number) = (?, ?) " +
+                                                "WHERE phone_number_id = ?;";
 
-    String getPhoneById = "SELECT phone_number_id, phone_type, phone_number\n" +
-            "FROM crm.phone\n" +
-            "WHERE phone_number_id = ?;";
+    private static final String getPhoneById =  "SELECT phone_number_id, phone_type, phone_number " +
+                                                "FROM crm.phone " +
+                                                "WHERE phone_number_id = ?;";
 
-    String deletePhone = "DELETE \n" +
-            "FROM crm.phone\n" +
-            "WHERE phone_number_id = ?;";
+    private static final String deletePhone =   "DELETE FROM crm.phone " +
+                                                "WHERE phone_number_id = ?;";
 
+    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.phone ORDER BY phone_number_id LIMIT ? offset ? ;";
 
     public PhoneDAOImpl(Connection connection) {
         this.connection = connection;
@@ -41,7 +41,7 @@ public class PhoneDAOImpl extends GenericDAO<Phone> implements PhoneDAO {
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.phone ORDER BY phone_number_id LIMIT ? offset ? ;";
+        return queryForGetRange;
     }
 
     @Override
@@ -50,7 +50,7 @@ public class PhoneDAOImpl extends GenericDAO<Phone> implements PhoneDAO {
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? saveNewPhone : updatePhone;
     }
 

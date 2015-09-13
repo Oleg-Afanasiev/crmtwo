@@ -10,7 +10,7 @@ import java.util.Set;
  * JavaBean class describes DealImpl model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * @version 0.3
  */
 
 public class DealImpl extends IdentityImpl  implements Identity, Deal {
@@ -28,8 +28,6 @@ public class DealImpl extends IdentityImpl  implements Identity, Deal {
     private Date created;
 
     private Date updated;
-
-    private boolean isDeleted;
 
     private Set<Tag> tags;
 
@@ -72,11 +70,6 @@ public class DealImpl extends IdentityImpl  implements Identity, Deal {
     @Override
     public Date getUpdated() {
         return updated;
-    }
-
-    @Override
-    public boolean isDeleted() {
-        return isDeleted;
     }
 
     @Override
@@ -135,11 +128,6 @@ public class DealImpl extends IdentityImpl  implements Identity, Deal {
     }
 
     @Override
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    @Override
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
@@ -173,7 +161,6 @@ public class DealImpl extends IdentityImpl  implements Identity, Deal {
                 ", budget=" + budget +
                 ", created=" + created +
                 ", updated=" + updated +
-                ", isDeleted=" + isDeleted +
                 '}';
     }
 }

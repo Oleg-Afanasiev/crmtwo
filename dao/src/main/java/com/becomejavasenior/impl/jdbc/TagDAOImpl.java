@@ -15,19 +15,21 @@ import java.util.Map;
  */
 public class TagDAOImpl extends GenericDAO<Tag> implements TagDAO {
 
-    String saveNewTag = "INSERT INTO crmtwo.crm.tag (name) \n" +
-            "VALUES (?) RETURNING tag_id;";
+    private static final String saveNewTag =    "INSERT INTO crmtwo.crm.tag (name) " +
+                                                "VALUES (?) RETURNING tag_id;";
 
-    String updateTag = "UPDATE crmtwo.crm.tag SET (name) = (?)\n" +
-            "WHERE tag_id = ?;";
+    private static final String updateTag = "UPDATE crmtwo.crm.tag SET (name) = (?) " +
+                                            "WHERE tag_id = ?;";
 
-    String getTagById = "SELECT *\n" +
-            "FROM crmtwo.crm.tag\n" +
-            "WHERE tag_id = ?;";
+    private static final String getTagById =    "SELECT * " +
+                                                "FROM crmtwo.crm.tag " +
+                                                "WHERE tag_id = ?;";
 
-    String deleteTag = "DELETE\n" +
-            "FROM crmtwo.crm.tag\n" +
-            "WHERE tag_id = ?;";
+    private static final String deleteTag = "DELETE " +
+                                            "FROM crmtwo.crm.tag " +
+                                            "WHERE tag_id = ?;";
+
+    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.tag ORDER BY tag_id LIMIT ? offset ? ;";
 
     public TagDAOImpl(Connection connection) {
         this.connection = connection;
@@ -40,7 +42,7 @@ public class TagDAOImpl extends GenericDAO<Tag> implements TagDAO {
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.tag ORDER BY tag_id LIMIT ? offset ? ;";
+        return queryForGetRange;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class TagDAOImpl extends GenericDAO<Tag> implements TagDAO {
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? saveNewTag : updateTag;
     }
 

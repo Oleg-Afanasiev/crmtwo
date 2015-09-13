@@ -15,19 +15,21 @@ import java.util.Map;
  */
 public class TaskPeriodDAOImpl extends GenericDAO<TaskPeriod> implements TaskPeriodDAO {
 
-    String saveNewTaskPeriod = "INSERT INTO crmtwo.crm.task_period (period_name)\n" +
-            "VALUES (?) RETURNING period_id;";
+    private static final String saveNewTaskPeriod = "INSERT INTO crmtwo.crm.task_period (period_name) " +
+                                                    "VALUES (?) RETURNING period_id;";
 
-    String updateTaskPeriod = "UPDATE crmtwo.crm.task_period SET (period_name)=(?)\n" +
-            "WHERE period_id = ?;";
+    private static final String updateTaskPeriod =  "UPDATE crmtwo.crm.task_period SET (period_name)=(?) " +
+                                                    "WHERE period_id = ?;";
 
 
-    String getTaskPeriodById = "SELECT period_id, period_name\n" +
-            "FROM crmtwo.crm.task_period\n" +
-            "WHERE period_id = ?;";
+    private static final String getTaskPeriodById = "SELECT period_id, period_name " +
+                                                    "FROM crmtwo.crm.task_period " +
+                                                    "WHERE period_id = ?;";
 
-    String deleteTaskPeriod = "DELETE FROM crmtwo.crm.task_period\n" +
-            "WHERE period_id = ?;";
+    private static final String deleteTaskPeriod =  "DELETE FROM crmtwo.crm.task_period " +
+                                                    "WHERE period_id = ?;";
+
+    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.task_period ORDER BY period_id LIMIT ? offset ? ;";
 
 
     public TaskPeriodDAOImpl(Connection connection) {
@@ -41,7 +43,7 @@ public class TaskPeriodDAOImpl extends GenericDAO<TaskPeriod> implements TaskPer
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.task_period ORDER BY period_id LIMIT ? offset ? ;";
+        return queryForGetRange;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class TaskPeriodDAOImpl extends GenericDAO<TaskPeriod> implements TaskPer
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? saveNewTaskPeriod : updateTaskPeriod;
     }
 

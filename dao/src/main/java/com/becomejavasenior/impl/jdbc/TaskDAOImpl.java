@@ -19,33 +19,37 @@ import java.util.*;
  */
 public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
 
-    private static Map<String, String> CONFIG_GET_ID = new HashMap<>();
+    private static final Map<String, String> methodToQueryMap;
 
     static {
-        CONFIG_GET_ID.put("getComments", "SELECT comment_id FROM crmtwo.crm.task_comment WHERE task_id = ?");
-        CONFIG_GET_ID.put("getResponsibleUser", "SELECT responsible_user_id FROM crmtwo.crm.task WHERE task_id  = ?");
-        CONFIG_GET_ID.put("getDeal", "SELECT deal_id FROM crm.task WHERE task_id  = ?");
-        CONFIG_GET_ID.put("getContact", "SELECT contact_id FROM crm.task WHERE task_id  = ?");
-        CONFIG_GET_ID.put("getCompany", "SELECT company_id FROM crm.task WHERE task.task_id  = ?");
-        CONFIG_GET_ID.put("getTaskType", "SELECT task_type_id FROM crm.task WHERE task_id = ?");
-        CONFIG_GET_ID.put("getTaskPeriod", "SELECT period_id FROM crm.task WHERE task_id = ?");
+        Map<String, String> tempMethodToQueryMap = new HashMap<>();
+        tempMethodToQueryMap.put("getComments", "SELECT comment_id FROM crmtwo.crm.task_comment WHERE task_id = ?");
+        tempMethodToQueryMap.put("getResponsibleUser", "SELECT responsible_user_id FROM crmtwo.crm.task WHERE task_id  = ?");
+        tempMethodToQueryMap.put("getDeal", "SELECT deal_id FROM crm.task WHERE task_id  = ?");
+        tempMethodToQueryMap.put("getContact", "SELECT contact_id FROM crm.task WHERE task_id  = ?");
+        tempMethodToQueryMap.put("getCompany", "SELECT company_id FROM crm.task WHERE task.task_id  = ?");
+        tempMethodToQueryMap.put("getTaskType", "SELECT task_type_id FROM crm.task WHERE task_id = ?");
+        tempMethodToQueryMap.put("getTaskPeriod", "SELECT period_id FROM crm.task WHERE task_id = ?");
+        methodToQueryMap = Collections.unmodifiableMap(tempMethodToQueryMap);
     }
 
-    String saveNewTask = "INSERT INTO crmtwo.crm.task (task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated, is_deleted)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING task_id;";
+    private static final String saveNewTask =   "INSERT INTO crmtwo.crm.task (task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated) " +
+                                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING task_id;";
 
-    String updateTask = "UPDATE crmtwo.crm.task SET (task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated, is_deleted)\n" +
-            "=(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) \n" +
-            "WHERE task_id = ?;";
+    private static final String updateTask =    "UPDATE crmtwo.crm.task SET (task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated) " +
+                                                "=(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
+                                                "WHERE task_id = ?;";
 
-    String getTaskById = "SELECT task_id, task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated, is_deleted\n" +
-            "FROM crmtwo.crm.task\n" +
-            "WHERE task_id = ?\n" +
-            "AND task.is_deleted = FALSE;";
+    private static final String getTaskById =   "SELECT task_id, task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated " +
+                                                "FROM crmtwo.crm.task " +
+                                                "WHERE task_id = ? " +
+                                                "AND task.is_deleted = FALSE;";
 
-    String deleteTask = "UPDATE crmtwo.crm.task SET (is_deleted)\n" +
-            "=(TRUE )\n" +
-            "WHERE task_id = ?;";
+    private static final String deleteTask =    "UPDATE crmtwo.crm.task SET (is_deleted) " +
+                                                "=(TRUE ) " +
+                                                "WHERE task_id = ?;";
+
+    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.task WHERE is_deleted = FALSE ORDER BY task_id LIMIT ? offset ? ;";
 
     public TaskDAOImpl(Connection connection) {
         this.connection = connection;
@@ -53,16 +57,16 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.task WHERE is_deleted = FALSE ORDER BY task_id LIMIT ? offset ? ;";
+        return queryForGetRange;
     }
 
     @Override
     protected Map<String, String> getMethodToQueryMap() {
-        return CONFIG_GET_ID;
+        return methodToQueryMap;
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? saveNewTask : updateTask;
     }
 
@@ -89,7 +93,6 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         statement.setString(8, entity.getDescription());
         statement.setTimestamp(9, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(10, new Timestamp(entity.getUpdated().getTime()));
-        statement.setBoolean(11, entity.isDeleted());
         if (id != null) {
             statement.setLong(12, id);
         }
@@ -103,7 +106,6 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         task.setDescription(resultSet.getString("description"));
         task.setCreated(resultSet.getTimestamp("created"));
         task.setUpdated(resultSet.getTimestamp("updated"));
-        task.setIsDeleted(resultSet.getBoolean("is_deleted"));
 
         InvocationHandler handler = new InvocationHandler() {
             @Override

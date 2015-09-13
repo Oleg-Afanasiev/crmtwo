@@ -26,8 +26,6 @@ public interface Contact extends Identity {
 
     public Date getUpdated();
 
-    public boolean isDeleted();
-
     public Set<File> getFiles();
 
     public Set<Comment> getComments();
@@ -53,8 +51,6 @@ public interface Contact extends Identity {
     public void setCreated(Date created);
 
     public void setUpdated(Date updated);
-
-    public void setIsDeleted(boolean isDeleted);
 
     public void setFiles(Set<File> files);
 

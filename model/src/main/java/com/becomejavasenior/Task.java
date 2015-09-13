@@ -31,8 +31,6 @@ public interface Task extends Identity {
 
     public Date getUpdated();
 
-    public boolean isDeleted();
-
     public void setTaskPeriod(TaskPeriod taskPeriod);
 
     public void setDescription(String description);
@@ -54,7 +52,5 @@ public interface Task extends Identity {
     public void setCreated(Date created);
 
     public void setUpdated(Date updated);
-
-    public void setIsDeleted(boolean isDeleted);
 
 }

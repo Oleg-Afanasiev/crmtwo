@@ -1,6 +1,7 @@
 package com.becomejavasenior.impl;
 
 import com.becomejavasenior.Identity;
+import com.becomejavasenior.Role;
 import com.becomejavasenior.User;
 
 import java.util.Date;
@@ -16,9 +17,7 @@ public class UserImpl extends IdentityImpl implements Identity, User {
 
     private static final long serialVersionUID = 1L;
 
-    //Role field temporary ignored
-
-    private int role_id;
+    private Role role;
 
     private String userName;
 
@@ -88,13 +87,14 @@ public class UserImpl extends IdentityImpl implements Identity, User {
         this.isDeleted = isDeleted;
     }
 
-    public int getRole_id() {
-        return role_id;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRole_id(int role_id) {
-        this.role_id = role_id;
+    public void setRole(Role role) {
+        this.role = role;
     }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -103,7 +103,7 @@ public class UserImpl extends IdentityImpl implements Identity, User {
     public String toString() {
         return "UserImpl{" +
                 "id=" + super.getId() +
-                ", role_id=" + role_id +
+                ", role=" + getRole() +
                 ", userName='" + userName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +

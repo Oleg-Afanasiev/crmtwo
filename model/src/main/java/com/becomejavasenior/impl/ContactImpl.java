@@ -9,7 +9,7 @@ import java.util.Set;
  * JavaBean class describes ContactImpl model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.2
+ * @version 0.3
  */
 
 public class ContactImpl extends IdentityImpl implements Identity, Contact {
@@ -31,8 +31,6 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact {
     private Date created;
 
     private Date updated;
-
-    private boolean isDeleted;
 
     private Set<File> files;
 
@@ -82,10 +80,6 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact {
 
     public Date getUpdated() {
         return updated;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
     }
 
     public Set<File> getFiles() {
@@ -140,10 +134,6 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact {
         this.updated = updated;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
     public void setFiles(Set<File> files) {
         this.files = files;
     }
@@ -170,7 +160,6 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact {
                 ", skype='" + skype + '\'' +
                 ", created=" + created +
                 ", updated=" + updated +
-                ", isDeleted=" + isDeleted +
                 '}';
     }
 }

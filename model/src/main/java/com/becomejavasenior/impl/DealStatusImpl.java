@@ -27,4 +27,12 @@ public class DealStatusImpl extends IdentityImpl  implements Identity, DealStatu
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "DealStatusImpl{" +
+                "id=" + super.getId() +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

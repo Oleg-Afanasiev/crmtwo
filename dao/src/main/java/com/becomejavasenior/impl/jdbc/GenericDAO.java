@@ -25,7 +25,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
 
         Long id = entity.getId();
 
-        String query = getQueryForSaveOrUpdate(id);
+        String query = getQueryForInsertOrUpdate(id);
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet rs = executePreparedStatementForUpdate(statement, entity)) {
@@ -174,7 +174,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
 
     abstract protected Map<String, String> getMethodToQueryMap();
 
-    abstract protected String getQueryForSaveOrUpdate(Long id);
+    abstract protected String getQueryForInsertOrUpdate(Long id);
 
     abstract protected String getQueryForGetById();
 

@@ -16,43 +16,47 @@ import java.util.*;
  */
 public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
 
-    private static Map<String, String> CONFIG_GET_ID = new HashMap<>();
+    private static final Map<String, String> methodToQueryMap;
 
     static {
-        CONFIG_GET_ID.put("getPhones", "SELECT phone_number_id FROM crm.company_phone WHERE company_id  = ?");
-        CONFIG_GET_ID.put("getDeals", "SELECT deal_id FROM crm.deal_company WHERE company_id  = ?");
-        CONFIG_GET_ID.put("getTags", "SELECT tag_id FROM crm.company_tag WHERE company_id  = ?");
-        CONFIG_GET_ID.put("getFiles", "SELECT file_id FROM crm.company_file WHERE company_id  = ?");
-        CONFIG_GET_ID.put("getComments", "SELECT comment_id FROM crm.company_comment WHERE company_id  = ?");
-        CONFIG_GET_ID.put("getResponsibleUser", "SELECT responsible_user_id FROM crm.company WHERE company_id  = ?");
+        Map<String, String> tempMethodToQueryMap = new HashMap<>();
+        tempMethodToQueryMap.put("getPhones", "SELECT phone_number_id FROM crm.company_phone WHERE company_id  = ?");
+        tempMethodToQueryMap.put("getDeals", "SELECT deal_id FROM crm.deal_company WHERE company_id  = ?");
+        tempMethodToQueryMap.put("getTags", "SELECT tag_id FROM crm.company_tag WHERE company_id  = ?");
+        tempMethodToQueryMap.put("getFiles", "SELECT file_id FROM crm.company_file WHERE company_id  = ?");
+        tempMethodToQueryMap.put("getComments", "SELECT comment_id FROM crm.company_comment WHERE company_id  = ?");
+        tempMethodToQueryMap.put("getResponsibleUser", "SELECT responsible_user_id FROM crm.company WHERE company_id  = ?");
+        methodToQueryMap = Collections.unmodifiableMap(tempMethodToQueryMap);
     }
 
     @Override
     protected Map<String, String> getMethodToQueryMap() {
-        return CONFIG_GET_ID;
+        return methodToQueryMap;
     }
 
-    String saveNewCompany = "INSERT INTO crmtwo.crm.company (responsible_user_id, name, email, web_address, address, created, updated, is_deleted)\n" +
-            "VALUES (?, ?, ? , ? , ?, ? , ?, ?) RETURNING company_id;";
+    private static final String saveNewCompany =    "INSERT INTO crmtwo.crm.company (responsible_user_id, name, email, web_address, address, created, updated) " +
+                                                    "VALUES (?, ?, ? , ? , ?, ? , ?) RETURNING company_id;";
 
-    String updateCompany = "UPDATE crmtwo.crm.company SET (responsible_user_id, name, email, web_address, address, created, updated, is_deleted)\n" +
-            "= (?, ?, ? , ? , ?, ? , ?, ?)\n" +
-            "WHERE company_id = ?;";
+    private static final String updateCompany = "UPDATE crmtwo.crm.company SET (responsible_user_id, name, email, web_address, address, created, updated) " +
+                                                "= (?, ?, ? , ? , ?, ? , ?)" +
+                                                "WHERE company_id = ?;";
 
-    String getCompanyById = "SELECT company_id, responsible_user_id, name, email, web_address, address, created, updated, is_deleted\n" +
-            "FROM crmtwo.crm.company\n" +
-            "WHERE company_id = ?;";
+    private static final String getCompanyById =    "SELECT company_id, responsible_user_id, name, email, web_address, address, created, updated " +
+                                                    "FROM crmtwo.crm.company " +
+                                                    "WHERE company_id = ? " +
+                                                    "AND is_deleted = FALSE ;";
 
-    String deleteCompany = "DELETE\n" +
-            "FROM crmtwo.crm.company\n" +
-            "WHERE company_id = ?;";
+    private static final String deleteCompany = "UPDATE crmtwo.crm.company SET (is_deleted) = (TRUE) " +
+                                                "WHERE company_id = ?;";
+
+    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.company WHERE is_deleted = FALSE ORDER BY company_id LIMIT ? offset ? ;";
 
     public CompanyDAOImpl(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? saveNewCompany : updateCompany;
     }
 
@@ -73,11 +77,10 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         statement.setLong(1, entity.getResponsibleUser().getId());
         statement.setString(2, entity.getName());
         statement.setString(3, entity.getEmail());
-        statement.setString(4, entity.getWebAdress());
-        statement.setString(5, entity.getAdress());
+        statement.setString(4, entity.getWebAddress());
+        statement.setString(5, entity.getAddress());
         statement.setTimestamp(6, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(7, new Timestamp(entity.getUpdated().getTime()));
-        statement.setBoolean(8, entity.isDeleted());
         if (id != null) {
             statement.setLong(9, id);
         }
@@ -94,7 +97,6 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         company.setAdress(resultSet.getString("address"));
         company.setCreated(resultSet.getTimestamp("created"));
         company.setUpdated(resultSet.getTimestamp("updated"));
-        company.setIsDeleted(resultSet.getBoolean("is_deleted"));
 
         InvocationHandler handler = new InvocationHandler() {
             @Override
@@ -246,7 +248,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.company WHERE is_deleted = FALSE ORDER BY company_id LIMIT ? offset ? ;";
+        return queryForGetRange;
     }
 
     private void clearRelationsWithComments(Company entity) throws SQLException {

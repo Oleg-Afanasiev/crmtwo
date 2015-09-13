@@ -1,41 +1,44 @@
 package com.becomejavasenior.impl.jdbc;
 
-import com.becomejavasenior.User;
-import com.becomejavasenior.UserDAO;
+import com.becomejavasenior.*;
 import com.becomejavasenior.impl.UserImpl;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.sql.*;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Dmytro Tsapko on 8/29/2015.
  */
 public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
 
-    final String saveNewUser = "INSERT INTO crm.\"user\" (role_id, username, last_name, first_name, email, created, updated, is_deleted)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING user_id;";
+    private static final Map<String, String> methodToQueryMap;
 
-    final String updateUser = "UPDATE crm.\"user\"\n" +
-            "SET (role_id, username, last_name, first_name, email, created, updated, is_deleted) =\n" +
-            "(?, ?, ?, ?, ?, ?, ?, ?)\n" +
-            "WHERE user_id = ? ;";
+    static {
+        Map<String, String> tempMethodToQueryMap = new HashMap<>();
+        tempMethodToQueryMap.put("getRole", "SELECT role_id FROM crmtwo.crm.user WHERE user_id  = ? ;");
+        methodToQueryMap = Collections.unmodifiableMap(tempMethodToQueryMap);
+    }
 
-    final String getUserById = "SELECT\n" +
-            "  u.user_id,\n" +
-            "  u.role_id,\n" +
-            "  u.username,\n" +
-            "  u.last_name,\n" +
-            "  u.first_name,\n" +
-            "  u.email,\n" +
-            "  u.created,\n" +
-            "  u.updated,\n" +
-            "  u.is_deleted\n" +
-            "FROM crm.\"user\" u\n" +
-            "WHERE u.user_id = ? " +
-            "and u.is_deleted = false";
+    private static final String saveNewUser =   "INSERT INTO crm.user (role_id, username, last_name, first_name, email, created, updated) " +
+                                                "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING user_id;";
 
-    final String deleteUser = "DELETE FROM crm.\"user\"\n" +
-            "WHERE user_id = ? ;";
+    private static final String updateUser =    "UPDATE crm.user " +
+                                                "SET (role_id, username, last_name, first_name, email, created, updated) = " +
+                                                "(?, ?, ?, ?, ?, ?, ?) " +
+                                                "WHERE user_id = ? ;";
+
+    private static final String getUserById =   "SELECT user_id, role_id, username, last_name, first_name, email, created, updated " +
+                                                "FROM crm.user " +
+                                                "WHERE user_id = ? " +
+                                                "and is_deleted = FALSE";
+
+    private static final String deleteUser =   "UPDATE crm.user SET (is_deleted) = (TRUE) WHERE user_id = ? ;";
+
+    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.user WHERE is_deleted = FALSE ORDER BY user_id LIMIT ? offset ? ;";
 
 
     public UserDAOImpl(Connection connection) {
@@ -49,7 +52,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.user WHERE is_deleted = FALSE ORDER BY user_id LIMIT ? offset ? ;";
+        return queryForGetRange;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? this.saveNewUser : this.updateUser;
     }
 
@@ -76,14 +79,13 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
     @Override
     protected void setParamsForSaveOrUpdate(PreparedStatement statement, User entity) throws SQLException {
         Long id = entity.getId();
-        statement.setLong(1, entity.getRole_id());
+        statement.setLong(1, entity.getRole().getId());
         statement.setString(2, entity.getUserName());
         statement.setString(3, entity.getLastName());
         statement.setString(4, entity.getFirstName());
         statement.setString(5, entity.getEmail());
         statement.setTimestamp(6, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(7, new Timestamp(entity.getUpdated().getTime()));
-        statement.setBoolean(8, entity.isDeleted());
         if (id != null) {
             statement.setLong(9, entity.getId());
         }
@@ -94,15 +96,45 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         User user = new UserImpl();
 
         super.setPrivateField(user, "id", resultSet.getLong("user_id"));
-        user.setRole_id(resultSet.getInt("role_id"));
         user.setUserName(resultSet.getString("username"));
         user.setLastName(resultSet.getString("last_name"));
         user.setFirstName(resultSet.getString("first_name"));
         user.setEmail(resultSet.getString("email"));
         user.setCreated(resultSet.getDate("created"));
         user.setUpdated(resultSet.getDate("updated"));
-        user.setIsDeleted(resultSet.getBoolean("is_deleted"));
 
-        return user;
+        InvocationHandler handler = new InvocationHandler() {
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                return impruveMethods(method, user, args);
+            }
+        };
+        User proxy =
+                (User) Proxy.newProxyInstance(User.class.getClassLoader(), new Class[]{User.class}, handler);
+        return proxy;
     }
+
+    private <T extends Identity> Object impruveMethods(Method method, T instance, Object[] args)
+            throws InvocationTargetException, IllegalAccessException, SQLException {
+        Object result = method.invoke(instance, args);
+        if (result != null) {
+            return result;
+        }
+        String methodName = method.getName();
+
+        switch (methodName) {
+            case "getRole": {
+                Collection<Long> ids = getRelatedIds(methodName, instance);
+                result = DaoManager.getInstance().getRoleDAO().getById(ids.iterator().next());
+                ((User) instance).setRole((Role) result);
+            }
+            break;
+            default:
+                result = method.invoke(instance, args);
+                break;
+        }
+        return result;
+    }
+
+
 }

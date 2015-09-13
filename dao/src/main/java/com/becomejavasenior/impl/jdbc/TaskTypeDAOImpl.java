@@ -15,18 +15,20 @@ import java.util.Map;
  */
 public class TaskTypeDAOImpl extends GenericDAO<TaskType> implements TaskTypeDAO {
 
-    String saveNewTaskType = "INSERT INTO crmtwo.crm.task_type (name) \n" +
-            "VALUES (?) RETURNING task_type_id;";
+    private static final String saveNewTaskType =   "INSERT INTO crmtwo.crm.task_type (name) " +
+                                                    "VALUES (?) RETURNING task_type_id;";
 
-    String updateTaskType = "UPDATE crmtwo.crm.task_type SET (name)=(?)\n" +
-            "WHERE task_type_id = ?";
+    private static final String updateTaskType =    "UPDATE crmtwo.crm.task_type SET (name)=(?) " +
+                                                    "WHERE task_type_id = ?";
 
-    String getTaskTypeById = "SELECT task_type_id, name\n" +
-            "FROM crmtwo.crm.task_type\n" +
-            "WHERE task_type_id = ?";
+    private static final String getTaskTypeById =   "SELECT task_type_id, name " +
+                                                    "FROM crmtwo.crm.task_type " +
+                                                    "WHERE task_type_id = ?";
 
-    String deleteTaskType = "DELETE FROM crmtwo.crm.task_type\n" +
-            "WHERE task_type_id = ?";
+    private static final String deleteTaskType =    "DELETE FROM crmtwo.crm.task_type " +
+                                                    "WHERE task_type_id = ?";
+
+    private static final String queryForGetRange =  "SELECT * FROM crmtwo.crm.task_type ORDER BY task_type_id LIMIT ? offset ? ;";
 
 
     public TaskTypeDAOImpl(Connection connection) {
@@ -40,7 +42,7 @@ public class TaskTypeDAOImpl extends GenericDAO<TaskType> implements TaskTypeDAO
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.task_type ORDER BY task_type_id LIMIT ? offset ? ;";
+        return queryForGetRange;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class TaskTypeDAOImpl extends GenericDAO<TaskType> implements TaskTypeDAO
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? saveNewTaskType : updateTaskType;
     }
 

@@ -16,34 +16,37 @@ import java.util.*;
  */
 public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
 
-    private static Map<String, String> CONFIG_GET_ID = new HashMap<>();
+    private static final Map<String, String> methodToQueryMap;
 
     static {
-        CONFIG_GET_ID.put("getResponsibleUser", "SELECT responsible_user_id FROM crmtwo.crm.contact WHERE contact_id  = ?");
-        CONFIG_GET_ID.put("getPhones", "SELECT phone_number_id FROM crmtwo.crm.contact_phone WHERE contact_id  = ?");
-        CONFIG_GET_ID.put("getCompany", "SELECT company_id FROM crmtwo.crm.contact WHERE contact_id  = ?");
-        CONFIG_GET_ID.put("getFiles", "SELECT file_id FROM crmtwo.crm.contact_file WHERE contact_id  = ?");
-        CONFIG_GET_ID.put("getComments", "SELECT comment_id FROM crmtwo.crm.contact_comment WHERE contact_id  = ?");
-        CONFIG_GET_ID.put("getTags", "SELECT tag_id FROM crmtwo.crm.contact_tag WHERE contact_id  = ?");
-        CONFIG_GET_ID.put("getDeals", "SELECT deal_id FROM crmtwo.crm.deal_contact WHERE contact_id  = ?");
-
+        Map<String, String> tempMethodToQueryMap = new HashMap<>();
+        tempMethodToQueryMap.put("getResponsibleUser", "SELECT responsible_user_id FROM crmtwo.crm.contact WHERE contact_id  = ?");
+        tempMethodToQueryMap.put("getPhones", "SELECT phone_number_id FROM crmtwo.crm.contact_phone WHERE contact_id  = ?");
+        tempMethodToQueryMap.put("getCompany", "SELECT company_id FROM crmtwo.crm.contact WHERE contact_id  = ?");
+        tempMethodToQueryMap.put("getFiles", "SELECT file_id FROM crmtwo.crm.contact_file WHERE contact_id  = ?");
+        tempMethodToQueryMap.put("getComments", "SELECT comment_id FROM crmtwo.crm.contact_comment WHERE contact_id  = ?");
+        tempMethodToQueryMap.put("getTags", "SELECT tag_id FROM crmtwo.crm.contact_tag WHERE contact_id  = ?");
+        tempMethodToQueryMap.put("getDeals", "SELECT deal_id FROM crmtwo.crm.deal_contact WHERE contact_id  = ?");
+        methodToQueryMap = Collections.unmodifiableMap(tempMethodToQueryMap);
     }
 
-    String saveNewContact = "INSERT INTO crmtwo.crm.contact (company_id, responsible_user_id, name, job_position, email, skype, created, updated, is_deleted)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ) RETURNING contact_id;";
+    private static final String saveNewContact = "INSERT INTO crmtwo.crm.contact (company_id, responsible_user_id, name, job_position, email, skype, created, updated)" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING contact_id;";
 
-    String updateContact = "UPDATE crmtwo.crm.contact SET (company_id, responsible_user_id, name, job_position, email, skype, created, updated, is_deleted) =\n" +
-            "(?, ?, ?, ?, ?, ?, ?, ?, ? )\n" +
+    private static final String updateContact = "UPDATE crmtwo.crm.contact SET (company_id, responsible_user_id, name, job_position, email, skype, created, updated) =" +
+            "(?, ?, ?, ?, ?, ?, ?, ?)\n" +
             "WHERE contact_id = ?;";
 
-    String getContactById = "SELECT contact_id, company_id, responsible_user_id, name, job_position, email, skype, created, updated, is_deleted\n" +
+    private static final String getContactById = "SELECT contact_id, company_id, responsible_user_id, name, job_position, email, skype, created, updated " +
             "FROM crmtwo.crm.contact\n" +
             "WHERE contact.contact_id = ?\n" +
             "AND contact.is_deleted = FALSE;";
 
-    String deleteContact = "UPDATE crmtwo.crm.contact SET (is_deleted) =\n" +
+    private static final String deleteContact = "UPDATE crmtwo.crm.contact SET (is_deleted) =\n" +
             "(TRUE)\n" +
             "WHERE contact_id = ?;";
+
+    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.contact WHERE is_deleted = FALSE ORDER BY contact_id LIMIT ? offset ? ;";
 
     public ContactDAOImpl(Connection connection) {
         this.connection = connection;
@@ -51,16 +54,16 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.contact WHERE is_deleted = FALSE ORDER BY contact_id LIMIT ? offset ? ;";
+        return queryForGetRange;
     }
 
     @Override
     protected Map<String, String> getMethodToQueryMap() {
-        return CONFIG_GET_ID;
+        return methodToQueryMap;
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? saveNewContact : updateContact;
     }
 
@@ -85,7 +88,6 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         statement.setString(6, entity.getSkype());
         statement.setTimestamp(7, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(8, new Timestamp(entity.getUpdated().getTime()));
-        statement.setBoolean(9, entity.isDeleted());
         if (id != null) {
             statement.setLong(10, id);
         }
@@ -101,7 +103,6 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         contact.setSkype(resultSet.getString("skype"));
         contact.setCreated(resultSet.getTimestamp("created"));
         contact.setUpdated(resultSet.getTimestamp("updated"));
-        contact.setIsDeleted(resultSet.getBoolean("is_deleted"));
 
         InvocationHandler handler = new InvocationHandler() {
             @Override

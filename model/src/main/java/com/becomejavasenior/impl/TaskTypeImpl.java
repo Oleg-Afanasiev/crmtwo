@@ -27,4 +27,12 @@ public class TaskTypeImpl extends IdentityImpl implements Identity, TaskType {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "TaskTypeImpl{" +
+                "id=" + super.getId() +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

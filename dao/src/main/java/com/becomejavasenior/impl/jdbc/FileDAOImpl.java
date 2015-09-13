@@ -16,19 +16,21 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
         this.connection = connection;
     }
 
-    String saveNewFile = "INSERT INTO crm.file (file_path, file_mime_type, created, updated)\n" +
-            "VALUES (?, ?, ?, ?) RETURNING file_id;";
+    private static final String saveNewFile =   "INSERT INTO crm.file (file_path, file_mime_type, created, updated)\n" +
+                                                "VALUES (?, ?, ?, ?) RETURNING file_id;";
 
-    String updateFile = "UPDATE crm.file SET (file_path, file_mime_type, created, updated) =\n" +
-            "(?, ?, ?, ?)\n" +
-            "WHERE file_id = ? ;";
+    private static final String updateFile =    "UPDATE crm.file SET (file_path, file_mime_type, created, updated) =\n" +
+                                                "(?, ?, ?, ?)\n" +
+                                                "WHERE file_id = ? ;";
 
-    String getFileById = "SELECT f.file_id, f.file_path, f.file_mime_type, f.created, f.updated\n" +
-            "FROM crm.file f\n" +
-            "WHERE file_id = ?";
+    private static final String getFileById =   "SELECT f.file_id, f.file_path, f.file_mime_type, f.created, f.updated\n" +
+                                                "FROM crm.file f\n" +
+                                                "WHERE file_id = ?";
 
-    String deleteFile = "DELETE FROM crm.file f\n" +
-            "WHERE f.file_id = ?";
+    private static final String deleteFile =    "DELETE FROM crm.file f\n" +
+                                                "WHERE f.file_id = ?";
+
+    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.file ORDER BY file_id LIMIT ? offset ? ;";
 
 
     @Override
@@ -38,7 +40,7 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.file ORDER BY file_id LIMIT ? offset ? ;";
+        return queryForGetRange;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? saveNewFile : updateFile;
     }
 

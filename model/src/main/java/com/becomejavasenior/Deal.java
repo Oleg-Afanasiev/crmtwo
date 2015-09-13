@@ -21,8 +21,6 @@ public interface Deal extends Identity {
 
     public Date getUpdated();
 
-    public boolean isDeleted();
-
     public Set<Tag> getTags();
 
     public Set<File> getFiles();
@@ -44,8 +42,6 @@ public interface Deal extends Identity {
     public void setCreated(Date created);
 
     public void setUpdated(Date updated);
-
-    public void setIsDeleted(boolean isDeleted);
 
     public void setTags(Set<Tag> tags);
 

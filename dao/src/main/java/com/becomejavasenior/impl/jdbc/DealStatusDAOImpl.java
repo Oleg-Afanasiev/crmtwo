@@ -16,17 +16,19 @@ import java.util.Map;
  */
 public class DealStatusDAOImpl extends GenericDAO<DealStatus> implements DealStatusDAO {
 
-    String saveNewDealStatus = "INSERT INTO crmtwo.crm.deal_status (name) VALUES (?) RETURNING status_id;";
+    private static final String saveNewDealStatus = "INSERT INTO crmtwo.crm.deal_status (name) VALUES (?) RETURNING status_id;";
 
-    String updateDealStatus = "UPDATE crmtwo.crm.deal_status SET (name) = (?)\n" +
+    private static final String updateDealStatus = "UPDATE crmtwo.crm.deal_status SET (name) = (?)\n" +
             "WHERE status_id = ?;";
 
-    String getDealStatusById = "SELECT status_id, name\n" +
+    private static final String getDealStatusById = "SELECT status_id, name\n" +
             "FROM crmtwo.crm.deal_status\n" +
             "WHERE status_id = ?;";
 
-    String deleteDealStatus = "DELETE FROM crmtwo.crm.deal_status\n" +
+    private static final String deleteDealStatus = "DELETE FROM crmtwo.crm.deal_status\n" +
             "WHERE status_id = ?;";
+
+    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.deal_status ORDER BY status_id LIMIT ? offset ? ;";
 
     public DealStatusDAOImpl(Connection connection) {
         this.connection = connection;
@@ -39,7 +41,7 @@ public class DealStatusDAOImpl extends GenericDAO<DealStatus> implements DealSta
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.deal_status ORDER BY status_id LIMIT ? offset ? ;";
+        return queryForGetRange;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class DealStatusDAOImpl extends GenericDAO<DealStatus> implements DealSta
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? saveNewDealStatus : updateDealStatus;
     }
 

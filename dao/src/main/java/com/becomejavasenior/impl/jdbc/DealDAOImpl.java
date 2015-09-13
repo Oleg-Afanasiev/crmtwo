@@ -17,33 +17,36 @@ import java.util.*;
  */
 public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
 
-    private static Map<String, String> CONFIG_GET_ID = new HashMap<>();
+    private static final Map<String, String> methodToQueryMap;
 
     static {
-        CONFIG_GET_ID.put("getTags", "SELECT tag_id FROM crm.deal_tag WHERE deal_id  = ?");
-        CONFIG_GET_ID.put("getFiles", "SELECT file_id FROM crm.deal_file WHERE deal_id  = ?");
-        CONFIG_GET_ID.put("getComments", "SELECT comment_id FROM crmtwo.crm.deal_comment WHERE deal_id = ?");
-        CONFIG_GET_ID.put("getResponsibleUser", "SELECT responsible_user_id FROM crmtwo.crm.deal WHERE deal_id  = ?");
-        CONFIG_GET_ID.put("getDealStatus", "SELECT status_id FROM crm.deal WHERE deal_id  = ?");
-        CONFIG_GET_ID.put("getContacts", "SELECT contact_id FROM crm.deal_contact WHERE deal_id  = ?");
-        CONFIG_GET_ID.put("getCompanies", "SELECT company_id FROM crm.deal_company WHERE deal_id  = ?");
+        Map<String, String> tempMethodToQueryMap = new HashMap<>();
+        tempMethodToQueryMap.put("getTags", "SELECT tag_id FROM crm.deal_tag WHERE deal_id  = ?");
+        tempMethodToQueryMap.put("getFiles", "SELECT file_id FROM crm.deal_file WHERE deal_id  = ?");
+        tempMethodToQueryMap.put("getComments", "SELECT comment_id FROM crmtwo.crm.deal_comment WHERE deal_id = ?");
+        tempMethodToQueryMap.put("getResponsibleUser", "SELECT responsible_user_id FROM crmtwo.crm.deal WHERE deal_id  = ?");
+        tempMethodToQueryMap.put("getDealStatus", "SELECT status_id FROM crm.deal WHERE deal_id  = ?");
+        tempMethodToQueryMap.put("getContacts", "SELECT contact_id FROM crm.deal_contact WHERE deal_id  = ?");
+        tempMethodToQueryMap.put("getCompanies", "SELECT company_id FROM crm.deal_company WHERE deal_id  = ?");
+        methodToQueryMap = Collections.unmodifiableMap(tempMethodToQueryMap);
     }
 
-    String saveNewDeal = "INSERT INTO crmtwo.crm.deal (responsible_user_id, status_id, name, budget, created, updated, is_deleted)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING deal_id;";
+    private static final String saveNewDeal = "INSERT INTO crmtwo.crm.deal (responsible_user_id, status_id, name, budget, created, updated) " +
+            "VALUES (?, ?, ?, ?, ?, ?) RETURNING deal_id;";
 
-    String updateDeal = "UPDATE crmtwo.crm.deal SET (responsible_user_id, status_id, name, budget, created, updated, is_deleted) =\n" +
-            "(?, ?, ?, ?, ?, ?, ?)\n" +
+    private static final String updateDeal = "UPDATE crmtwo.crm.deal SET (responsible_user_id, status_id, name, budget, created, updated) = " +
+            "(?, ?, ?, ?, ?, ?) " +
             "WHERE deal_id = ?;";
 
-    String getDealById = "SELECT deal_id, responsible_user_id, status_id, name, budget, created, updated, is_deleted \n" +
-            "FROM crm.deal\n" +
-            "WHERE deal_id = ? \n" +
+    private static final String getDealById = "SELECT deal_id, responsible_user_id, status_id, name, budget, created, updated " +
+            "FROM crm.deal " +
+            "WHERE deal_id = ? " +
             "AND is_deleted = FALSE ;";
 
-    String deleteDeal = "UPDATE crmtwo.crm.deal SET (is_deleted) =\n" +
-            "(TRUE)\n" +
+    private static final String deleteDeal = "UPDATE crmtwo.crm.deal SET (is_deleted) = (TRUE) " +
             "WHERE deal_id = ?;";
+
+    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.deal WHERE is_deleted = FALSE ORDER BY deal_id LIMIT ? offset ? ;";
 
 
     public DealDAOImpl(Connection connection) {
@@ -52,16 +55,16 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.deal WHERE is_deleted = FALSE ORDER BY deal_id LIMIT ? offset ? ;";
+        return queryForGetRange;
     }
 
     @Override
     protected Map<String, String> getMethodToQueryMap() {
-        return CONFIG_GET_ID;
+        return methodToQueryMap;
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? saveNewDeal : updateDeal;
     }
 
@@ -85,7 +88,6 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         statement.setBigDecimal(4, entity.getBudget());
         statement.setTimestamp(5, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(6, new Timestamp(entity.getUpdated().getTime()));
-        statement.setBoolean(7, entity.isDeleted());
         if (id != null) {
             statement.setLong(8, id);
         }
@@ -99,7 +101,6 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         deal.setBudget(resultSet.getBigDecimal("budget"));
         deal.setCreated(resultSet.getTimestamp("created"));
         deal.setUpdated(resultSet.getTimestamp("updated"));
-        deal.setIsDeleted(resultSet.getBoolean("is_deleted"));
 
         InvocationHandler handler = new InvocationHandler() {
             @Override

@@ -92,6 +92,10 @@ public class DaoManager {
         return new UserDAOImpl(connection);
     }
 
+    public RoleDAO getRoleDAO() {
+        return new RoleDAOImpl(connection);
+    }
+
     public void closeConnection() {
 
         try{

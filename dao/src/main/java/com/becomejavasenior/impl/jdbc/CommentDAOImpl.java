@@ -47,7 +47,7 @@ public class CommentDAOImpl extends GenericDAO<Comment> implements CommentDAO {
     }
 
     @Override
-    protected String getQueryForSaveOrUpdate(Long id) {
+    protected String getQueryForInsertOrUpdate(Long id) {
         return id == null ? saveNewComment : updateComment;
     }
 

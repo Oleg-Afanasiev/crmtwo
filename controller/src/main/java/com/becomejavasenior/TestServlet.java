@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 
 /**
@@ -16,10 +17,19 @@ public class TestServlet extends PersistServlet {
     @Override
     protected void doGetInPersistentCtx(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DaoManager dm = DaoManager.getInstance( );
-        Deal d = dm.getDealDAO().getById(10);
-        Collection<Deal> deals = dm.getDealDAO().getRange(0, 10);
-        Deal newDeal = new DealImpl();
-        System.out.println(deals);
-        resp.getWriter().print(deals);
+        PrintWriter writer = resp.getWriter();
+        writer.println(dm.getCommentDAO().getById(1));
+        writer.println(dm.getCompanyDAO().getById(1));
+        writer.println(dm.getContactDAO().getById(1));
+        writer.println(dm.getDealDAO().getById(1));
+        writer.println(dm.getDealStatusDAO().getById(1));
+        writer.println(dm.getFileDAO().getById(1));
+        writer.println(dm.getPhoneDAO().getById(1));
+        writer.println(dm.getRoleDAO().getById(1));
+        writer.println(dm.getTagDAO().getById(1));
+        writer.println(dm.getTaskDAO().getById(1));
+        writer.println(dm.getTaskPeriodDAO().getById(1));
+        writer.println(dm.getTaskTypeDAO().getById(1));
+        writer.println(dm.getUserDAO().getById(1));
     }
 }

@@ -27,4 +27,12 @@ public class TaskPeriodImpl extends IdentityImpl  implements Identity, TaskPerio
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "TaskPeriodImpl{" +
+                "id=" + super.getId() +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -9,7 +9,7 @@ import java.util.Set;
  * JavaBean class describes TaskImpl model
  *
  * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.1
+ * @version 0.3
  */
 
 public class TaskImpl extends IdentityImpl implements Identity, Task {
@@ -38,11 +38,8 @@ public class TaskImpl extends IdentityImpl implements Identity, Task {
 
     private Date updated;
 
-    private boolean isDeleted;
-
     public TaskImpl() {
     }
-
 
     public TaskPeriod getTaskPeriod() {
         return taskPeriod;
@@ -86,10 +83,6 @@ public class TaskImpl extends IdentityImpl implements Identity, Task {
 
     public Date getUpdated() {
         return updated;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
     }
 
     public void setTaskPeriod(TaskPeriod taskPeriod) {
@@ -136,10 +129,6 @@ public class TaskImpl extends IdentityImpl implements Identity, Task {
         this.updated = updated;
     }
 
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
     @Override
     public String toString() {
         return "TaskImpl{" +
@@ -151,7 +140,6 @@ public class TaskImpl extends IdentityImpl implements Identity, Task {
                 ", dueDate=" + dueDate +
                 ", created=" + created +
                 ", updated=" + updated +
-                ", isDeleted=" + isDeleted +
                 '}';
     }
 }

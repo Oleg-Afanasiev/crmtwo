@@ -18,22 +18,19 @@ public interface User extends Identity {
 
     public Date getUpdated();
 
-    public boolean isDeleted();
-
     public void setUserName(String userName);
 
     public void setLastName(String lastName);
+
     public void setEmail(String email);
 
     public void setCreated(Date created);
 
     public void setUpdated(Date updated);
 
-    public void setIsDeleted(boolean isDeleted);
+    public Role getRole();
 
-    public int getRole_id();
-
-    public void setRole_id(int role_id);
+    public void setRole(Role role);
 
     public void setFirstName(String firstName);
 }
