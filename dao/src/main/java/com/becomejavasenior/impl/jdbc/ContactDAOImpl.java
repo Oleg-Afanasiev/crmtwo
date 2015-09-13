@@ -107,7 +107,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         InvocationHandler handler = new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return loadEntities(method, contact, args);
+                return improveMethods(method, contact, args);
             }
         };
         Contact proxy =
@@ -115,7 +115,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         return proxy;
     }
 
-    private <T extends Identity> Object loadEntities(Method method, T instance, Object[] args)
+    private <T extends Identity> Object improveMethods(Method method, T instance, Object[] args)
             throws InvocationTargetException, IllegalAccessException, SQLException {
         Object result = method.invoke(instance, args);
         if (result != null) {

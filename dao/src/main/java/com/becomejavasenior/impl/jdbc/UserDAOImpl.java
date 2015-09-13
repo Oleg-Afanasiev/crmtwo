@@ -106,7 +106,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         InvocationHandler handler = new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return impruveMethods(method, user, args);
+                return improveMethods(method, user, args);
             }
         };
         User proxy =
@@ -114,7 +114,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         return proxy;
     }
 
-    private <T extends Identity> Object impruveMethods(Method method, T instance, Object[] args)
+    private <T extends Identity> Object improveMethods(Method method, T instance, Object[] args)
             throws InvocationTargetException, IllegalAccessException, SQLException {
         Object result = method.invoke(instance, args);
         if (result != null) {

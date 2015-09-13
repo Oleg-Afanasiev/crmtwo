@@ -101,7 +101,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         InvocationHandler handler = new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return impruveMethods(method, company, args);
+                return improveMethods(method, company, args);
             }
         };
         Company proxy =
@@ -109,7 +109,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         return proxy;
     }
 
-    private <T extends Identity> Object impruveMethods(Method method, T instance, Object[] args)
+    private <T extends Identity> Object improveMethods(Method method, T instance, Object[] args)
             throws InvocationTargetException, IllegalAccessException, SQLException {
         Object result = method.invoke(instance, args);
         if (result != null) {
