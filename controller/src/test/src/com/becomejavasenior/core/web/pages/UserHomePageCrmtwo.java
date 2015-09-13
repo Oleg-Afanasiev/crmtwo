@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver;
 public class UserHomePageCrmtwo extends WebPage<UserHomePageCrmtwo>{
 
 
-    private static final String PAGE_URL = "http://crmone.herokuapp.com/login";
+    private static final String PAGE_URL = "http://crm2rad.herokuapp.com/";
 
     public UserHomePageCrmtwo(WebDriver driver) {
         super(driver);
