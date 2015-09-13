@@ -23,18 +23,18 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         Map<String, String> tempMethodToQueryMap = new HashMap<>();
         tempMethodToQueryMap.put("getTags", "SELECT tag_id FROM crm.deal_tag WHERE deal_id  = ?");
         tempMethodToQueryMap.put("getFiles", "SELECT file_id FROM crm.deal_file WHERE deal_id  = ?");
-        tempMethodToQueryMap.put("getComments", "SELECT comment_id FROM crmtwo.crm.deal_comment WHERE deal_id = ?");
-        tempMethodToQueryMap.put("getResponsibleUser", "SELECT responsible_user_id FROM crmtwo.crm.deal WHERE deal_id  = ?");
+        tempMethodToQueryMap.put("getComments", "SELECT comment_id FROM crm.deal_comment WHERE deal_id = ?");
+        tempMethodToQueryMap.put("getResponsibleUser", "SELECT responsible_user_id FROM crm.deal WHERE deal_id  = ?");
         tempMethodToQueryMap.put("getDealStatus", "SELECT status_id FROM crm.deal WHERE deal_id  = ?");
         tempMethodToQueryMap.put("getContacts", "SELECT contact_id FROM crm.deal_contact WHERE deal_id  = ?");
         tempMethodToQueryMap.put("getCompanies", "SELECT company_id FROM crm.deal_company WHERE deal_id  = ?");
         methodToQueryMap = Collections.unmodifiableMap(tempMethodToQueryMap);
     }
 
-    private static final String saveNewDeal = "INSERT INTO crmtwo.crm.deal (responsible_user_id, status_id, name, budget, created, updated) " +
+    private static final String saveNewDeal = "INSERT INTO crm.deal (responsible_user_id, status_id, name, budget, created, updated) " +
             "VALUES (?, ?, ?, ?, ?, ?) RETURNING deal_id;";
 
-    private static final String updateDeal = "UPDATE crmtwo.crm.deal SET (responsible_user_id, status_id, name, budget, created, updated) = " +
+    private static final String updateDeal = "UPDATE crm.deal SET (responsible_user_id, status_id, name, budget, created, updated) = " +
             "(?, ?, ?, ?, ?, ?) " +
             "WHERE deal_id = ?;";
 
@@ -43,10 +43,10 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
             "WHERE deal_id = ? " +
             "AND is_deleted = FALSE ;";
 
-    private static final String deleteDeal = "UPDATE crmtwo.crm.deal SET (is_deleted) = (TRUE) " +
+    private static final String deleteDeal = "UPDATE crm.deal SET (is_deleted) = (TRUE) " +
             "WHERE deal_id = ?;";
 
-    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.deal WHERE is_deleted = FALSE ORDER BY deal_id LIMIT ? offset ? ;";
+    private static final String queryForGetRange = "SELECT * FROM crm.deal WHERE is_deleted = FALSE ORDER BY deal_id LIMIT ? offset ? ;";
 
 
     public DealDAOImpl(Connection connection) {
@@ -235,7 +235,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
     }
 
     private void clearRelationsWithComments(Deal entity) throws SQLException {
-        String clearQuery = "DELETE FROM crmtwo.crm.deal_comment WHERE deal_id = " + entity.getId();
+        String clearQuery = "DELETE FROM crm.deal_comment WHERE deal_id = " + entity.getId();
         try (Statement statement = connection.createStatement()) {
             System.out.println(clearQuery);
             statement.executeUpdate(clearQuery);
@@ -246,7 +246,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
 
     private void writeRelationsWithComments(Deal entity, Set<Long> comments) throws SQLException {
         Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crmtwo.crm.deal_comment (deal_id, comment_id) VALUES ";
+        String insertQuery = "INSERT INTO crm.deal_comment (deal_id, comment_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
         for (Iterator<Long> iterator = comments.iterator(); iterator.hasNext(); ) {
             builder.append("( ");
@@ -266,7 +266,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
     }
 
     private void clearRelationsWithTags(Deal entity) throws SQLException {
-        String clearQuery = "DELETE FROM crmtwo.crm.deal_tag WHERE deal_id = " + entity.getId();
+        String clearQuery = "DELETE FROM crm.deal_tag WHERE deal_id = " + entity.getId();
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(clearQuery);
         } catch (SQLException e) {
@@ -276,7 +276,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
 
     private void writeRelationsWithTags(Deal entity, Set<Long> tags) throws SQLException {
         Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crmtwo.crm.deal_tag (deal_id, tag_id) VALUES ";
+        String insertQuery = "INSERT INTO crm.deal_tag (deal_id, tag_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
         for (Iterator<Long> iterator = tags.iterator(); iterator.hasNext(); ) {
             builder.append("( ");
@@ -296,7 +296,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
     }
 
     private void clearRelationsWithFiles(Deal entity) throws SQLException {
-        String clearQuery = "DELETE FROM crmtwo.crm.deal_file WHERE deal_id = " + entity.getId();
+        String clearQuery = "DELETE FROM crm.deal_file WHERE deal_id = " + entity.getId();
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(clearQuery);
         } catch (SQLException e) {
@@ -306,7 +306,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
 
     private void writeRelationsWithFiles(Deal entity, Set<Long> files) throws SQLException {
         Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crmtwo.crm.deal_file (deal_id, file_id) VALUES ";
+        String insertQuery = "INSERT INTO crm.deal_file (deal_id, file_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
         for (Iterator<Long> iterator = files.iterator(); iterator.hasNext(); ) {
             builder.append("( ");

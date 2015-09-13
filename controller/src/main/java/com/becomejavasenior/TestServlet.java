@@ -18,18 +18,14 @@ public class TestServlet extends PersistServlet {
     protected void doGetInPersistentCtx(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DaoManager dm = DaoManager.getInstance( );
         PrintWriter writer = resp.getWriter();
-        writer.println(dm.getCommentDAO().getById(1));
-        writer.println(dm.getCompanyDAO().getById(1));
-        writer.println(dm.getContactDAO().getById(1));
-        writer.println(dm.getDealDAO().getById(1));
-        writer.println(dm.getDealStatusDAO().getById(1));
-        writer.println(dm.getFileDAO().getById(1));
-        writer.println(dm.getPhoneDAO().getById(1));
-        writer.println(dm.getRoleDAO().getById(1));
-        writer.println(dm.getTagDAO().getById(1));
-        writer.println(dm.getTaskDAO().getById(1));
-        writer.println(dm.getTaskPeriodDAO().getById(1));
-        writer.println(dm.getTaskTypeDAO().getById(1));
-        writer.println(dm.getUserDAO().getById(1));
+        Collection<Contact> contacts = dm.getContactDAO().getRange(1, 100);
+        writer.print("<html> <body>");
+
+        for (Contact c : contacts){
+            writer.print(c + " <br /> ");
+            writer.print(c.getPhones() + " <br /> ");
+            writer.print(c.getCompany() + " <br /> ");
+        }
+        writer.print("</body> </html> ");
     }
 }
