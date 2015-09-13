@@ -3,67 +3,24 @@ package com.becomejavasenior;
 import java.util.Date;
 
 /**
- * JavaBean class describes Comment model
- *
- * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.3
+ * Created by Dmytro Tsapko on 9/6/2015.
  */
+public interface Comment extends Identity {
 
-public class Comment extends Identity {
+    public String getName();
 
-    private static final long serialVersionUID = 1L;
+    public String getComment();
 
-    private String name;
+    public Date getCreated();
 
-    private String comment;
+    public Date getUpdated();
 
-    private Date created;
+    public void setName(String name);
 
-    private Date updated;
+    public void setComment(String comment);
 
-    public Comment() {
-    }
+    public void setCreated(Date created);
 
-    public String getName() {
-        return name;
-    }
+    public void setUpdated(Date updated);
 
-    public String getComment() {
-        return comment;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id='" + this.getId() + '\'' +
-                ", name='" + name + '\'' +
-                ", comment='" + comment + '\'' +
-                ", created=" + created +
-                ", updated=" + updated +
-                '}';
-    }
 }

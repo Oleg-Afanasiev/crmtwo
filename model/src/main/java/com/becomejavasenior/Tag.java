@@ -1,34 +1,12 @@
 package com.becomejavasenior;
 
 /**
- * JavaBean class describes Tag model
- *
- * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.3
+ * Created by Dmytro Tsapko on 9/6/2015.
  */
+public interface Tag extends Identity {
 
-public class Tag extends Identity {
+    public String getName();
 
-    private static final long serialVersionUID = 1L;
+    public void setName(String name);
 
-    private String name;
-
-    public Tag() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Tag{" +
-                "tag_id='" + this.getId() + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

@@ -1,179 +1,63 @@
 package com.becomejavasenior;
 
-import com.becomejavasenior.deal.Deal;
-import com.becomejavasenior.phone.Phone;
-
 import java.util.Date;
 import java.util.Set;
 
 /**
- * JavaBean class describes Contact model
- *
- * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.3
+ * Created by Dmytro Tsapko on 9/6/2015.
  */
+public interface Contact extends Identity {
 
-public class Contact extends Identity {
+    public String getName();
 
-    private static final long serialVersionUID = 1L;
+    public User getResponsibleUser();
 
-    private Company company;
+    public Set<Phone> getPhones();
 
-    private User responsibleUser;
+    public String getJobPosition();
 
-    private String name;
+    public Company getCompany();
 
-    private String jobPosition;
+    public String getEmail();
 
-    private String email;
+    public String getSkype();
 
-    private String skype;
+    public Date getCreated();
 
-    private Date created;
+    public Date getUpdated();
 
-    private Date updated;
+    public Set<File> getFiles();
 
-    private boolean isDeleted;
+    public Set<Comment> getComments();
 
-    private Set<File> files;
+    public Set<Tag> getTags();
 
-    private Set<Comment> comments;
+    public Set<Deal> getDeals();
 
-    private Set<Tag> tags;
+    public void setName(String name);
 
-    private Set<Phone> phones;
+    public void setResponsibleUser(User responsibleUser);
 
-    private Set<Deal> deals;
+    public void setPhones(Set<Phone> phones);
 
-    public Contact() {
-    }
+    public void setJobPosition(String jobPosition);
 
+    public void setCompany(Company company);
 
-    public String getName() {
-        return name;
-    }
+    public void setEmail(String email);
 
-    public User getResponsibleUser() {
-        return responsibleUser;
-    }
+    public void setSkype(String skype);
 
-    public Set<Phone> getPhones() {
-        return phones;
-    }
+    public void setCreated(Date created);
 
-    public String getJobPosition() {
-        return jobPosition;
-    }
+    public void setUpdated(Date updated);
 
-    public Company getCompany() {
-        return company;
-    }
+    public void setFiles(Set<File> files);
 
-    public String getEmail() {
-        return email;
-    }
+    public void setComments(Set<Comment> comments);
 
-    public String getSkype() {
-        return skype;
-    }
+    public void setTags(Set<Tag> tags);
 
-    public Date getCreated() {
-        return created;
-    }
+    public void setDeals(Set<Deal> deals);
 
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public Set<File> getFiles() {
-        return files;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public Set<Deal> getDeals() {
-        return deals;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setResponsibleUser(User responsibleUser) {
-        this.responsibleUser = responsibleUser;
-    }
-
-    public void setPhones(Set<Phone> phones) {
-        this.phones = phones;
-    }
-
-    public void setJobPosition(String jobPosition) {
-        this.jobPosition = jobPosition;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setSkype(String skype) {
-        this.skype = skype;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public void setFiles(Set<File> files) {
-        this.files = files;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public void setDeals(Set<Deal> deals) {
-        this.deals = deals;
-    }
-
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "contact_id='" + this.getId() + '\'' +
-                ", company=" + company +
-                ", responsibleUser=" + responsibleUser +
-                ", name='" + name + '\'' +
-                ", jobPosition='" + jobPosition + '\'' +
-                ", email='" + email + '\'' +
-                ", skype='" + skype + '\'' +
-                ", created=" + created +
-                ", updated=" + updated +
-                ", isDeleted=" + isDeleted +
-                '}';
-    }
 }

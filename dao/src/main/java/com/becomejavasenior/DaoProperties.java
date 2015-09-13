@@ -20,24 +20,24 @@ public class DaoProperties {
         InputStream propertiesFile = classLoader.getResourceAsStream(PROPERTIES_FILE);
 
         if (propertiesFile == null) {
-            throw new DaoException(
+            throw new DAOException(
                     "Properties file '" + PROPERTIES_FILE + "' is missing in classpath.");
         }
 
         try {
             PROPERTIES.load(propertiesFile);
         } catch (IOException e) {
-            throw new DaoException(
+            throw new DAOException(
                     "Cannot load properties file '" + PROPERTIES_FILE + "'.", e);
 
         }
     }
-    public String getProperty(String key) throws DaoException {
+    public String getProperty(String key) throws DAOException {
         String property = PROPERTIES.getProperty(key);
 
         if (property == null || property.trim().length() == 0) {
 
-            throw new DaoException("Required property '" + key + "'"
+            throw new DAOException("Required property '" + key + "'"
                     + " is missing in properties file '" + PROPERTIES_FILE + "'.");
 
         }

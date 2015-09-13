@@ -1,179 +1,58 @@
 package com.becomejavasenior;
 
-import com.becomejavasenior.deal.Deal;
-import com.becomejavasenior.phone.Phone;
-
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 /**
- * JavaBean class describes Company model
- *
- * @author  Andrey Radionov <andyomsk@gmail.com>
- * @version 0.2
+ * Created by user on 9/6/2015.
  */
+public interface Company extends Identity {
 
-public class Company extends Identity {
+    User getResponsibleUser();
 
-    private static final long serialVersionUID = 1L;
+    String getName();
 
-    private User responsibleUser;
+    String getEmail();
 
-    private List<Contact> contacts;
+    String getWebAddress();
 
-    private String name;
+    String getAddress();
 
-    private String email;
+    Date getCreated();
 
-    private String webAddress;
+    Date getUpdated();
 
-    private String address;
+    Set<Phone> getPhones();
 
-    private Date created;
+    Set<Deal> getDeals();
 
-    private Date updated;
+    Set<Tag> getTags();
 
-    private boolean isDeleted;
+    Set<File> getFiles();
 
-    private Set<Phone> phones;
+    Set<Comment> getComments();
 
-    private Set<Deal> deals;
+    void setResponsibleUser(User responsibleUser);
 
-    private Set<Tag> tags;
+    void setName(String name);
 
-    private Set<File> files;
+    void setEmail(String email);
 
-    private Set<Comment> comments;
+    void setWebAdress(String webAdress);
 
-    public Company() {
-    }
+    void setAdress(String adress);
 
-    public User getResponsibleUser() {
-        return responsibleUser;
-    }
+    void setCreated(Date created);
 
-    public List<Contact> getContacts() {
-        return contacts;
-    }
+    void setUpdated(Date updated);
 
-    public String getName() {
-        return name;
-    }
+    void setPhones(Set<Phone> phones);
 
-    public String getEmail() {
-        return email;
-    }
+    void setDeals(Set<Deal> deals);
 
-    public String getWebAddress() {
-        return webAddress;
-    }
+    void setTags(Set<Tag> tags);
 
-    public String getAddress() {
-        return address;
-    }
+    void setFiles(Set<File> files);
 
-    public Date getCreated() {
-        return created;
-    }
-
-    public Date getUpdated() {
-        return updated;
-    }
-
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
-    public Set<Phone> getPhones() {
-        return phones;
-    }
-
-    public Set<Deal> getDeals() {
-        return deals;
-    }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public Set<File> getFiles() {
-        return files;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setResponsibleUser(User responsibleUser) {
-        this.responsibleUser = responsibleUser;
-    }
-
-    public void setContacts(List<Contact> contacts) {
-        this.contacts = contacts;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setWebAddress(String webAddress) {
-        this.webAddress = webAddress;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public void setPhones(Set<Phone> phones) {
-        this.phones = phones;
-    }
-
-    public void setDeals(Set<Deal> deals) {
-        this.deals = deals;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public void setFiles(Set<File> files) {
-        this.files = files;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
-    @Override
-    public String toString() {
-        return "Company{" +
-                "company_id='" + this.getId() + '\'' +
-                ", responsibleUser=" + responsibleUser +
-                ", contacts=" + contacts +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", webAddress='" + webAddress + '\'' +
-                ", address='" + address + '\'' +
-                ", created=" + created +
-                ", updated=" + updated +
-                ", isDeleted=" + isDeleted +
-                '}';
-    }
+    void setComments(Set<Comment> comments);
 }
