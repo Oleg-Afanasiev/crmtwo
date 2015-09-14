@@ -80,11 +80,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
     @Override
     protected void setParamsForSaveOrUpdate(PreparedStatement statement, Contact entity) throws SQLException {
         Long id = entity.getId();
-        if (entity.getCompany() == null) {
-            statement.setNull(1, Types.BIGINT);
-        } else {
-            statement.setLong(1, entity.getCompany().getId());
-        }
+        setLongOrNull(1, statement, entity.getCompany());
         statement.setLong(2, entity.getResponsibleUser().getId());
         statement.setString(3, entity.getName());
         statement.setString(4, entity.getJobPosition());
@@ -93,7 +89,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         statement.setTimestamp(7, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(8, new Timestamp(entity.getUpdated().getTime()));
         if (id != null) {
-            statement.setLong(10, id);
+            statement.setLong(9, id);
         }
     }
 

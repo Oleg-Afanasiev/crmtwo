@@ -87,7 +87,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         statement.setTimestamp(6, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(7, new Timestamp(entity.getUpdated().getTime()));
         if (id != null) {
-            statement.setLong(9, entity.getId());
+            statement.setLong(8, entity.getId());
         }
     }
 

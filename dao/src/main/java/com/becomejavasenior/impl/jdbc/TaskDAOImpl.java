@@ -94,7 +94,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         statement.setTimestamp(9, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(10, new Timestamp(entity.getUpdated().getTime()));
         if (id != null) {
-            statement.setLong(12, id);
+            statement.setLong(11, id);
         }
     }
 
@@ -129,49 +129,63 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         switch (methodName) {
             case "getDeal": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getDealDAO().getById(ids.iterator().next());
-                ((Task) instance).setDeal((Deal) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getDealDAO().getById(ids.iterator().next());
+                    ((Task) instance).setDeal((Deal) result);
+                }
             }
             break;
             case "getComments": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Comment> set = new HashSet<Comment>();
-                CommentDAO dao = DaoManager.getInstance().getCommentDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Comment> set = new HashSet<Comment>();
+                    CommentDAO dao = DaoManager.getInstance().getCommentDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Task) instance).setComments((Set<Comment>) result);
                 }
-                result = set;
-                ((Task) instance).setComments((Set<Comment>) result);
             }
             break;
             case "getResponsibleUser": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
-                ((Task) instance).setResponsibleUser((User) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
+                    ((Task) instance).setResponsibleUser((User) result);
+                }
             }
             break;
             case "getTaskType": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getTaskTypeDAO().getById(ids.iterator().next());
-                ((Task) instance).setTaskType((TaskType) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getTaskTypeDAO().getById(ids.iterator().next());
+                    ((Task) instance).setTaskType((TaskType) result);
+                }
             }
             break;
             case "getTaskPeriod": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getTaskPeriodDAO().getById(ids.iterator().next());
-                ((Task) instance).setTaskPeriod((TaskPeriod) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getTaskPeriodDAO().getById(ids.iterator().next());
+                    ((Task) instance).setTaskPeriod((TaskPeriod) result);
+                }
             }
             break;
             case "getCompany": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getCompanyDAO().getById(ids.iterator().next());
-                ((Task) instance).setCompany((Company) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getCompanyDAO().getById(ids.iterator().next());
+                    ((Task) instance).setCompany((Company) result);
+                }
             }
             break;
             case "getContact": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getContactDAO().getById(ids.iterator().next());
-                ((Task) instance).setContact((Contact) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getContactDAO().getById(ids.iterator().next());
+                    ((Task) instance).setContact((Contact) result);
+                }
             }
             break;
             default:
