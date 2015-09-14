@@ -96,6 +96,15 @@ public class DaoManager {
         return new RoleDAOImpl(connection);
     }
 
+//    public AbstractDAO getDaoByClass(Class clazz){
+//
+//        if(clazz.equals(Role.class)){
+//            return new RoleDAOImpl(connection);
+//        }
+//
+//        return null;
+//    }
+
     public void closeConnection() {
 
         try{

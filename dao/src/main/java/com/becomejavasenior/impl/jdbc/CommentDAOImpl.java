@@ -12,20 +12,19 @@ import java.util.Map;
  */
 public class CommentDAOImpl extends GenericDAO<Comment> implements CommentDAO {
 
-    String saveNewComment = "INSERT INTO crmtwo.crm.comment (name, comment, created, updated)\n" +
-            "VALUES (?, ?, ?, ?) RETURNING comment_id;";
+    String saveNewComment = "INSERT INTO crm.comment (name, comment, created, updated) " +
+                            "VALUES (?, ?, ?, ?) RETURNING comment_id;";
 
-    String updateComment = "UPDATE crmtwo.crm.comment c\n" +
-            "SET (name, comment, created, updated) = (?, ?, ?, ?)\n" +
-            "WHERE c.comment_id = ?";
+    String updateComment =  "UPDATE crm.comment c " +
+                            "SET (name, comment, created, updated) = (?, ?, ?, ?) " +
+                            "WHERE c.comment_id = ?";
 
-    String getCommentById = "SELECT comment_id, name, comment, created, updated\n" +
-            "FROM crm.comment\n" +
-            "WHERE comment_id = ?";
+    String getCommentById = "SELECT comment_id, name, comment, created, updated " +
+                            "FROM crm.comment " +
+                            "WHERE comment_id = ?";
 
-    String deleteComment = "DELETE \n" +
-            "FROM crm.comment\n" +
-            "WHERE comment_id = ?";
+    String deleteComment =  "DELETE FROM crm.comment " +
+                            "WHERE comment_id = ?";
 
     public CommentDAOImpl(Connection connection) {
         this.connection = connection;
@@ -38,7 +37,7 @@ public class CommentDAOImpl extends GenericDAO<Comment> implements CommentDAO {
 
     @Override
     protected String getQueryForGetRange() {
-        return "SELECT * FROM crmtwo.crm.comment WHERE is_deleted = FALSE ORDER BY comment_id LIMIT ? offset ? ;";
+        return "SELECT * FROM crm.comment WHERE is_deleted = FALSE ORDER BY comment_id LIMIT ? offset ? ;";
     }
 
     @Override

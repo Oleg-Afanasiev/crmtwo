@@ -19,7 +19,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
 
     static {
         Map<String, String> tempMethodToQueryMap = new HashMap<>();
-        tempMethodToQueryMap.put("getRole", "SELECT role_id FROM crmtwo.crm.user WHERE user_id  = ? ;");
+        tempMethodToQueryMap.put("getRole", "SELECT role_id FROM crm.user WHERE user_id  = ? ;");
         methodToQueryMap = Collections.unmodifiableMap(tempMethodToQueryMap);
     }
 
@@ -38,7 +38,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
 
     private static final String deleteUser =   "UPDATE crm.user SET (is_deleted) = (TRUE) WHERE user_id = ? ;";
 
-    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.user WHERE is_deleted = FALSE ORDER BY user_id LIMIT ? offset ? ;";
+    private static final String queryForGetRange = "SELECT * FROM crm.user WHERE is_deleted = FALSE ORDER BY user_id LIMIT ? offset ? ;";
 
 
     public UserDAOImpl(Connection connection) {

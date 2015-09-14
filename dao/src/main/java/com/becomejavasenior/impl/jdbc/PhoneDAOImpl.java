@@ -15,10 +15,10 @@ import java.util.Map;
  */
 public class PhoneDAOImpl extends GenericDAO<Phone> implements PhoneDAO {
 
-    private static final String saveNewPhone =  "INSERT INTO crmtwo.crm.phone (phone_type, phone_number) " +
+    private static final String saveNewPhone =  "INSERT INTO crm.phone (phone_type, phone_number) " +
                                                 "VALUES (?, ?) RETURNING phone_number_id;";
 
-    private static final String updatePhone =   "UPDATE crmtwo.crm.phone SET (phone_type, phone_number) = (?, ?) " +
+    private static final String updatePhone =   "UPDATE crm.phone SET (phone_type, phone_number) = (?, ?) " +
                                                 "WHERE phone_number_id = ?;";
 
     private static final String getPhoneById =  "SELECT phone_number_id, phone_type, phone_number " +
@@ -28,7 +28,7 @@ public class PhoneDAOImpl extends GenericDAO<Phone> implements PhoneDAO {
     private static final String deletePhone =   "DELETE FROM crm.phone " +
                                                 "WHERE phone_number_id = ?;";
 
-    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.phone ORDER BY phone_number_id LIMIT ? offset ? ;";
+    private static final String queryForGetRange = "SELECT * FROM crm.phone ORDER BY phone_number_id LIMIT ? offset ? ;";
 
     public PhoneDAOImpl(Connection connection) {
         this.connection = connection;

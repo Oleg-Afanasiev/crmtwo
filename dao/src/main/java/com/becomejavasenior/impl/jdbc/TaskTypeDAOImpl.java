@@ -15,20 +15,20 @@ import java.util.Map;
  */
 public class TaskTypeDAOImpl extends GenericDAO<TaskType> implements TaskTypeDAO {
 
-    private static final String saveNewTaskType =   "INSERT INTO crmtwo.crm.task_type (name) " +
+    private static final String saveNewTaskType =   "INSERT INTO crm.task_type (name) " +
                                                     "VALUES (?) RETURNING task_type_id;";
 
-    private static final String updateTaskType =    "UPDATE crmtwo.crm.task_type SET (name)=(?) " +
+    private static final String updateTaskType =    "UPDATE crm.task_type SET (name)=(?) " +
                                                     "WHERE task_type_id = ?";
 
     private static final String getTaskTypeById =   "SELECT task_type_id, name " +
-                                                    "FROM crmtwo.crm.task_type " +
+                                                    "FROM crm.task_type " +
                                                     "WHERE task_type_id = ?";
 
-    private static final String deleteTaskType =    "DELETE FROM crmtwo.crm.task_type " +
+    private static final String deleteTaskType =    "DELETE FROM crm.task_type " +
                                                     "WHERE task_type_id = ?";
 
-    private static final String queryForGetRange =  "SELECT * FROM crmtwo.crm.task_type ORDER BY task_type_id LIMIT ? offset ? ;";
+    private static final String queryForGetRange =  "SELECT * FROM crm.task_type ORDER BY task_type_id LIMIT ? offset ? ;";
 
 
     public TaskTypeDAOImpl(Connection connection) {
