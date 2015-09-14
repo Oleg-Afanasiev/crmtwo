@@ -9,7 +9,7 @@ import java.sql.SQLException;
 /**
  * Created by Dmytro Tsapko on 8/29/2015.
  */
-public class DaoManager<T> {
+public class DaoManager {
 
     private static BasicDataSource connectionPool;
     private static ThreadLocal<DaoManager> daoManagerThreadLocal = new ThreadLocal<>();;
@@ -96,14 +96,14 @@ public class DaoManager<T> {
         return new RoleDAOImpl(connection);
     }
 
-    public AbstractDAO getDaoByClass(Class clazz){
-
-        if(clazz.equals(Role.class)){
-            return new RoleDAOImpl(connection);
-        }
-
-        return null;
-    }
+//    public AbstractDAO getDaoByClass(Class clazz){
+//
+//        if(clazz.equals(Role.class)){
+//            return new RoleDAOImpl(connection);
+//        }
+//
+//        return null;
+//    }
 
     public void closeConnection() {
 
