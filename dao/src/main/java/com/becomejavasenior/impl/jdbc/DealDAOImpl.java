@@ -251,7 +251,6 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
     private void clearRelationsWithComments(Deal entity) throws SQLException {
         String clearQuery = "DELETE FROM crm.deal_comment WHERE deal_id = " + entity.getId();
         try (Statement statement = connection.createStatement()) {
-            System.out.println(clearQuery);
             statement.executeUpdate(clearQuery);
         } catch (SQLException e) {
             throw new DAOException("Can't delete relations with comments", e);
@@ -333,7 +332,6 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         }
         builder.append(" ;");
         try (Statement statement = connection.createStatement()) {
-            System.out.println(builder.toString());
             statement.executeUpdate(builder.toString());
         } catch (SQLException e) {
             throw new DAOException("Can't update relations with files", e);

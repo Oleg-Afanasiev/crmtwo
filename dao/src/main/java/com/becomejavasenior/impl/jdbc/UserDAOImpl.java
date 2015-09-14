@@ -93,7 +93,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
 
     @Override
     protected User mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
-        User user = new UserImpl();
+        final User user = new UserImpl();
 
         super.setPrivateField(user, "id", resultSet.getLong("user_id"));
         user.setUserName(resultSet.getString("username"));
