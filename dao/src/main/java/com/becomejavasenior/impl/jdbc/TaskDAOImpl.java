@@ -85,9 +85,9 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         Long id = entity.getId();
         statement.setLong(1, entity.getTaskType().getId());
         statement.setLong(2, entity.getResponsibleUser().getId());
-        statement.setLong(3, entity.getCompany().getId());
-        statement.setLong(4, entity.getDeal().getId());
-        statement.setLong(5, entity.getContact().getId());
+        setLongOrNull(3, statement, entity.getCompany());
+        setLongOrNull(4, statement, entity.getDeal());
+        setLongOrNull(5, statement, entity.getContact());
         statement.setLong(6, entity.getTaskPeriod().getId());
         statement.setTimestamp(7, new Timestamp(entity.getDueDate().getTime()));
         statement.setString(8, entity.getDescription());
