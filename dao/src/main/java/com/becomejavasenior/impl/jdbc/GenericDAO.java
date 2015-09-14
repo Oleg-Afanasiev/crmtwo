@@ -1,8 +1,6 @@
 package com.becomejavasenior.impl.jdbc;
 
-import com.becomejavasenior.AbstractDAO;
-import com.becomejavasenior.DAOException;
-import com.becomejavasenior.Identity;
+import com.becomejavasenior.*;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -18,6 +16,25 @@ import static java.util.Arrays.asList;
  */
 abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
     protected Connection connection;
+
+    private static final Map<String, Class> methodToEntity = new HashMap<>();
+    static {
+        methodToEntity.put("getPhones", Phone.class);
+        methodToEntity.put("getDeals", Deal.class);
+        methodToEntity.put("getTags", Tag.class);
+        methodToEntity.put("getFiles", File.class);
+        methodToEntity.put("getComments", Comment.class);
+        methodToEntity.put("getResponsibleUser", User.class);
+        methodToEntity.put("getDealStatus", DealStatus.class);
+        methodToEntity.put("getCompanies", Company.class);
+        methodToEntity.put("getContacts", Contact.class);
+        methodToEntity.put("getCompany", Company.class);
+        methodToEntity.put("getRole", Role.class);
+        methodToEntity.put("getDeal", Deal.class);
+        methodToEntity.put("getContact", Contact.class);
+        methodToEntity.put("getTaskType", TaskType.class);
+        methodToEntity.put("getTaskPeriod", TaskPeriod.class);
+    }
 
     Boolean hasResultSet = false; //todo how can I fix that? suppose that we use one instance of DAO per thread
 
@@ -165,9 +182,22 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         ps.execute();
         ResultSet rs = ps.getResultSet();
         while (rs.next()) {
-            result.add(rs.getLong(1));
+            Long id = rs.getLong(1);
+            if (!rs.wasNull()) {
+                result.add(id);
+            }
         }
         return result;
+    }
+
+    protected void methodEngine(String methodName, T instance) throws SQLException {
+        final Map<String, String> methodToQueryMap = getMethodToQueryMap();
+        Collection<Long> IDs = getRelatedIds(methodName, instance);
+
+
+
+
+
     }
 
     protected abstract String getQueryForGetRange();

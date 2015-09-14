@@ -37,7 +37,6 @@ public class RoleImpl extends IdentityImpl implements Role {
         return "Role{" +
                 "role_id='" + super.getId() + '\'' +
                 ", name='" + name + '\'' +
-                ", isDeleted=" + isDeleted +
                 '}';
     }
 
