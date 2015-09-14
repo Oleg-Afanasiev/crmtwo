@@ -30,7 +30,7 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
     private static final String deleteFile =    "DELETE FROM crm.file f " +
                                                 "WHERE f.file_id = ?";
 
-    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.file ORDER BY file_id LIMIT ? offset ? ;";
+    private static final String queryForGetRange = "SELECT * FROM crm.file ORDER BY file_id LIMIT ? offset ? ;";
 
 
     @Override
