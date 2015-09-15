@@ -66,7 +66,7 @@ public class DealStatusDAOImpl extends GenericDAO<DealStatus> implements DealSta
 
     @Override
     protected void setParamsForSaveOrUpdate(PreparedStatement statement, DealStatus entity) throws SQLException {
-        Long id = ((Identity) entity).getId();
+        Long id = entity.getId();
         statement.setString(1, entity.getName());
         if (id != null) {
             statement.setLong(2, id);

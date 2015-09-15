@@ -87,13 +87,13 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         statement.setTimestamp(6, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(7, new Timestamp(entity.getUpdated().getTime()));
         if (id != null) {
-            statement.setLong(9, entity.getId());
+            statement.setLong(8, entity.getId());
         }
     }
 
     @Override
     protected User mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
-        User user = new UserImpl();
+        final User user = new UserImpl();
 
         super.setPrivateField(user, "id", resultSet.getLong("user_id"));
         user.setUserName(resultSet.getString("username"));

@@ -89,7 +89,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         statement.setTimestamp(5, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(6, new Timestamp(entity.getUpdated().getTime()));
         if (id != null) {
-            statement.setLong(8, id);
+            statement.setLong(7, id);
         }
     }
 
@@ -124,70 +124,84 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         switch (methodName) {
             case "getCompanies": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Company> set = new HashSet<>();
-                CompanyDAO dao = DaoManager.getInstance().getCompanyDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Company> set = new HashSet<>();
+                    CompanyDAO dao = DaoManager.getInstance().getCompanyDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Deal) instance).setCompanies((Set<Company>) result);
                 }
-                result = set;
-                ((Deal) instance).setCompanies((Set<Company>) result);
             }
             break;
             case "getDealStatus": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                DealStatusDAO dao = DaoManager.getInstance().getDealStatusDAO();
-                result = dao.getById(ids.iterator().next());
-                ((Deal) instance).setDealStatus((DealStatus) result);
+                if (!ids.isEmpty()) {
+                    DealStatusDAO dao = DaoManager.getInstance().getDealStatusDAO();
+                    result = dao.getById(ids.iterator().next());
+                    ((Deal) instance).setDealStatus((DealStatus) result);
+                }
             }
             break;
             case "getTags": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Tag> set = new HashSet<Tag>();
-                TagDAO dao = DaoManager.getInstance().getTagDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Tag> set = new HashSet<Tag>();
+                    TagDAO dao = DaoManager.getInstance().getTagDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Deal) instance).setTags((Set<Tag>) result);
                 }
-                result = set;
-                ((Deal) instance).setTags((Set<Tag>) result);
             }
             break;
             case "getFiles": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<File> set = new HashSet<File>();
-                FileDAO dao = DaoManager.getInstance().getFileDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<File> set = new HashSet<File>();
+                    FileDAO dao = DaoManager.getInstance().getFileDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Deal) instance).setFiles((Set<File>) result);
                 }
-                result = set;
-                ((Deal) instance).setFiles((Set<File>) result);
             }
             break;
             case "getComments": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Comment> set = new HashSet<Comment>();
-                CommentDAO dao = DaoManager.getInstance().getCommentDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Comment> set = new HashSet<Comment>();
+                    CommentDAO dao = DaoManager.getInstance().getCommentDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Deal) instance).setComments((Set<Comment>) result);
                 }
-                result = set;
-                ((Deal) instance).setComments((Set<Comment>) result);
             }
             break;
             case "getResponsibleUser": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
-                ((Deal) instance).setResponsibleUser((User) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
+                    ((Deal) instance).setResponsibleUser((User) result);
+                }
             }
             break;
             case "getContacts": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Contact> set = new HashSet<Contact>();
-                ContactDAO dao = DaoManager.getInstance().getContactDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Contact> set = new HashSet<Contact>();
+                    ContactDAO dao = DaoManager.getInstance().getContactDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Deal) instance).setContacts((Set<Contact>) result);
                 }
-                result = set;
-                ((Deal) instance).setContacts((Set<Contact>) result);
             }
             default:
                 result = method.invoke(instance, args);
@@ -237,7 +251,6 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
     private void clearRelationsWithComments(Deal entity) throws SQLException {
         String clearQuery = "DELETE FROM crm.deal_comment WHERE deal_id = " + entity.getId();
         try (Statement statement = connection.createStatement()) {
-            System.out.println(clearQuery);
             statement.executeUpdate(clearQuery);
         } catch (SQLException e) {
             throw new DAOException("Can't delete relations with comments", e);
@@ -319,7 +332,6 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         }
         builder.append(" ;");
         try (Statement statement = connection.createStatement()) {
-            System.out.println(builder.toString());
             statement.executeUpdate(builder.toString());
         } catch (SQLException e) {
             throw new DAOException("Can't update relations with files", e);

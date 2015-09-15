@@ -38,7 +38,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
                                                     "VALUES (?, ?, ? , ? , ?, ? , ?) RETURNING company_id;";
 
     private static final String updateCompany = "UPDATE crm.company SET (responsible_user_id, name, email, web_address, address, created, updated) " +
-                                                "= (?, ?, ? , ? , ?, ? , ?)" +
+                                                "= (?, ?, ?, ?, ?, ? , ?)" +
                                                 "WHERE company_id = ?;";
 
     private static final String getCompanyById =    "SELECT company_id, responsible_user_id, name, email, web_address, address, created, updated " +
@@ -82,7 +82,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         statement.setTimestamp(6, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(7, new Timestamp(entity.getUpdated().getTime()));
         if (id != null) {
-            statement.setLong(9, id);
+            statement.setLong(8, id);
         }
     }
 
@@ -120,63 +120,75 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         switch (methodName) {
             case "getPhones": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Phone> set = new HashSet<>();
-                PhoneDAO dao = DaoManager.getInstance().getPhoneDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Phone> set = new HashSet<>();
+                    PhoneDAO dao = DaoManager.getInstance().getPhoneDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Company) instance).setPhones((Set<Phone>) result);
                 }
-                result = set;
-                ((Company) instance).setPhones((Set<Phone>) result);
             }
             break;
             case "getDeals": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Deal> set = new HashSet<>();
-                DealDAO dao = DaoManager.getInstance().getDealDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Deal> set = new HashSet<>();
+                    DealDAO dao = DaoManager.getInstance().getDealDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Company) instance).setDeals((Set<Deal>) result);
                 }
-                result = set;
-                ((Company) instance).setDeals((Set<Deal>) result);
             }
             break;
             case "getTags": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Tag> set = new HashSet<Tag>();
-                TagDAO dao = DaoManager.getInstance().getTagDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Tag> set = new HashSet<Tag>();
+                    TagDAO dao = DaoManager.getInstance().getTagDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Company) instance).setTags((Set<Tag>) result);
                 }
-                result = set;
-                ((Company) instance).setTags((Set<Tag>) result);
             }
             break;
             case "getFiles": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<File> set = new HashSet<File>();
-                FileDAO dao = DaoManager.getInstance().getFileDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<File> set = new HashSet<File>();
+                    FileDAO dao = DaoManager.getInstance().getFileDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Company) instance).setFiles((Set<File>) result);
                 }
-                result = set;
-                ((Company) instance).setFiles((Set<File>) result);
             }
             break;
             case "getComments": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Comment> set = new HashSet<Comment>();
-                CommentDAO dao = DaoManager.getInstance().getCommentDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Comment> set = new HashSet<Comment>();
+                    CommentDAO dao = DaoManager.getInstance().getCommentDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Company) instance).setComments((Set<Comment>) result);
                 }
-                result = set;
-                ((Company) instance).setComments((Set<Comment>) result);
             }
             break;
             case "getResponsibleUser": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
-                ((Company) instance).setResponsibleUser((User) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
+                    ((Company) instance).setResponsibleUser((User) result);
+                }
             }
             break;
             default:
