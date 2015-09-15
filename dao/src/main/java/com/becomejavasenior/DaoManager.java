@@ -29,7 +29,6 @@ public class DaoManager {
     public static synchronized DaoManager getInstance() {
         if(daoManagerThreadLocal.get() == null){
             daoManagerThreadLocal.set(new DaoManager());
-            System.out.println("=====asas"+connectionPool.getNumActive()+"====idle"+connectionPool.getNumIdle());
         }
         return daoManagerThreadLocal.get();
     }
