@@ -30,7 +30,8 @@ class abcd {
 
         newDeal.setDealStatus(dealStatus);
 
-        dealDAO.insertOrUpdate(newDeal);
+        deal.setName("новая сделка");
+        dealDAO.insertOrUpdate(deal);
 
         System.out.println(deal);
         System.out.println(newDeal);
