@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class DaoManager {
 
     private static BasicDataSource connectionPool;
-    private static ThreadLocal<DaoManager> daoManagerThreadLocal = new ThreadLocal<>();;
+    private static ThreadLocal<DaoManager> daoManagerThreadLocal = new ThreadLocal<>();
     private Connection connection;
 
     static {
@@ -23,11 +23,13 @@ public class DaoManager {
         connectionPool.setDriverClassName(daoProperties.getProperty("driver"));
         connectionPool.setUrl(daoProperties.getProperty("url"));
         connectionPool.setInitialSize(10);
+        connectionPool.setMaxTotal(20);
     }
 
     public static synchronized DaoManager getInstance() {
         if(daoManagerThreadLocal.get() == null){
             daoManagerThreadLocal.set(new DaoManager());
+            System.out.println("=====asas"+connectionPool.getNumActive()+"====idle"+connectionPool.getNumIdle());
         }
         return daoManagerThreadLocal.get();
     }
