@@ -29,4 +29,16 @@
         <url-pattern>/test</url-pattern>
     </servlet-mapping>
 
+
+    <!-- Contact Servlets-->
+    <servlet>
+        <servlet-name>ContactListServlet</servlet-name>
+        <servlet-class>com.becomejavasenior.ContactListServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ContactListServlet</servlet-name>
+        <url-pattern>/contacts</url-pattern>
+    </servlet-mapping>
+
 </web-app>
