@@ -18,14 +18,13 @@ public class TestServlet extends PersistServlet {
     protected void doGetInPersistentCtx(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DaoManager dm = DaoManager.getInstance( );
         PrintWriter writer = resp.getWriter();
-        Collection<Contact> contacts = dm.getContactDAO().getRange(1, 100);
+        User user = dm.getUserDAO().getById(2);
         writer.print("<html> <body>");
 
-        for (Contact c : contacts){
-            writer.print(c + " <br /> ");
-            writer.print(c.getPhones() + " <br /> ");
-            writer.print(c.getCompany() + " <br /> ");
-        }
+            writer.print(user + " <br /> ");
+            writer.print(user.getRole() + " <br /> ");
+            writer.print(user.getId() + " <br /> ");
+
         writer.print("</body> </html> ");
     }
 }

@@ -1,6 +1,7 @@
 package com.becomejavasenior.impl.jdbc;
 
 import com.becomejavasenior.*;
+import com.becomejavasenior.impl.DaoUtils;
 
 import java.lang.reflect.Field;
 import java.sql.*;
@@ -13,8 +14,7 @@ import static java.util.Arrays.asList;
  */
 abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
     protected Connection connection;
-
-    Boolean hasResultSet = false; //todo how can I fix that? suppose that we use one instance of DAO per thread
+    private Boolean hasResultSet = false; //todo how can I fix that? suppose that we use one instance of DAO per thread
 
     public void insertOrUpdate(T entity) {
 
@@ -120,18 +120,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
      * takes field with defined name and sets defined value.
      */
     protected void setPrivateField(T entity, String fieldName, Object value) throws NoSuchFieldException, IllegalAccessException {
-        List<Field> fields = new ArrayList<Field>();
-        Class clazz = entity.getClass();
-        while (!clazz.equals(Object.class)) {
-            fields = asList(clazz.getDeclaredFields());
-            for (Field f : fields) {
-                if (f.getName().equals(fieldName)) {
-                    f.setAccessible(true);
-                    f.set(entity, value);
-                }
-            }
-            clazz = clazz.getSuperclass();
-        }
+        DaoUtils.setPrivateField(entity, fieldName, value); //todo maybe it's better to delete this method?
     }
 
     private ResultSet executePreparedStatementForUpdate(PreparedStatement statement, T entity) throws SQLException {
@@ -152,17 +141,17 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         ArrayList<Long> result = new ArrayList<>();
         String query = getMethodToQueryMap().get(methodName);
 
-        if (query == null) throw new DAOException("Can't find query to find related entities");
+        if (query != null) {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setLong(1, instance.getId());
 
-        PreparedStatement ps = connection.prepareStatement(query);
-        ps.setLong(1, instance.getId());
-
-        ps.execute();
-        ResultSet rs = ps.getResultSet();
-        while (rs.next()) {
-            Long id = rs.getLong(1);
-            if (!rs.wasNull()) {
-                result.add(id);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                Long id = rs.getLong(1);
+                if (!rs.wasNull()) {
+                    result.add(id);
+                }
             }
         }
         return result;
@@ -174,6 +163,17 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         } else {
             statement.setLong(paramPosition, entity.getId());
         }
+    }
+
+    protected void methodEngine(String methodName, T instance) throws SQLException {
+        final Map<String, String> methodToQueryMap = getMethodToQueryMap();
+        Collection<Long> IDs = getRelatedIds(methodName, instance);
+
+
+
+
+
+
     }
 
     protected abstract String getQueryForGetRange();
