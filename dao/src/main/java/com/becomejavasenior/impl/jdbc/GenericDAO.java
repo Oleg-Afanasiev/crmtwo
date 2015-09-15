@@ -165,17 +165,6 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         }
     }
 
-    protected void methodEngine(String methodName, T instance) throws SQLException {
-        final Map<String, String> methodToQueryMap = getMethodToQueryMap();
-        Collection<Long> IDs = getRelatedIds(methodName, instance);
-
-
-
-
-
-
-    }
-
     protected abstract String getQueryForGetRange();
 
     abstract protected Map<String, String> getMethodToQueryMap();
