@@ -15,21 +15,21 @@ import java.util.Map;
  */
 public class TaskPeriodDAOImpl extends GenericDAO<TaskPeriod> implements TaskPeriodDAO {
 
-    private static final String saveNewTaskPeriod = "INSERT INTO crmtwo.crm.task_period (period_name) " +
+    private static final String saveNewTaskPeriod = "INSERT INTO crm.task_period (period_name) " +
                                                     "VALUES (?) RETURNING period_id;";
 
-    private static final String updateTaskPeriod =  "UPDATE crmtwo.crm.task_period SET (period_name)=(?) " +
+    private static final String updateTaskPeriod =  "UPDATE crm.task_period SET (period_name)=(?) " +
                                                     "WHERE period_id = ?;";
 
 
     private static final String getTaskPeriodById = "SELECT period_id, period_name " +
-                                                    "FROM crmtwo.crm.task_period " +
+                                                    "FROM crm.task_period " +
                                                     "WHERE period_id = ?;";
 
-    private static final String deleteTaskPeriod =  "DELETE FROM crmtwo.crm.task_period " +
+    private static final String deleteTaskPeriod =  "DELETE FROM crm.task_period " +
                                                     "WHERE period_id = ?;";
 
-    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.task_period ORDER BY period_id LIMIT ? offset ? ;";
+    private static final String queryForGetRange = "SELECT * FROM crm.task_period ORDER BY period_id LIMIT ? offset ? ;";
 
 
     public TaskPeriodDAOImpl(Connection connection) {

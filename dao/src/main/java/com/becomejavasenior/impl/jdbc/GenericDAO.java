@@ -1,14 +1,9 @@
 package com.becomejavasenior.impl.jdbc;
 
-import com.becomejavasenior.AbstractDAO;
-import com.becomejavasenior.DAOException;
-import com.becomejavasenior.Identity;
+import com.becomejavasenior.*;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 import static java.util.Arrays.asList;
@@ -165,9 +160,20 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         ps.execute();
         ResultSet rs = ps.getResultSet();
         while (rs.next()) {
-            result.add(rs.getLong(1));
+            Long id = rs.getLong(1);
+            if (!rs.wasNull()) {
+                result.add(id);
+            }
         }
         return result;
+    }
+
+    void setLongOrNull(int paramPosition, PreparedStatement statement, Identity entity) throws SQLException {
+        if(entity == null){
+            statement.setNull(paramPosition, Types.BIGINT);
+        } else {
+            statement.setLong(paramPosition, entity.getId());
+        }
     }
 
     protected abstract String getQueryForGetRange();

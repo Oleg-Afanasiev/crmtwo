@@ -34,22 +34,22 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         return methodToQueryMap;
     }
 
-    private static final String saveNewCompany =    "INSERT INTO crmtwo.crm.company (responsible_user_id, name, email, web_address, address, created, updated) " +
+    private static final String saveNewCompany =    "INSERT INTO crm.company (responsible_user_id, name, email, web_address, address, created, updated) " +
                                                     "VALUES (?, ?, ? , ? , ?, ? , ?) RETURNING company_id;";
 
-    private static final String updateCompany = "UPDATE crmtwo.crm.company SET (responsible_user_id, name, email, web_address, address, created, updated) " +
-                                                "= (?, ?, ? , ? , ?, ? , ?)" +
+    private static final String updateCompany = "UPDATE crm.company SET (responsible_user_id, name, email, web_address, address, created, updated) " +
+                                                "= (?, ?, ?, ?, ?, ? , ?)" +
                                                 "WHERE company_id = ?;";
 
     private static final String getCompanyById =    "SELECT company_id, responsible_user_id, name, email, web_address, address, created, updated " +
-                                                    "FROM crmtwo.crm.company " +
+                                                    "FROM crm.company " +
                                                     "WHERE company_id = ? " +
                                                     "AND is_deleted = FALSE ;";
 
-    private static final String deleteCompany = "UPDATE crmtwo.crm.company SET (is_deleted) = (TRUE) " +
+    private static final String deleteCompany = "UPDATE crm.company SET (is_deleted) = (TRUE) " +
                                                 "WHERE company_id = ?;";
 
-    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.company WHERE is_deleted = FALSE ORDER BY company_id LIMIT ? offset ? ;";
+    private static final String queryForGetRange = "SELECT * FROM crm.company WHERE is_deleted = FALSE ORDER BY company_id LIMIT ? offset ? ;";
 
     public CompanyDAOImpl(Connection connection) {
         this.connection = connection;
@@ -82,7 +82,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         statement.setTimestamp(6, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(7, new Timestamp(entity.getUpdated().getTime()));
         if (id != null) {
-            statement.setLong(9, id);
+            statement.setLong(8, id);
         }
     }
 
@@ -120,63 +120,75 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
         switch (methodName) {
             case "getPhones": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Phone> set = new HashSet<>();
-                PhoneDAO dao = DaoManager.getInstance().getPhoneDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Phone> set = new HashSet<>();
+                    PhoneDAO dao = DaoManager.getInstance().getPhoneDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Company) instance).setPhones((Set<Phone>) result);
                 }
-                result = set;
-                ((Company) instance).setPhones((Set<Phone>) result);
             }
             break;
             case "getDeals": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Deal> set = new HashSet<>();
-                DealDAO dao = DaoManager.getInstance().getDealDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Deal> set = new HashSet<>();
+                    DealDAO dao = DaoManager.getInstance().getDealDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Company) instance).setDeals((Set<Deal>) result);
                 }
-                result = set;
-                ((Company) instance).setDeals((Set<Deal>) result);
             }
             break;
             case "getTags": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Tag> set = new HashSet<Tag>();
-                TagDAO dao = DaoManager.getInstance().getTagDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Tag> set = new HashSet<Tag>();
+                    TagDAO dao = DaoManager.getInstance().getTagDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Company) instance).setTags((Set<Tag>) result);
                 }
-                result = set;
-                ((Company) instance).setTags((Set<Tag>) result);
             }
             break;
             case "getFiles": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<File> set = new HashSet<File>();
-                FileDAO dao = DaoManager.getInstance().getFileDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<File> set = new HashSet<File>();
+                    FileDAO dao = DaoManager.getInstance().getFileDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Company) instance).setFiles((Set<File>) result);
                 }
-                result = set;
-                ((Company) instance).setFiles((Set<File>) result);
             }
             break;
             case "getComments": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Comment> set = new HashSet<Comment>();
-                CommentDAO dao = DaoManager.getInstance().getCommentDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Comment> set = new HashSet<Comment>();
+                    CommentDAO dao = DaoManager.getInstance().getCommentDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Company) instance).setComments((Set<Comment>) result);
                 }
-                result = set;
-                ((Company) instance).setComments((Set<Comment>) result);
             }
             break;
             case "getResponsibleUser": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
-                ((Company) instance).setResponsibleUser((User) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
+                    ((Company) instance).setResponsibleUser((User) result);
+                }
             }
             break;
             default:
@@ -252,7 +264,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
     }
 
     private void clearRelationsWithComments(Company entity) throws SQLException {
-        String clearQuery = "DELETE FROM crmtwo.crm.company_comment WHERE company_id = " + entity.getId();
+        String clearQuery = "DELETE FROM crm.company_comment WHERE company_id = " + entity.getId();
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(clearQuery);
         } catch (SQLException e) {
@@ -262,7 +274,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
 
     private void writeRelationsWithComments(Company entity, Set<Long> comments) throws SQLException {
         Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crmtwo.crm.company_comment (company_id, comment_id) VALUES ";
+        String insertQuery = "INSERT INTO crm.company_comment (company_id, comment_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
         for (Iterator<Long> iterator = comments.iterator(); iterator.hasNext(); ) {
             builder.append("( ");
@@ -282,7 +294,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
     }
 
     private void clearRelationsWithTags(Company entity) throws SQLException {
-        String clearQuery = "DELETE FROM crmtwo.crm.company_tag WHERE company_id = " + entity.getId();
+        String clearQuery = "DELETE FROM crm.company_tag WHERE company_id = " + entity.getId();
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(clearQuery);
         } catch (SQLException e) {
@@ -292,7 +304,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
 
     private void writeRelationsWithTags(Company entity, Set<Long> tags) throws SQLException {
         Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crmtwo.crm.company_tag (company_id, tag_id) VALUES ";
+        String insertQuery = "INSERT INTO crm.company_tag (company_id, tag_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
         for (Iterator<Long> iterator = tags.iterator(); iterator.hasNext(); ) {
             builder.append("( ");
@@ -312,7 +324,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
     }
 
     private void clearRelationsWithFiles(Company entity) throws SQLException {
-        String clearQuery = "DELETE FROM crmtwo.crm.company_file WHERE company_id = " + entity.getId();
+        String clearQuery = "DELETE FROM crm.company_file WHERE company_id = " + entity.getId();
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(clearQuery);
         } catch (SQLException e) {
@@ -322,7 +334,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
 
     private void writeRelationsWithFiles(Company entity, Set<Long> files) throws SQLException {
         Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crmtwo.crm.company_file (company_id, file_id) VALUES ";
+        String insertQuery = "INSERT INTO crm.company_file (company_id, file_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
         for (Iterator<Long> iterator = files.iterator(); iterator.hasNext(); ) {
             builder.append("( ");
@@ -342,7 +354,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
     }
 
     private void clearRelationsWithDeals(Company entity) throws SQLException {
-        String clearQuery = "DELETE FROM crmtwo.crm.deal_company WHERE company_id = " + entity.getId();
+        String clearQuery = "DELETE FROM crm.deal_company WHERE company_id = " + entity.getId();
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(clearQuery);
         } catch (SQLException e) {
@@ -352,7 +364,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
 
     private void writeRelationsWithDeals(Company entity, Set<Long> deals) throws SQLException {
         Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crmtwo.crm.deal_company (company_id, deal_id) VALUES ";
+        String insertQuery = "INSERT INTO crm.deal_company (company_id, deal_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
         for (Iterator<Long> iterator = deals.iterator(); iterator.hasNext(); ) {
             builder.append("( ");
@@ -372,7 +384,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
     }
 
     private void clearRelationsWithPhones(Company entity) throws SQLException {
-        String clearQuery = "DELETE FROM crmtwo.crm.company_phone WHERE company_id = " + entity.getId();
+        String clearQuery = "DELETE FROM crm.company_phone WHERE company_id = " + entity.getId();
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(clearQuery);
         } catch (SQLException e) {
@@ -382,7 +394,7 @@ public class CompanyDAOImpl extends GenericDAO<Company> implements CompanyDAO {
 
     private void writeRelationsWithPhones(Company entity, Set<Long> deals) throws SQLException {
         Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crmtwo.crm.company_phone (company_id, phone_number_id) VALUES ";
+        String insertQuery = "INSERT INTO crm.company_phone (company_id, phone_number_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
         for (Iterator<Long> iterator = deals.iterator(); iterator.hasNext(); ) {
             builder.append("( ");

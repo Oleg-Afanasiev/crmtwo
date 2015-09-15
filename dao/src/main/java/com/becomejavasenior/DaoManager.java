@@ -12,18 +12,18 @@ import java.sql.SQLException;
 public class DaoManager {
 
     private static BasicDataSource connectionPool;
-    private static ThreadLocal<DaoManager> daoManagerThreadLocal = new ThreadLocal<>();;
+    private static ThreadLocal<DaoManager> daoManagerThreadLocal = new ThreadLocal<>();
     private Connection connection;
 
-    {
+    static {
         DaoProperties daoProperties = new DaoProperties();
         connectionPool = new BasicDataSource();
         connectionPool.setUsername(daoProperties.getProperty("user"));
         connectionPool.setPassword(daoProperties.getProperty("password"));
         connectionPool.setDriverClassName(daoProperties.getProperty("driver"));
         connectionPool.setUrl(daoProperties.getProperty("url"));
-        connectionPool.setInitialSize(50);
-
+        connectionPool.setInitialSize(10);
+        connectionPool.setMaxTotal(20);
     }
 
     public static synchronized DaoManager getInstance() {
@@ -36,8 +36,8 @@ public class DaoManager {
 
     private DaoManager() {
         try {
-            connection = connectionPool.getConnection();
-            connection.setAutoCommit(false);
+            this.connection = connectionPool.getConnection();
+            this.connection.setAutoCommit(false);
         } catch (SQLException e) {
             throw new DAOException("Can't get connection from pool.", e);
         }
@@ -101,6 +101,7 @@ public class DaoManager {
         try{
             this.connection.commit();
             this.connection.close();
+            daoManagerThreadLocal.remove();
         }catch (SQLException e){
             throw new DAOException("Can't close connection", e);
         }

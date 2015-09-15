@@ -23,8 +23,8 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
 
     static {
         Map<String, String> tempMethodToQueryMap = new HashMap<>();
-        tempMethodToQueryMap.put("getComments", "SELECT comment_id FROM crmtwo.crm.task_comment WHERE task_id = ?");
-        tempMethodToQueryMap.put("getResponsibleUser", "SELECT responsible_user_id FROM crmtwo.crm.task WHERE task_id  = ?");
+        tempMethodToQueryMap.put("getComments", "SELECT comment_id FROM crm.task_comment WHERE task_id = ?");
+        tempMethodToQueryMap.put("getResponsibleUser", "SELECT responsible_user_id FROM crm.task WHERE task_id  = ?");
         tempMethodToQueryMap.put("getDeal", "SELECT deal_id FROM crm.task WHERE task_id  = ?");
         tempMethodToQueryMap.put("getContact", "SELECT contact_id FROM crm.task WHERE task_id  = ?");
         tempMethodToQueryMap.put("getCompany", "SELECT company_id FROM crm.task WHERE task.task_id  = ?");
@@ -33,23 +33,23 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         methodToQueryMap = Collections.unmodifiableMap(tempMethodToQueryMap);
     }
 
-    private static final String saveNewTask =   "INSERT INTO crmtwo.crm.task (task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated) " +
+    private static final String saveNewTask =   "INSERT INTO crm.task (task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated) " +
                                                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING task_id;";
 
-    private static final String updateTask =    "UPDATE crmtwo.crm.task SET (task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated) " +
+    private static final String updateTask =    "UPDATE crm.task SET (task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated) " +
                                                 "=(?, ?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                                                 "WHERE task_id = ?;";
 
     private static final String getTaskById =   "SELECT task_id, task_type_id, responsible_user_id, company_id, deal_id, contact_id, period_id, due_date, description, created, updated " +
-                                                "FROM crmtwo.crm.task " +
+                                                "FROM crm.task " +
                                                 "WHERE task_id = ? " +
                                                 "AND task.is_deleted = FALSE;";
 
-    private static final String deleteTask =    "UPDATE crmtwo.crm.task SET (is_deleted) " +
+    private static final String deleteTask =    "UPDATE crm.task SET (is_deleted) " +
                                                 "=(TRUE ) " +
                                                 "WHERE task_id = ?;";
 
-    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.task WHERE is_deleted = FALSE ORDER BY task_id LIMIT ? offset ? ;";
+    private static final String queryForGetRange = "SELECT * FROM crm.task WHERE is_deleted = FALSE ORDER BY task_id LIMIT ? offset ? ;";
 
     public TaskDAOImpl(Connection connection) {
         this.connection = connection;
@@ -85,16 +85,16 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         Long id = entity.getId();
         statement.setLong(1, entity.getTaskType().getId());
         statement.setLong(2, entity.getResponsibleUser().getId());
-        statement.setLong(3, entity.getCompany().getId());
-        statement.setLong(4, entity.getDeal().getId());
-        statement.setLong(5, entity.getContact().getId());
+        setLongOrNull(3, statement, entity.getCompany());
+        setLongOrNull(4, statement, entity.getDeal());
+        setLongOrNull(5, statement, entity.getContact());
         statement.setLong(6, entity.getTaskPeriod().getId());
         statement.setTimestamp(7, new Timestamp(entity.getDueDate().getTime()));
         statement.setString(8, entity.getDescription());
         statement.setTimestamp(9, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(10, new Timestamp(entity.getUpdated().getTime()));
         if (id != null) {
-            statement.setLong(12, id);
+            statement.setLong(11, id);
         }
     }
 
@@ -129,49 +129,63 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
         switch (methodName) {
             case "getDeal": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getDealDAO().getById(ids.iterator().next());
-                ((Task) instance).setDeal((Deal) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getDealDAO().getById(ids.iterator().next());
+                    ((Task) instance).setDeal((Deal) result);
+                }
             }
             break;
             case "getComments": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                Set<Comment> set = new HashSet<Comment>();
-                CommentDAO dao = DaoManager.getInstance().getCommentDAO();
-                for (Long id : ids) {
-                    set.add(dao.getById(id));
+                if (!ids.isEmpty()) {
+                    Set<Comment> set = new HashSet<Comment>();
+                    CommentDAO dao = DaoManager.getInstance().getCommentDAO();
+                    for (Long id : ids) {
+                        set.add(dao.getById(id));
+                    }
+                    result = set;
+                    ((Task) instance).setComments((Set<Comment>) result);
                 }
-                result = set;
-                ((Task) instance).setComments((Set<Comment>) result);
             }
             break;
             case "getResponsibleUser": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
-                ((Task) instance).setResponsibleUser((User) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
+                    ((Task) instance).setResponsibleUser((User) result);
+                }
             }
             break;
             case "getTaskType": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getTaskTypeDAO().getById(ids.iterator().next());
-                ((Task) instance).setTaskType((TaskType) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getTaskTypeDAO().getById(ids.iterator().next());
+                    ((Task) instance).setTaskType((TaskType) result);
+                }
             }
             break;
             case "getTaskPeriod": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getTaskPeriodDAO().getById(ids.iterator().next());
-                ((Task) instance).setTaskPeriod((TaskPeriod) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getTaskPeriodDAO().getById(ids.iterator().next());
+                    ((Task) instance).setTaskPeriod((TaskPeriod) result);
+                }
             }
             break;
             case "getCompany": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getCompanyDAO().getById(ids.iterator().next());
-                ((Task) instance).setCompany((Company) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getCompanyDAO().getById(ids.iterator().next());
+                    ((Task) instance).setCompany((Company) result);
+                }
             }
             break;
             case "getContact": {
                 Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getContactDAO().getById(ids.iterator().next());
-                ((Task) instance).setContact((Contact) result);
+                if (!ids.isEmpty()) {
+                    result = DaoManager.getInstance().getContactDAO().getById(ids.iterator().next());
+                    ((Task) instance).setContact((Contact) result);
+                }
             }
             break;
             default:
@@ -197,7 +211,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
     }
 
     private void clearRelationsWithComments(Task entity, Set<Long> comments) throws SQLException {
-        String clearQuery = "DELETE FROM crmtwo.crm.task_comment WHERE task_id = " + entity.getId();
+        String clearQuery = "DELETE FROM crm.task_comment WHERE task_id = " + entity.getId();
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(clearQuery);
         } catch (SQLException e) {
@@ -207,7 +221,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
 
     private void writeRelationsWithComments(Task entity, Set<Long> comments) throws SQLException {
         Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crmtwo.crm.task_comment (task_id, comment_id) VALUES ";
+        String insertQuery = "INSERT INTO crm.task_comment (task_id, comment_id) VALUES ";
         StringBuilder builder = new StringBuilder(insertQuery);
         for (Iterator<Long> iterator = comments.iterator(); iterator.hasNext(); ) {
             builder.append("( ");

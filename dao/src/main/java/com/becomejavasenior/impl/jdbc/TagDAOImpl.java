@@ -15,21 +15,21 @@ import java.util.Map;
  */
 public class TagDAOImpl extends GenericDAO<Tag> implements TagDAO {
 
-    private static final String saveNewTag =    "INSERT INTO crmtwo.crm.tag (name) " +
+    private static final String saveNewTag =    "INSERT INTO crm.tag (name) " +
                                                 "VALUES (?) RETURNING tag_id;";
 
-    private static final String updateTag = "UPDATE crmtwo.crm.tag SET (name) = (?) " +
+    private static final String updateTag = "UPDATE crm.tag SET (name) = (?) " +
                                             "WHERE tag_id = ?;";
 
     private static final String getTagById =    "SELECT * " +
-                                                "FROM crmtwo.crm.tag " +
+                                                "FROM crm.tag " +
                                                 "WHERE tag_id = ?;";
 
     private static final String deleteTag = "DELETE " +
-                                            "FROM crmtwo.crm.tag " +
+                                            "FROM crm.tag " +
                                             "WHERE tag_id = ?;";
 
-    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.tag ORDER BY tag_id LIMIT ? offset ? ;";
+    private static final String queryForGetRange = "SELECT * FROM crm.tag ORDER BY tag_id LIMIT ? offset ? ;";
 
     public TagDAOImpl(Connection connection) {
         this.connection = connection;

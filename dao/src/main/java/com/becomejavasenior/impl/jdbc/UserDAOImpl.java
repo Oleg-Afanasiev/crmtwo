@@ -19,7 +19,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
 
     static {
         Map<String, String> tempMethodToQueryMap = new HashMap<>();
-        tempMethodToQueryMap.put("getRole", "SELECT role_id FROM crmtwo.crm.user WHERE user_id  = ? ;");
+        tempMethodToQueryMap.put("getRole", "SELECT role_id FROM crm.user WHERE user_id  = ? ;");
         methodToQueryMap = Collections.unmodifiableMap(tempMethodToQueryMap);
     }
 
@@ -38,7 +38,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
 
     private static final String deleteUser =   "UPDATE crm.user SET (is_deleted) = (TRUE) WHERE user_id = ? ;";
 
-    private static final String queryForGetRange = "SELECT * FROM crmtwo.crm.user WHERE is_deleted = FALSE ORDER BY user_id LIMIT ? offset ? ;";
+    private static final String queryForGetRange = "SELECT * FROM crm.user WHERE is_deleted = FALSE ORDER BY user_id LIMIT ? offset ? ;";
 
 
     public UserDAOImpl(Connection connection) {
@@ -87,13 +87,13 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         statement.setTimestamp(6, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(7, new Timestamp(entity.getUpdated().getTime()));
         if (id != null) {
-            statement.setLong(9, entity.getId());
+            statement.setLong(8, entity.getId());
         }
     }
 
     @Override
     protected User mapFieldsFromResultSet(ResultSet resultSet) throws SQLException, NoSuchFieldException, IllegalAccessException {
-        User user = new UserImpl();
+        final User user = new UserImpl();
 
         super.setPrivateField(user, "id", resultSet.getLong("user_id"));
         user.setUserName(resultSet.getString("username"));
@@ -106,7 +106,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         InvocationHandler handler = new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return impruveMethods(method, user, args);
+                return improveMethods(method, user, args);
             }
         };
         User proxy =
@@ -114,7 +114,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         return proxy;
     }
 
-    private <T extends Identity> Object impruveMethods(Method method, T instance, Object[] args)
+    private <T extends Identity> Object improveMethods(Method method, T instance, Object[] args)
             throws InvocationTargetException, IllegalAccessException, SQLException {
         Object result = method.invoke(instance, args);
         if (result != null) {
