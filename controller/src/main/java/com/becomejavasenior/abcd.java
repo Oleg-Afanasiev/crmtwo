@@ -10,7 +10,7 @@ class abcd {
         DaoManager daoManager = DaoManager.getInstance();
         DealDAO dealDAO = daoManager.getDealDAO();
         DealStatusDAO dealStatusDAO = daoManager.getDealStatusDAO();
-        UserDAO userDAO = daoManager.getUserDAO();
+        UserDAO userDAO = daoManager.getUserDAO();a
 
         Deal deal = dealDAO.getById(7);
         DealStatus dealStatus = dealStatusDAO.getById(2);
