@@ -29,20 +29,4 @@ public class TestServlet extends PersistServlet {
         writer.print("</body> </html> ");
     }
 
-//    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        PrintWriter writer = resp.getWriter();
-//
-//        writer.print("<html> <body>");
-//
-//        writer.print(System.getenv("DATABASE_URL") + " <br /> ");
-//
-//
-//        writer.print("</body> </html> ");
-//
-//
-//
-//
-//    }
-
 }
