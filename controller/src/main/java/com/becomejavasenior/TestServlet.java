@@ -13,9 +13,9 @@ import java.util.Collection;
 /**
  * Created by Dmytro Tsapko on 9/11/2015.
  */
-public class TestServlet extends HttpServlet {
+public class TestServlet extends PersistServlet {
 
-    //@Override
+    @Override
     protected void doGetInPersistentCtx(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DaoManager dm = DaoManager.getInstance( );
         PrintWriter writer = resp.getWriter();
@@ -29,20 +29,20 @@ public class TestServlet extends HttpServlet {
         writer.print("</body> </html> ");
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        PrintWriter writer = resp.getWriter();
-
-        writer.print("<html> <body>");
-
-        writer.print(System.getenv("DATABASE_URL") + " <br /> ");
-
-
-        writer.print("</body> </html> ");
-
-
-
-
-    }
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+//        PrintWriter writer = resp.getWriter();
+//
+//        writer.print("<html> <body>");
+//
+//        writer.print(System.getenv("DATABASE_URL") + " <br /> ");
+//
+//
+//        writer.print("</body> </html> ");
+//
+//
+//
+//
+//    }
 
 }
