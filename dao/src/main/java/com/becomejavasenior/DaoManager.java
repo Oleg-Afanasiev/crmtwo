@@ -3,6 +3,8 @@ package com.becomejavasenior;
 import com.becomejavasenior.impl.jdbc.*;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -31,11 +33,32 @@ public class DaoManager {
 
     static {
         DaoProperties daoProperties = new DaoProperties();
+        String username;
+        String password;
+        String dbUrl;
+        String driver;
+        String dbUrlFromEnv = System.getenv("DATABASE_URL"); // It is convenient to use this on Heroku platform
+        if (dbUrlFromEnv != null) {
+            try {
+                URI dbUri = new URI(dbUrlFromEnv);
+                username = dbUri.getUserInfo().split(":")[0];
+                password = dbUri.getUserInfo().split(":")[1];
+                dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+                driver = "org.postgresql.Driver";
+            } catch (URISyntaxException e) {
+                throw new DAOException("can't get Database URL from Env variable.", e);
+            }
+        } else {
+            username = daoProperties.getProperty("user");
+            password = daoProperties.getProperty("password");
+            dbUrl = daoProperties.getProperty("url");
+            driver = daoProperties.getProperty("driver");
+        }
         connectionPool = new BasicDataSource();
-        connectionPool.setUsername(daoProperties.getProperty("user"));
-        connectionPool.setPassword(daoProperties.getProperty("password"));
-        connectionPool.setDriverClassName(daoProperties.getProperty("driver"));
-        connectionPool.setUrl(daoProperties.getProperty("url"));
+        connectionPool.setUsername(username);
+        connectionPool.setPassword(password);
+        connectionPool.setDriverClassName(driver);
+        connectionPool.setUrl(dbUrl);
         connectionPool.setInitialSize(10);
         connectionPool.setMaxTotal(20);
     }
