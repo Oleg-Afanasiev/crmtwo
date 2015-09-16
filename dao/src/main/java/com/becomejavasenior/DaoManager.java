@@ -32,7 +32,6 @@ public class DaoManager {
     private RoleDAO roleDAO;
 
     static {
-        DaoProperties daoProperties = new DaoProperties();
         String username;
         String password;
         String dbUrl;
@@ -49,6 +48,7 @@ public class DaoManager {
                 throw new DAOException("can't get Database URL from Env variable.", e);
             }
         } else {
+            DaoProperties daoProperties = new DaoProperties();
             username = daoProperties.getProperty("user");
             password = daoProperties.getProperty("password");
             dbUrl = daoProperties.getProperty("url");
