@@ -30,13 +30,13 @@
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>DealListServlet</servlet-name>
-        <servlet-class>com.becomejavasenior.DealListServlet</servlet-class>
+        <servlet-name>DealAddServlet</servlet-name>
+        <servlet-class>com.becomejavasenior.DealAddServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>DealListServlet</servlet-name>
-        <url-pattern>/dealList</url-pattern>
+        <servlet-name>DealAddServlet</servlet-name>
+        <url-pattern>/dealAdd</url-pattern>
     </servlet-mapping>
 
 </web-app>

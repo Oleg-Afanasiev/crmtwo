@@ -12,5 +12,6 @@
 </head>
 <body>
   <h1>dealList.jsp</h1>
+  <div>dealName is next: ${dealName}</div>
 </body>
 </html>
