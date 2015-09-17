@@ -41,8 +41,6 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
     }
 
 
-    protected abstract void saveRelations(T entity) throws SQLException;
-
     public T getById(long id) {
         T entity = null;
 
@@ -164,6 +162,8 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
             statement.setLong(paramPosition, entity.getId());
         }
     }
+
+    protected abstract void saveRelations(T entity) throws SQLException;
 
     protected abstract String getQueryForGetRange();
 

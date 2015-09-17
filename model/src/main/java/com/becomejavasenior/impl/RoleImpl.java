@@ -11,8 +11,6 @@ public class RoleImpl extends IdentityImpl implements Role {
 
     private String name;
 
-    private boolean isDeleted;
-
     public RoleImpl() {
     }
 
@@ -20,16 +18,8 @@ public class RoleImpl extends IdentityImpl implements Role {
         return name;
     }
 
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
     }
 
     @Override

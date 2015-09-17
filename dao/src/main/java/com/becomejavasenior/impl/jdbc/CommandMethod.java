@@ -26,7 +26,41 @@ public enum CommandMethod {
     getDeal("getDeal"),
     getContact("getContact"),
     getTaskType("getTaskType"),
-    getTaskPeriod("getTaskPeriod");
+    getTaskPeriod("getTaskPeriod"),
+    setResponsibleUser("setResponsibleUser"),
+    setDealStatus("setDealStatus"),
+    setName("setName"),
+    setBudget("setBudget"),
+    setCreated("setCreated"),
+    setUpdated("setUpdated"),
+    setTags("setTags"),
+    setFiles("setFiles"),
+    setComments("setComments"),
+    setContacts("setContacts"),
+    setCompanies("setCompanies"),
+    setEmail("setEmail"),
+    setWebAdress("setWebAdress"),
+    setAdress("setAdress"),
+    setPhones("setPhones"),
+    setDeals("setDeals"),
+    setJobPosition("setJobPosition"),
+    setSkype("setSkype"),
+    setPath("setPath"),
+    setMimeType("setMimeType"),
+    setNumber("setNumber"),
+    setPhoneType("setPhoneType"),
+    setTaskPeriod("setTaskPeriod"),
+    setDescription("setDescription"),
+    setTaskType("setTaskType"),
+    setCompany("setCompany"),
+    setDeal("setDeal"),
+    setContact("setContact"),
+    setDueDate("setDueDate"),
+    setRole("setRole"),
+    setFirstName("setFirstName"),
+    setLastName("setLastName"),
+    setUserName("setUserName")
+    ;
 
     private String name;
     private Class entityClass;
@@ -111,13 +145,15 @@ public enum CommandMethod {
     private CommandMethod(String name){
         this.name = name;
     }
+
     public CommandMethod init(){ //todo how I can move all this stuff into constructor?
         this.entityClass = getEntityClass(name);
-        this.field = getFieldByMethod(name);
-        this.usesCollection = usesCollection(name);
-        if(entityClass != null){
+        if (entityClass != null) {
+            this.field = getFieldByMethod(name);
+            this.usesCollection = usesCollection(name);
             this.dao = DaoManager.getInstance().getDaoByClass(this.entityClass);
         }
+
         return this;
     }
 
@@ -136,7 +172,9 @@ public enum CommandMethod {
         }else {
             result = method.invoke(instance, args);
         }
-        DaoUtils.setPrivateField(instance, this.field, result);
+        if (this.field != null) {
+            DaoUtils.setPrivateField(instance, this.field, result);
+        }
         return result;
     }
 
