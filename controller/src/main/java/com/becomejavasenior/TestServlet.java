@@ -19,16 +19,16 @@ public class TestServlet extends PersistServlet {
     protected void doGetInPersistentCtx(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DaoManager dm = DaoManager.getInstance( );
         PrintWriter writer = resp.getWriter();
-        User user = dm.getUserDAO().getById(2);
         Deal deal = dm.getDealDAO().getById(7);
+        User user = dm.getUserDAO().getById(2);
         deal.setName("new name");
-
         dm.getDealDAO().insertOrUpdate(deal);
 
+        Deal changedDeal = dm.getDealDAO().getById(7);
         writer.print("<html> <body>");
 
             writer.print(user + " <br /> ");
-            writer.print(deal);
+            writer.print(changedDeal);
 
         writer.print("</body> </html> ");
     }
