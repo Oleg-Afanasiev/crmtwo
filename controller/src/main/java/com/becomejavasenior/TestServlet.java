@@ -21,7 +21,7 @@ public class TestServlet extends PersistServlet {
         PrintWriter writer = resp.getWriter();
         Deal deal = dm.getDealDAO().getById(7);
         User user = dm.getUserDAO().getById(2);
-        deal.setName("new name");
+        deal.setName("new name 2");
         dm.getDealDAO().insertOrUpdate(deal);
 
         Deal changedDeal = dm.getDealDAO().getById(7);
