@@ -11,10 +11,6 @@ public interface Role extends Identity {
 
     public String getName();
 
-    public boolean isDeleted();
-
     public void setName(String name);
-
-    public void setIsDeleted(boolean isDeleted);
 
 }
