@@ -1,11 +1,8 @@
 package com.becomejavasenior.impl.jdbc;
 
 import com.becomejavasenior.*;
-import com.becomejavasenior.Deal;
 import com.becomejavasenior.Task;
 import com.becomejavasenior.impl.TaskImpl;
-import com.becomejavasenior.TaskPeriod;
-import com.becomejavasenior.TaskType;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -119,79 +116,19 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
     }
 
     private <T extends Identity> Object improveMethods(Method method, T instance, Object[] args)
-            throws InvocationTargetException, IllegalAccessException, SQLException {
+            throws InvocationTargetException, IllegalAccessException, SQLException, NoSuchFieldException {
         Object result = method.invoke(instance, args);
         if (result != null) {
             return result;
         }
         String methodName = method.getName();
 
-        switch (methodName) {
-            case "getDeal": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    result = DaoManager.getInstance().getDealDAO().getById(ids.iterator().next());
-                    ((Task) instance).setDeal((Deal) result);
-                }
-            }
-            break;
-            case "getComments": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    Set<Comment> set = new HashSet<Comment>();
-                    CommentDAO dao = DaoManager.getInstance().getCommentDAO();
-                    for (Long id : ids) {
-                        set.add(dao.getById(id));
-                    }
-                    result = set;
-                    ((Task) instance).setComments((Set<Comment>) result);
-                }
-            }
-            break;
-            case "getResponsibleUser": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
-                    ((Task) instance).setResponsibleUser((User) result);
-                }
-            }
-            break;
-            case "getTaskType": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    result = DaoManager.getInstance().getTaskTypeDAO().getById(ids.iterator().next());
-                    ((Task) instance).setTaskType((TaskType) result);
-                }
-            }
-            break;
-            case "getTaskPeriod": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    result = DaoManager.getInstance().getTaskPeriodDAO().getById(ids.iterator().next());
-                    ((Task) instance).setTaskPeriod((TaskPeriod) result);
-                }
-            }
-            break;
-            case "getCompany": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    result = DaoManager.getInstance().getCompanyDAO().getById(ids.iterator().next());
-                    ((Task) instance).setCompany((Company) result);
-                }
-            }
-            break;
-            case "getContact": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    result = DaoManager.getInstance().getContactDAO().getById(ids.iterator().next());
-                    ((Task) instance).setContact((Contact) result);
-                }
-            }
-            break;
-            default:
-                result = method.invoke(instance, args);
-                break;
-        }
+        result =
+                CommandMethod.valueOf(methodName)
+                        .init()
+                        .setRelatedIDs(getRelatedIds(methodName, instance))
+                        .execute(method, instance, args);
+
         return result;
     }
 

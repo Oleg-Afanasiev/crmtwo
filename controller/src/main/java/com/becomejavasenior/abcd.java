@@ -35,8 +35,7 @@ class abcd {
 
         System.out.println(deal);
         System.out.println(newDeal);
-        System.out.println(dealStatus);
-        System.out.println(user);
-
+       // System.out.println(dealStatus);
+        //System.out.println(user);
     }
 }

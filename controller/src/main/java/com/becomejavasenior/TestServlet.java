@@ -3,6 +3,7 @@ package com.becomejavasenior;
 import com.becomejavasenior.impl.DealImpl;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,18 +19,18 @@ public class TestServlet extends PersistServlet {
     protected void doGetInPersistentCtx(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DaoManager dm = DaoManager.getInstance( );
         PrintWriter writer = resp.getWriter();
-        writer.println(dm.getCommentDAO().getById(1));
-        writer.println(dm.getCompanyDAO().getById(1));
-        writer.println(dm.getContactDAO().getById(1));
-        writer.println(dm.getDealDAO().getById(1));
-        writer.println(dm.getDealStatusDAO().getById(1));
-        writer.println(dm.getFileDAO().getById(1));
-        writer.println(dm.getPhoneDAO().getById(1));
-        writer.println(dm.getRoleDAO().getById(1));
-        writer.println(dm.getTagDAO().getById(1));
-        writer.println(dm.getTaskDAO().getById(1));
-        writer.println(dm.getTaskPeriodDAO().getById(1));
-        writer.println(dm.getTaskTypeDAO().getById(1));
-        writer.println(dm.getUserDAO().getById(1));
+        User user = dm.getUserDAO().getById(2);
+        Deal deal = dm.getDealDAO().getById(7);
+        deal.setName("new name");
+
+        dm.getDealDAO().insertOrUpdate(deal);
+
+        writer.print("<html> <body>");
+
+            writer.print(user + " <br /> ");
+            writer.print(deal);
+
+        writer.print("</body> </html> ");
     }
+
 }

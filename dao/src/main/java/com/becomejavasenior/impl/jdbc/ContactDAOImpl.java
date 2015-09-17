@@ -107,7 +107,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         InvocationHandler handler = new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return loadEntities(method, contact, args);
+                return improveMethods(method, contact, args);
             }
         };
         Contact proxy =
@@ -115,100 +115,20 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
         return proxy;
     }
 
-    private <T extends Identity> Object loadEntities(Method method, T instance, Object[] args)
-            throws InvocationTargetException, IllegalAccessException, SQLException {
+    private <T extends Identity> Object improveMethods(Method method, T instance, Object[] args)
+            throws InvocationTargetException, IllegalAccessException, SQLException, NoSuchFieldException {
         Object result = method.invoke(instance, args);
         if (result != null) {
             return result;
         }
         String methodName = method.getName();
 
-        switch (methodName) {
-            case "getPhones": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    Set<Phone> set = new HashSet<>();
-                    PhoneDAO pd = DaoManager.getInstance().getPhoneDAO();
-                    for (Long id : ids) {
-                        set.add(pd.getById(id));
-                    }
-                    result = set;
-                    ((Contact) instance).setPhones((Set<Phone>) result);
-                }
-            }
-            break;
-            case "getDeals": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    Set<Deal> set = new HashSet<>();
-                    DealDAO dd = DaoManager.getInstance().getDealDAO();
-                    for (Long id : ids) {
-                        set.add(dd.getById(id));
-                    }
-                    result = set;
-                    ((Contact) instance).setDeals((Set<Deal>) result);
-                }
-            }
-            break;
-            case "getTags": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    Set<Tag> set = new HashSet<Tag>();
-                    TagDAO td = DaoManager.getInstance().getTagDAO();
-                    for (Long id : ids) {
-                        set.add(td.getById(id));
-                    }
-                    result = set;
-                    ((Contact) instance).setTags((Set<Tag>) result);
-                }
-            }
-            break;
-            case "getFiles": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    Set<File> set = new HashSet<File>();
-                    FileDAO fd = DaoManager.getInstance().getFileDAO();
-                    for (Long id : ids) {
-                        set.add(fd.getById(id));
-                    }
-                    result = set;
-                    ((Contact) instance).setFiles((Set<File>) result);
-                }
-            }
-            break;
-            case "getComments": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    Set<Comment> set = new HashSet<Comment>();
-                    CommentDAO cd = DaoManager.getInstance().getCommentDAO();
-                    for (Long id : ids) {
-                        set.add(cd.getById(id));
-                    }
-                    result = set;
-                    ((Contact) instance).setComments((Set<Comment>) result);
-                }
-            }
-            break;
-            case "getResponsibleUser": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
-                    ((Contact) instance).setResponsibleUser((User) result);
-                }
-            }
-            break;
-            case "getCompany": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    result = DaoManager.getInstance().getCompanyDAO().getById(ids.iterator().next());
-                    ((Contact) instance).setCompany((Company) result);
-                }
-            }
-            break;
-            default:
-                result = method.invoke(instance, args);
-                break;
-        }
+        result =
+                CommandMethod.valueOf(methodName)
+                        .init()
+                        .setRelatedIDs(getRelatedIds(methodName, instance))
+                        .execute(method, instance, args);
+
         return result;
     }
 

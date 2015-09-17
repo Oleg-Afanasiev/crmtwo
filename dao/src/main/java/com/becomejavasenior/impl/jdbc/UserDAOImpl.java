@@ -57,7 +57,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
 
     @Override
     protected Map<String, String> getMethodToQueryMap() {
-        return null;
+        return methodToQueryMap;
     }
 
     @Override
@@ -115,24 +115,19 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
     }
 
     private <T extends Identity> Object improveMethods(Method method, T instance, Object[] args)
-            throws InvocationTargetException, IllegalAccessException, SQLException {
+            throws InvocationTargetException, IllegalAccessException, SQLException, NoSuchFieldException {
         Object result = method.invoke(instance, args);
         if (result != null) {
             return result;
         }
         String methodName = method.getName();
 
-        switch (methodName) {
-            case "getRole": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                result = DaoManager.getInstance().getRoleDAO().getById(ids.iterator().next());
-                ((User) instance).setRole((Role) result);
-            }
-            break;
-            default:
-                result = method.invoke(instance, args);
-                break;
-        }
+        result =
+                CommandMethod.valueOf(methodName)
+                        .init()
+                        .setRelatedIDs(getRelatedIds(methodName, instance))
+                        .execute(method, instance, args);
+
         return result;
     }
 
