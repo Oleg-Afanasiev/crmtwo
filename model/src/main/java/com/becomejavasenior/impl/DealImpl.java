@@ -3,6 +3,7 @@ package com.becomejavasenior.impl;
 import com.becomejavasenior.*;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -29,15 +30,15 @@ public class DealImpl extends IdentityImpl  implements Identity, Deal {
 
     private Date updated;
 
-    private Set<Tag> tags;
+    private Collection<Tag> tags;
 
-    private Set<File> files;
+    private Collection<File> files;
 
-    private Set<Comment> comments;
+    private Collection<Comment> comments;
 
-    private Set<Contact> contacts;
+    private Collection<Contact> contacts;
 
-    private Set<Company> companies;
+    private Collection<Company> companies;
 
     public DealImpl() {
     }
@@ -73,27 +74,27 @@ public class DealImpl extends IdentityImpl  implements Identity, Deal {
     }
 
     @Override
-    public Set<Tag> getTags() {
+    public Collection<Tag> getTags() {
         return tags;
     }
 
     @Override
-    public Set<File> getFiles() {
+    public Collection<File> getFiles() {
         return files;
     }
 
     @Override
-    public Set<Comment> getComments() {
+    public Collection<Comment> getComments() {
         return comments;
     }
 
     @Override
-    public Set<Contact> getContacts() {
+    public Collection<Contact> getContacts() {
         return contacts;
     }
 
     @Override
-    public Set<Company> getCompanies() {
+    public Collection<Company> getCompanies() {
         return companies;
     }
 
@@ -128,27 +129,27 @@ public class DealImpl extends IdentityImpl  implements Identity, Deal {
     }
 
     @Override
-    public void setTags(Set<Tag> tags) {
+    public void setTags(Collection<Tag> tags) {
         this.tags = tags;
     }
 
     @Override
-    public void setFiles(Set<File> files) {
+    public void setFiles(Collection<File> files) {
         this.files = files;
     }
 
     @Override
-    public void setComments(Set<Comment> comments) {
+    public void setComments(Collection<Comment> comments) {
         this.comments = comments;
     }
 
     @Override
-    public void setContacts(Set<Contact> contacts) {
+    public void setContacts(Collection<Contact> contacts) {
         this.contacts = contacts;
     }
 
     @Override
-    public void setCompanies(Set<Company> companies) {
+    public void setCompanies(Collection<Company> companies) {
         this.companies = companies;
     }
 

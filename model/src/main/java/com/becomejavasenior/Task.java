@@ -1,6 +1,7 @@
 package com.becomejavasenior;
 
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public interface Task extends Identity {
 
     public Date getDueDate();
 
-    public Set<Comment> getComments();
+    public Collection<Comment> getComments();
 
     public Date getCreated();
 
@@ -47,7 +48,7 @@ public interface Task extends Identity {
 
     public void setDueDate(Date dueDate);
 
-    public void setComments(Set<Comment> comments);
+    public void setComments(Collection<Comment> comments);
 
     public void setCreated(Date created);
 

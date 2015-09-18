@@ -135,7 +135,7 @@ public class TaskDAOImpl extends GenericDAO<Task> implements TaskDAO {
     @Override
     protected void saveRelations(Task entity) throws SQLException {
 
-        Set<Comment> comments = entity.getComments();
+        Collection<Comment> comments = entity.getComments();
         if (comments != null && !comments.isEmpty()) {
             Set<Long> ids = new HashSet<>();
             for (Comment comment : comments) {

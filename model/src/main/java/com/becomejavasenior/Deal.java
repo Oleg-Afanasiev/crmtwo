@@ -1,6 +1,7 @@
 package com.becomejavasenior;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -21,15 +22,15 @@ public interface Deal extends Identity {
 
     public Date getUpdated();
 
-    public Set<Tag> getTags();
+    public Collection<Tag> getTags();
 
-    public Set<File> getFiles();
+    public Collection<File> getFiles();
 
-    public Set<Comment> getComments();
+    public Collection<Comment> getComments();
 
-    public Set<Contact> getContacts();
+    public Collection<Contact> getContacts();
 
-    public Set<Company> getCompanies();
+    public Collection<Company> getCompanies();
 
     public void setResponsibleUser(User responsibleUser);
 
@@ -43,14 +44,14 @@ public interface Deal extends Identity {
 
     public void setUpdated(Date updated);
 
-    public void setTags(Set<Tag> tags);
+    public void setTags(Collection<Tag> tags);
 
-    public void setFiles(Set<File> files);
+    public void setFiles(Collection<File> files);
 
-    public void setComments(Set<Comment> comments);
+    public void setComments(Collection<Comment> comments);
 
-    public void setContacts(Set<Contact> contacts);
+    public void setContacts(Collection<Contact> contacts);
 
-    public void setCompanies(Set<Company> companies);
+    public void setCompanies(Collection<Company> companies);
 
 }
