@@ -1,5 +1,6 @@
 package com.becomejavasenior;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -22,15 +23,15 @@ public interface Company extends Identity {
 
     Date getUpdated();
 
-    Set<Phone> getPhones();
+    Collection<Phone> getPhones();
 
-    Set<Deal> getDeals();
+    Collection<Deal> getDeals();
 
-    Set<Tag> getTags();
+    Collection<Tag> getTags();
 
-    Set<File> getFiles();
+    Collection<File> getFiles();
 
-    Set<Comment> getComments();
+    Collection<Comment> getComments();
 
     void setResponsibleUser(User responsibleUser);
 
@@ -38,21 +39,21 @@ public interface Company extends Identity {
 
     void setEmail(String email);
 
-    void setWebAdress(String webAdress);
+    void setWebAddress(String webAdress);
 
-    void setAdress(String adress);
+    void setAddress(String adress);
 
     void setCreated(Date created);
 
     void setUpdated(Date updated);
 
-    void setPhones(Set<Phone> phones);
+    void setPhones(Collection<Phone> phones);
 
-    void setDeals(Set<Deal> deals);
+    void setDeals(Collection<Deal> deals);
 
-    void setTags(Set<Tag> tags);
+    void setTags(Collection<Tag> tags);
 
-    void setFiles(Set<File> files);
+    void setFiles(Collection<File> files);
 
-    void setComments(Set<Comment> comments);
+    void setComments(Collection<Comment> comments);
 }

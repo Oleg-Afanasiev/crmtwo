@@ -23,15 +23,15 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         methodToQueryMap = Collections.unmodifiableMap(tempMethodToQueryMap);
     }
 
-    private static final String saveNewUser =   "INSERT INTO crm.user (role_id, username, last_name, first_name, email, created, updated) " +
-                                                "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING user_id;";
+    private static final String saveNewUser =   "INSERT INTO crm.user (role_id, username, last_name, first_name, email, created, updated, password) " +
+                                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING user_id;";
 
     private static final String updateUser =    "UPDATE crm.user " +
-                                                "SET (role_id, username, last_name, first_name, email, created, updated) = " +
-                                                "(?, ?, ?, ?, ?, ?, ?) " +
+                                                "SET (role_id, username, last_name, first_name, email, created, updated, password) = " +
+                                                "(?, ?, ?, ?, ?, ?, ?, ?) " +
                                                 "WHERE user_id = ? ;";
 
-    private static final String getUserById =   "SELECT user_id, role_id, username, last_name, first_name, email, created, updated " +
+    private static final String getUserById =   "SELECT user_id, role_id, username, last_name, first_name, email, created, updated, password " +
                                                 "FROM crm.user " +
                                                 "WHERE user_id = ? " +
                                                 "and is_deleted = FALSE";
@@ -86,8 +86,9 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         statement.setString(5, entity.getEmail());
         statement.setTimestamp(6, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(7, new Timestamp(entity.getUpdated().getTime()));
+        statement.setString(8, entity.getPassword());
         if (id != null) {
-            statement.setLong(8, entity.getId());
+            statement.setLong(9, entity.getId());
         }
     }
 
@@ -102,6 +103,7 @@ public class UserDAOImpl extends GenericDAO<User> implements UserDAO {
         user.setEmail(resultSet.getString("email"));
         user.setCreated(resultSet.getDate("created"));
         user.setUpdated(resultSet.getDate("updated"));
+        user.setPassword(resultSet.getString("password"));
 
         InvocationHandler handler = new InvocationHandler() {
             @Override

@@ -4,6 +4,7 @@ import com.becomejavasenior.*;
 import com.becomejavasenior.impl.DaoUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.*;
 
@@ -35,7 +36,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
                 }
             }
             saveRelations(entity);
-        } catch (SQLException | IllegalAccessException | NoSuchFieldException e) {
+        } catch (SQLException | IllegalAccessException | NoSuchFieldException | InvocationTargetException e) {
             throw new DAOException("Can't save or update entity", e);
         }
     }
@@ -163,7 +164,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         }
     }
 
-    protected abstract void saveRelations(T entity) throws SQLException;
+    protected abstract void saveRelations(T entity) throws SQLException, NoSuchFieldException, IllegalAccessException, InvocationTargetException;
 
     protected abstract String getQueryForGetRange();
 

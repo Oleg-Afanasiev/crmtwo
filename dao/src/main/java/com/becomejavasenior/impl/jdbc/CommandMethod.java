@@ -27,6 +27,7 @@ public enum CommandMethod {
     getContact("getContact"),
     getTaskType("getTaskType"),
     getTaskPeriod("getTaskPeriod"),
+    getPassword("getPassword"),
     setResponsibleUser("setResponsibleUser"),
     setDealStatus("setDealStatus"),
     setName("setName"),
@@ -39,8 +40,8 @@ public enum CommandMethod {
     setContacts("setContacts"),
     setCompanies("setCompanies"),
     setEmail("setEmail"),
-    setWebAdress("setWebAdress"),
-    setAdress("setAdress"),
+    setWebAdress("setWebAddress"),
+    setAdress("setAddress"),
     setPhones("setPhones"),
     setDeals("setDeals"),
     setJobPosition("setJobPosition"),
@@ -59,7 +60,8 @@ public enum CommandMethod {
     setRole("setRole"),
     setFirstName("setFirstName"),
     setLastName("setLastName"),
-    setUserName("setUserName")
+    setUserName("setUserName"),
+    setPassword("setPassword")
     ;
 
     private String name;
