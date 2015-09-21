@@ -1,6 +1,7 @@
 package com.becomejavasenior;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.Collection;
  * @version 0.3
  */
 
+@WebServlet(name = "ContactListServlet", urlPatterns = "/contactlist", loadOnStartup = 0)
 public class ContactListServlet extends PersistServlet {
 
     @Override
