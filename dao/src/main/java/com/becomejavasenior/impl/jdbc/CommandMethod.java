@@ -163,11 +163,11 @@ public enum CommandMethod {
         Object result = null;
         if(!this.relatedIDs.isEmpty()){
             if(this.usesCollection){
-                HashSet set = new HashSet();
+                List list = new ArrayList();
                 for (Long id : this.relatedIDs) {
-                    set.add(this.dao.getById(id));
+                    list.add(this.dao.getById(id));
                 }
-                result = set;
+                result = list;
             }else {
                 result = this.dao.getById(this.relatedIDs.iterator().next());
             }
