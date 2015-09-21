@@ -8,13 +8,14 @@
     <jsp:include page="fragments/headTag.jsp"/>
 </head>
     <body>
-        <div class="container myrow-container">
+        <div class="container">
             <div class="row">
                 <jsp:include page="fragments/menu.jsp"/>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <div class="page-header">
-                    <h1>CRM System</h1>
-                </div></div>
+                    <div class="page-header">
+                        <h1>CRM System</h1>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
