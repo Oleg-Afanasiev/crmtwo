@@ -111,12 +111,11 @@ public class ContactAddServlet extends PersistServlet {
             File file = new FileImpl();
             Path path = Paths.get(filesInput);
             String mimeType = Files.probeContentType(path);
-            //TODO replace dummy - can't recognise pdf
             if (mimeType == null) {
                 mimeType = "application/octet-stream";
             }
-            //TODO replace dummy - need to save somewhere file and get it's path
-            file.setPath("c:\\files\\"+path);
+            //TODO replace dummy
+            file.setName("c:\\files\\"+path);
             file.setMimeType(mimeType);
             file.setCreated(createDate);
             file.setUpdated(createDate);
