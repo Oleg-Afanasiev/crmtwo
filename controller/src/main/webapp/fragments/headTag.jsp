@@ -6,6 +6,6 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>CRM System</title>
   <link rel="stylesheet" href="<c:url value="webjars/bootstrap/3.3.5/css/bootstrap.min.css" />">
-  <link rel="stylesheet" href="<c:url value="webjars/bootstrap/3.3.5/css/bootstrap-theme.min.css" />">
-  <link rel="stylesheet" href="<c:url value="../resources/css/theme.css" />">
+  <%--<link rel="stylesheet" href="<c:url value="webjars/bootstrap/3.3.5/css/bootstrap-theme.min.css" />">--%>
+  <link rel="stylesheet" href="<c:url value="../resources/css/dashboard.css" />">
 </head>

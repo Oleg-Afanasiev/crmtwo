@@ -163,7 +163,7 @@ public enum CommandMethod {
         Object result = null;
         if(!this.relatedIDs.isEmpty()){
             if(this.usesCollection){
-                List list = new ArrayList<>();
+                List list = new ArrayList();
                 for (Long id : this.relatedIDs) {
                     list.add(this.dao.getById(id));
                 }
