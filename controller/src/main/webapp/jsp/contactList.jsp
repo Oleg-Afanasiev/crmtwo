@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head>
-        <title>Список контактов</title>
+        <title>Список контктов</title>
         <jsp:include page="fragments/headTag.jsp"/>
         <style>
             .link {
@@ -17,7 +17,7 @@
                 <jsp:include page="fragments/menu.jsp"/>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                     <H3><b>Список контактов</b>
-                        <a href = "contactadd" class="btn btn-info pull-right"  title="Добавить контакт">Добавить контакт</a>
+                        <a href = "/crm/contactadd" class="btn btn-info pull-right" id="contact-add-button" title="Добавить контакт">Добавить контакт</a>
                     </H3>
                     <c:if test="${empty contacts}">
                         There are no Contacts
@@ -36,11 +36,11 @@
                             <c:forEach items="${contacts}" var="contact">
                                 <tr>
                                     <td>
-                                        <a class="link" href="contactedit?id=${contact.id}" name="contactId" title="Редактировать контакт">${contact.name}</a>
+                                        <a class="link" href="/crm/contactedit?id=${contact.id}" name="contact-edit-id" id="contact-edit-id" title="Редактировать контакт">${contact.name}</a>
                                     </td>
                                     <td>
                                         <c:if test="${not empty contact.company}">
-                                            <a class="link" href="#<%--companyEditForm?id=${contact.id}--%>" name="companyId" title="Редактировать компанию" style="color:black;">${contact.company.name}
+                                            <a class="link" href="#<%--companyEditForm?id=${contact.id}--%>" name="company-edit-id" title="Редактировать компанию" style="color:black;">${contact.company.name}
                                         </c:if>
                                     </td>
                                     <td>

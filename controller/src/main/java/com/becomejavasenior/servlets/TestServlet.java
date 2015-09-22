@@ -1,4 +1,7 @@
-package com.becomejavasenior;
+package com.becomejavasenior.servlets;
+
+import com.becomejavasenior.DaoManager;
+import com.becomejavasenior.File;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -6,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**

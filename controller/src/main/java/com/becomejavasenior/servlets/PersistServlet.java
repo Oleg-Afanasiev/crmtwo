@@ -1,4 +1,6 @@
-package com.becomejavasenior;
+package com.becomejavasenior.servlets;
+
+import com.becomejavasenior.DaoManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

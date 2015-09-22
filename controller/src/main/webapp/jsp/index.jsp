@@ -15,6 +15,7 @@
                     <div class="page-header">
                         <h1>CRM System</h1>
                     </div>
+                    <label>${loginMessage}</label>
                 </div>
             </div>
         </div>
