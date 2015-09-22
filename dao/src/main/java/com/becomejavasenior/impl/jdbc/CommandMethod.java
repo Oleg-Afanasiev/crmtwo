@@ -46,7 +46,7 @@ public enum CommandMethod {
     setDeals("setDeals"),
     setJobPosition("setJobPosition"),
     setSkype("setSkype"),
-    setPath("setPath"),
+    setPath("setName"),
     setMimeType("setMimeType"),
     setNumber("setNumber"),
     setPhoneType("setPhoneType"),

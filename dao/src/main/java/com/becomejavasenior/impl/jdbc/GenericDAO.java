@@ -161,13 +161,15 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         return result;
     }
 
-    void setLongOrNull(int paramPosition, PreparedStatement statement, Identity entity) throws SQLException {
+    void setValueOrNull(int paramPosition, PreparedStatement statement, Identity entity, final int TYPE) throws SQLException {
         if(entity == null){
-            statement.setNull(paramPosition, Types.BIGINT);
+            statement.setNull(paramPosition, TYPE);
         } else {
             statement.setLong(paramPosition, entity.getId());
         }
     }
+
+
 
     protected abstract void saveRelations(T entity) throws SQLException, NoSuchFieldException, IllegalAccessException, InvocationTargetException;
 

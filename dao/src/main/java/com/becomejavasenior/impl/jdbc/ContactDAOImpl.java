@@ -1,7 +1,6 @@
 package com.becomejavasenior.impl.jdbc;
 
 import com.becomejavasenior.*;
-import com.becomejavasenior.Deal;
 import com.becomejavasenior.impl.ContactImpl;
 
 import java.lang.reflect.InvocationHandler;
@@ -80,7 +79,7 @@ public class ContactDAOImpl extends GenericDAO<Contact> implements ContactDAO {
     @Override
     protected void setParamsForSaveOrUpdate(PreparedStatement statement, Contact entity) throws SQLException {
         Long id = entity.getId();
-        setLongOrNull(1, statement, entity.getCompany());
+        setValueOrNull(1, statement, entity.getCompany(), Types.BIGINT);
         statement.setLong(2, entity.getResponsibleUser().getId());
         statement.setString(3, entity.getName());
         statement.setString(4, entity.getJobPosition());

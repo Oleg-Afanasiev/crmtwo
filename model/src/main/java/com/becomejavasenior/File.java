@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public interface File extends Identity {
 
-    public String getPath();
+    public String getName();
 
     public String getMimeType();
 
@@ -15,12 +15,16 @@ public interface File extends Identity {
 
     public Date getUpdated();
 
-    public void setPath(String path);
+    public byte[] getContent();
+
+    public void setName(String path);
 
     public void setMimeType(String mimeType);
 
     public void setCreated(Date created);
 
     public void setUpdated(Date updated);
+
+    public void setContent(byte[] content);
 
 }
