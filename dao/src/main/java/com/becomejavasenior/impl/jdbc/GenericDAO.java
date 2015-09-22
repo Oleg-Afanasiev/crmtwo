@@ -2,8 +2,9 @@ package com.becomejavasenior.impl.jdbc;
 
 import com.becomejavasenior.*;
 import com.becomejavasenior.impl.DaoUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.*;
@@ -14,10 +15,12 @@ import static java.util.Arrays.asList;
  * Created by Dmytro Tsapko on 8/29/2015.
  */
 abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
+    protected static final Logger logger = LoggerFactory.getLogger(GenericDAO.class);
     protected Connection connection;
     private Boolean hasResultSet = false; //todo how can I fix that? suppose that we use one instance of DAO per thread
 
     public void insertOrUpdate(T entity) {
+    logger.debug(entity.toString());
 
         Long id = entity.getId();
 
@@ -43,6 +46,8 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
 
 
     public T getById(long id) {
+        logger.debug("id " + id);
+
         T entity = null;
 
         try (PreparedStatement statement = connection.prepareStatement(getQueryForGetById());
