@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head>
-        <title>Список контктов</title>
+        <title>Список контактов</title>
         <jsp:include page="fragments/headTag.jsp"/>
         <style>
             .link {
@@ -17,7 +17,7 @@
                 <jsp:include page="fragments/menu.jsp"/>
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                     <H3><b>Список контактов</b>
-                        <a href = "#<%--contactadd--%>" class="btn btn-info pull-right"  title="Добавить контакт">Добавить контакт</a>
+                        <a href = "contactadd" class="btn btn-info pull-right"  title="Добавить контакт">Добавить контакт</a>
                     </H3>
                     <c:if test="${empty contacts}">
                         There are no Contacts
