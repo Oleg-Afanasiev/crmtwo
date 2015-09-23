@@ -27,6 +27,7 @@ public enum CommandMethod {
     getContact("getContact"),
     getTaskType("getTaskType"),
     getTaskPeriod("getTaskPeriod"),
+    getPassword("getPassword"),
     setResponsibleUser("setResponsibleUser"),
     setDealStatus("setDealStatus"),
     setName("setName"),
@@ -39,13 +40,13 @@ public enum CommandMethod {
     setContacts("setContacts"),
     setCompanies("setCompanies"),
     setEmail("setEmail"),
-    setWebAdress("setWebAdress"),
-    setAdress("setAdress"),
+    setWebAdress("setWebAddress"),
+    setAdress("setAddress"),
     setPhones("setPhones"),
     setDeals("setDeals"),
     setJobPosition("setJobPosition"),
     setSkype("setSkype"),
-    setPath("setPath"),
+    setPath("setName"),
     setMimeType("setMimeType"),
     setNumber("setNumber"),
     setPhoneType("setPhoneType"),
@@ -59,7 +60,8 @@ public enum CommandMethod {
     setRole("setRole"),
     setFirstName("setFirstName"),
     setLastName("setLastName"),
-    setUserName("setUserName")
+    setUserName("setUserName"),
+    setPassword("setPassword")
     ;
 
     private String name;
@@ -161,11 +163,11 @@ public enum CommandMethod {
         Object result = null;
         if(!this.relatedIDs.isEmpty()){
             if(this.usesCollection){
-                HashSet set = new HashSet();
+                List list = new ArrayList();
                 for (Long id : this.relatedIDs) {
-                    set.add(this.dao.getById(id));
+                    list.add(this.dao.getById(id));
                 }
-                result = set;
+                result = list;
             }else {
                 result = this.dao.getById(this.relatedIDs.iterator().next());
             }

@@ -6,7 +6,10 @@ import java.util.Date;
  * Created by Dmytro Tsapko on 9/6/2015.
  */
 public interface User extends Identity {
+
     public String getUserName();
+
+    public String getPassword();
 
     public String getLastName();
 
@@ -14,11 +17,15 @@ public interface User extends Identity {
 
     public String getEmail();
 
+    public Role getRole();
+
     public Date getCreated();
 
     public Date getUpdated();
 
     public void setUserName(String userName);
+
+    public void setPassword(String password);
 
     public void setLastName(String lastName);
 
@@ -27,8 +34,6 @@ public interface User extends Identity {
     public void setCreated(Date created);
 
     public void setUpdated(Date updated);
-
-    public Role getRole();
 
     public void setRole(Role role);
 

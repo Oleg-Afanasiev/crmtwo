@@ -233,6 +233,62 @@ public class DaoManager {
         throw new IllegalArgumentException("DAO for class " + clazz.getName() + " was not found.");
     }
 
+    public AbstractDAO getDaoByObject(Object object){
+
+        if(object instanceof Role){
+            return getRoleDAO();
+        }
+        if(object instanceof User){
+            return getUserDAO();
+        }
+
+        if(object instanceof Tag){
+            return getTagDAO();
+        }
+
+        if(object instanceof Phone){
+            return getPhoneDAO();
+        }
+
+        if(object instanceof File){
+            return getFileDAO();
+        }
+
+        if(object instanceof Contact){
+            return getContactDAO();
+        }
+
+        if(object instanceof Company){
+            return getCompanyDAO();
+        }
+
+        if(object instanceof Comment){
+            return getCommentDAO();
+        }
+
+        if(object instanceof TaskType){
+            return getTaskTypeDAO();
+        }
+
+        if(object instanceof TaskPeriod){
+            return getTaskPeriodDAO();
+        }
+
+        if(object instanceof Task){
+            return getTaskDAO();
+        }
+
+        if(object instanceof DealStatus){
+            return getDealStatusDAO();
+        }
+
+        if(object instanceof Deal){
+            return getDealDAO();
+        }
+
+        throw new IllegalArgumentException("DAO for object " + object + " was not found.");
+    }
+
     public void closeConnection() {
 
         try{
@@ -242,5 +298,9 @@ public class DaoManager {
         }catch (SQLException e){
             throw new DAOException("Can't close connection", e);
         }
+    }
+
+    public Connection getConnection(){
+        return this.connection;
     }
 }

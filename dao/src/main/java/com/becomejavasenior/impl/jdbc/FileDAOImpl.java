@@ -4,6 +4,7 @@ import com.becomejavasenior.File;
 import com.becomejavasenior.FileDAO;
 import com.becomejavasenior.impl.FileImpl;
 
+import java.io.ByteArrayInputStream;
 import java.sql.*;
 import java.util.Map;
 
@@ -16,14 +17,14 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
         this.connection = connection;
     }
 
-    private static final String saveNewFile =   "INSERT INTO crm.file (file_path, file_mime_type, created, updated) " +
-                                                "VALUES (?, ?, ?, ?) RETURNING file_id;";
+    private static final String saveNewFile =   "INSERT INTO crm.file (file_name, file_mime_type, created, updated, content) " +
+                                                "VALUES (?, ?, ?, ?, ?) RETURNING file_id;";
 
-    private static final String updateFile =    "UPDATE crm.file SET (file_path, file_mime_type, created, updated) = " +
-                                                "(?, ?, ?, ?) " +
+    private static final String updateFile =    "UPDATE crm.file SET (file_name, file_mime_type, created, updated, content) = " +
+                                                "(?, ?, ?, ?, ?) " +
                                                 "WHERE file_id = ? ;";
 
-    private static final String getFileById =   "SELECT f.file_id, f.file_path, f.file_mime_type, f.created, f.updated " +
+    private static final String getFileById =   "SELECT f.file_id, f.file_name, f.file_mime_type, f.created, f.updated, f.content " +
                                                 "FROM crm.file f " +
                                                 "WHERE file_id = ?";
 
@@ -67,12 +68,17 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
     protected void setParamsForSaveOrUpdate(PreparedStatement statement, File entity) throws SQLException {
         Long entityId = entity.getId();
 
-        statement.setString(1, entity.getPath());
+        statement.setString(1, entity.getName());
         statement.setString(2, entity.getMimeType());
         statement.setTimestamp(3, new Timestamp(entity.getCreated().getTime()));
         statement.setTimestamp(4, new Timestamp(entity.getUpdated().getTime()));
+        if (entity.getContent() != null) {
+            statement.setBinaryStream(5, new ByteArrayInputStream(entity.getContent()), entity.getContent().length);
+        } else {
+            statement.setNull(5, Types.BINARY);
+        }
         if (entityId != null) {
-            statement.setLong(5, entityId);
+            statement.setLong(6, entityId);
         }
     }
 
@@ -81,10 +87,11 @@ public class FileDAOImpl extends GenericDAO<File> implements FileDAO {
         File file = new FileImpl();
 
         super.setPrivateField(file, "id", resultSet.getLong("file_id"));
-        file.setPath(resultSet.getString("file_path"));
+        file.setName(resultSet.getString("file_name"));
         file.setMimeType(resultSet.getString("file_mime_type"));
         file.setCreated(resultSet.getTimestamp("created"));
         file.setUpdated(resultSet.getTimestamp("updated"));
+        file.setContent(resultSet.getBytes("content"));
 
         return file;
     }

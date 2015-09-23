@@ -21,6 +21,8 @@ public class UserImpl extends IdentityImpl implements Identity, User {
 
     private String userName;
 
+    private String password;
+
     private String lastName;
 
     private String firstName;
@@ -31,13 +33,16 @@ public class UserImpl extends IdentityImpl implements Identity, User {
 
     private Date updated;
 
-    private boolean isDeleted;
-
     public UserImpl() {
     }
 
     public String getUserName() {
         return userName;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     public String getLastName() {
@@ -60,12 +65,17 @@ public class UserImpl extends IdentityImpl implements Identity, User {
         return updated;
     }
 
-    public boolean isDeleted() {
-        return isDeleted;
+    public Role getRole() {
+        return role;
     }
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setLastName(String lastName) {
@@ -81,14 +91,6 @@ public class UserImpl extends IdentityImpl implements Identity, User {
 
     public void setUpdated(Date updated) {
         this.updated = updated;
-    }
-
-    public void setIsDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    public Role getRole() {
-        return role;
     }
 
     public void setRole(Role role) {
@@ -110,7 +112,7 @@ public class UserImpl extends IdentityImpl implements Identity, User {
                 ", email='" + email + '\'' +
                 ", created=" + created +
                 ", updated=" + updated +
-                ", isDeleted=" + isDeleted +
+                ", password=" + password +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.becomejavasenior;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -12,7 +13,7 @@ public interface Contact extends Identity {
 
     public User getResponsibleUser();
 
-    public Set<Phone> getPhones();
+    public Collection<Phone> getPhones();
 
     public String getJobPosition();
 
@@ -26,19 +27,19 @@ public interface Contact extends Identity {
 
     public Date getUpdated();
 
-    public Set<File> getFiles();
+    public Collection<File> getFiles();
 
-    public Set<Comment> getComments();
+    public Collection<Comment> getComments();
 
-    public Set<Tag> getTags();
+    public Collection<Tag> getTags();
 
-    public Set<Deal> getDeals();
+    public Collection<Deal> getDeals();
 
     public void setName(String name);
 
     public void setResponsibleUser(User responsibleUser);
 
-    public void setPhones(Set<Phone> phones);
+    public void setPhones(Collection<Phone> phones);
 
     public void setJobPosition(String jobPosition);
 
@@ -52,12 +53,12 @@ public interface Contact extends Identity {
 
     public void setUpdated(Date updated);
 
-    public void setFiles(Set<File> files);
+    public void setFiles(Collection<File> files);
 
-    public void setComments(Set<Comment> comments);
+    public void setComments(Collection<Comment> comments);
 
-    public void setTags(Set<Tag> tags);
+    public void setTags(Collection<Tag> tags);
 
-    public void setDeals(Set<Deal> deals);
+    public void setDeals(Collection<Deal> deals);
 
 }

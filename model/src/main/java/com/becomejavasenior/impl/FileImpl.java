@@ -17,7 +17,7 @@ public class FileImpl extends IdentityImpl implements Identity, File {
 
     private static final long serialVersionUID = 1L;
 
-    private String path;
+    private String name;
 
     private String mimeType;
 
@@ -25,11 +25,13 @@ public class FileImpl extends IdentityImpl implements Identity, File {
 
     private Date updated;
 
+    private byte[] content;
+
     public FileImpl() {
     }
 
-    public String getPath() {
-        return path;
+    public String getName() {
+        return name;
     }
 
     public String getMimeType() {
@@ -44,8 +46,13 @@ public class FileImpl extends IdentityImpl implements Identity, File {
         return updated;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    @Override
+    public byte[] getContent() {
+        return content;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setMimeType(String mimeType) {
@@ -60,12 +67,17 @@ public class FileImpl extends IdentityImpl implements Identity, File {
         this.updated = updated;
     }
 
+    @Override
+    public void setContent(byte[] content) {
+        this.content = content;
+    }
+
 
     @Override
     public String toString() {
         return "FileImpl{" +
                 "id=" + super.getId() +
-                ", path='" + path + '\'' +
+                ", name='" + name + '\'' +
                 ", mimeType='" + mimeType + '\'' +
                 ", created=" + created +
                 ", updated=" + updated +

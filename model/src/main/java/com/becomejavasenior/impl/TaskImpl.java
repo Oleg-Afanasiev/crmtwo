@@ -2,6 +2,7 @@ package com.becomejavasenior.impl;
 
 import com.becomejavasenior.*;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public class TaskImpl extends IdentityImpl implements Identity, Task {
 
     private Date dueDate;
 
-    private Set<Comment> comments;
+    private Collection<Comment> comments;
 
     private Date created;
 
@@ -73,7 +74,7 @@ public class TaskImpl extends IdentityImpl implements Identity, Task {
         return dueDate;
     }
 
-    public Set<Comment> getComments() {
+    public Collection<Comment> getComments() {
         return comments;
     }
 
@@ -117,7 +118,7 @@ public class TaskImpl extends IdentityImpl implements Identity, Task {
         this.dueDate = dueDate;
     }
 
-    public void setComments(Set<Comment> comments) {
+    public void setComments(Collection<Comment> comments) {
         this.comments = comments;
     }
 
