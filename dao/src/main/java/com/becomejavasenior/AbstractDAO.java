@@ -11,7 +11,7 @@ public interface AbstractDAO<T> {
 
     T getById(long id);
 
-    void delete(T entity);
+    void delete(Long id);
 
     void deleteAll(Collection<? extends T> entities);
 

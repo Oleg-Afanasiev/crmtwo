@@ -64,11 +64,11 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
         return entity;
     }
 
-    public void delete(T entity) { //todo what I have to do with object after deleting? clear ID?
+    public void delete(Long id) { //todo what I have to do with object after deleting? clear ID?
 
-        if (entity.getId() != null) {
+        if (id != null) {
             try (PreparedStatement statement = connection.prepareStatement(getQueryForDelete())) {
-                statement.setLong(1, entity.getId());
+                statement.setLong(1, id);
                 statement.execute();
             } catch (SQLException e) {
                 throw new DAOException("Can't delete user", e);
@@ -80,7 +80,7 @@ abstract public class GenericDAO<T extends Identity> implements AbstractDAO<T> {
 
     public void deleteAll(Collection<? extends T> entities) {
         for (T entity : entities) {
-            delete(entity);
+            delete(entity.getId());
         }
     }
 
