@@ -18,7 +18,6 @@
         <url-pattern>*.js</url-pattern>
     </servlet-mapping>
 
-
     <servlet>
         <servlet-name>TestServlet</servlet-name>
         <servlet-class>com.becomejavasenior.TestServlet</servlet-class>
@@ -41,5 +40,15 @@
 
 
 
+
+    <!--<servlet>-->
+        <!--<servlet-name>DealAddServlet</servlet-name>-->
+        <!--<servlet-class>com.becomejavasenior.DealAddServlet</servlet-class>-->
+        <!--<load-on-startup>0</load-on-startup>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>DealAddServlet</servlet-name>-->
+        <!--<url-pattern>/dealAdd</url-pattern>-->
+    <!--</servlet-mapping>-->
 
 </web-app>

@@ -13,8 +13,8 @@
         <div class="page-header">
             <h1>CRM System</h1>
         </div>
-        <li><a href="deals">Deal List</a></li>
-        <li><a href="dealAdd">Add new deal</a></li>
+        <li><a href="contacts">Contact List</a></li>
+        <li><a href="dealadd">Add deal</a></li>
     </div>
 </body>
 </html>
