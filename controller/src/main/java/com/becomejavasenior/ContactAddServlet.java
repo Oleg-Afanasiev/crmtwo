@@ -106,7 +106,7 @@ public class ContactAddServlet extends PersistServlet {
             contact.setComments(commentCollection);
         }
 
-        String filesInput = req.getParameter("files");
+       /* String filesInput = req.getParameter("files");
         if (filesInput != null) {
             File file = new FileImpl();
             Path path = Paths.get(filesInput);
@@ -122,7 +122,7 @@ public class ContactAddServlet extends PersistServlet {
             Collection<File> fileCollection = new ArrayList<>();
             fileCollection.add(file);
             contact.setFiles(fileCollection);
-        }
+        }*/
 
         ContactDAO contactDAO = daoManager.getContactDAO();
         contactDAO.insertOrUpdate(contact);
