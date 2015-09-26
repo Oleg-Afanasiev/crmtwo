@@ -1,0 +1,11 @@
+.panel {
+    width: 680px;
+}
+.panel-title {
+    text-align: center;
+    font-size: 35px;
+    color: #3d3d3d;
+}
+select, .file {
+    cursor: pointer;
+}
