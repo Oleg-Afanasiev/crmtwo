@@ -31,7 +31,6 @@ function setCountDockContacts() {
 
     span_count.innerHTML = n_li;
 
-    console.error("document.dealAdd.count_dock_contacts: ", document.dealAdd.count_dock_contacts);
     document.dealAdd.count_dock_contacts.value = n_li;
 
     if (n_li == "0")
@@ -101,12 +100,123 @@ function addContactClick() {
     div_sub_container.setAttribute("class", "sub-add-content");
 }
 
-function cancelContactClick() {
+function addCancelContactClick() {
     var div_container = document.getElementById("add_contact_container");
     var div_sub_container = document.getElementById("sub_add_contact");
 
     div_container.setAttribute("class", "hidden");
     div_sub_container.setAttribute("class", "none");
+}
+
+function cancelContactClick() {
+    var selectEl = document.getElementById("exist-contact");
+    var dockUl = document.getElementById("dock_contacts");
+
+    selectEl.selectedIndex = 0;
+
+    while (dockUl.firstChild) {
+        dockUl.removeChild(dockUl.firstChild);
+    }
+    setCountDockContacts();
+}
+
+function selectByValue(id, value) {
+    var selectEl = document.getElementById(id);
+
+    for (var i = 0; i < selectEl.options.length; i++) {
+        if (selectEl.options[i].value == value) {
+            selectEl.options[i].selected = true;
+            break;
+        }
+    }
+
+    selectEl.onchange(); //
+}
+
+function insertIntoSelect(id, value, text) {
+    var selectEl = document.getElementById(id);
+    var optionEl = document.createElement("option");
+
+    optionEl.value = value;
+    optionEl.text = text;
+    selectEl.add(optionEl);
+
+    selectByValue(id, value);
+ }
+
+function readContactData() {
+
+    var index;
+    var contactData = {};
+
+    contactData.name = document.getElementById("add_contact_name").value;
+
+    index = document.getElementById("add_contact_company_name").selectedIndex;
+    contactData.companyId = document.getElementById("add_contact_company_name").options[index].value;
+
+    contactData.jopPosition = document.getElementById("add_contact_job_position").value;
+
+    index = document.getElementById("add_contact_phone_type").selectedIndex;
+    contactData.phoneType = document.getElementById("add_contact_phone_type").options[index].value;
+
+    contactData.phoneNumber = document.getElementById("add_contact_phone_number").value;
+    contactData.email = document.getElementById("add_contact_email").value;
+    contactData.skype = document.getElementById("add_contact_skype").value;
+
+    return contactData;
+}
+
+function readCompanyData() {
+    var index;
+    var companyData = {};
+
+    companyData.name = document.getElementById("add_company_name").value;
+
+    index = document.getElementById("add_company_phone_type").selectedIndex;
+    companyData.phoneType = document.getElementById("add_company_phone_type").options[index].value;
+
+    companyData.phoneNumber = document.getElementById("add_company_phone_number").value;
+    companyData.email = document.getElementById("add_company_email").value;
+    companyData.skype = document.getElementById("add_company_skype").value;
+    companyData.address = document.getElementById("add_company_address").value;
+
+    return companyData;
+}
+
+function SaveNewData(contactData, id) {
+
+    var parentNodeUl = document.getElementById(id);
+    var liNode = document.createElement("li");
+    var count = countLiItems(parentNodeUl);
+    var inputEl;
+    console.log("contactData: ", contactData);
+    for (var item in contactData) {
+        console.log("item: ", item);
+        inputEl = document.createElement("input");
+        inputEl.setAttribute("type", "hidden");
+        inputEl.setAttribute("name", item.toString() + "_" +(count + 1).toString());
+        inputEl.value = contactData[item];
+        liNode.appendChild(inputEl);
+    }
+
+    parentNodeUl.appendChild(liNode);
+
+    return count;
+}
+
+function add_save_contact_button() {
+
+    var contactData = readContactData();
+    var count = SaveNewData(contactData, "added_contact_list");
+    addCancelContactClick();
+    insertIntoSelect("exist-contact", -(count+1), contactData.name);
+}
+
+function add_save_company_button() {
+    var companyData = readCompanyData();
+    var count = SaveNewData(companyData, "added_company_list");
+    addCancelCompanyClick();
+    insertIntoSelect("company", -(count+1), companyData.name);
 }
 
 function addCompanyClick() {
@@ -118,12 +228,18 @@ function addCompanyClick() {
     div_sub_container.setAttribute("class", "sub-add-content");
 }
 
-function cancelCompanyClick() {
+function addCancelCompanyClick() {
     var div_container = document.getElementById("add_company_container");
     var div_sub_container = document.getElementById("sub_add_company");
 
     div_container.setAttribute("class", "hidden");
     div_sub_container.setAttribute("class", "none");
+}
+
+function cancelCompanyClick() {
+    var selectEl = document.getElementById("company");
+
+    selectEl.selectedIndex = 0;
 }
 
 function changeContact(event) {
@@ -137,15 +253,37 @@ function changeContact(event) {
     setCountDockContacts();
 }
 
+function setDefaultPhoneType(name) {
+    var selectList = [];
+
+    selectList.push(document.getElementById("add_contact_phone_type"));
+    selectList.push(document.getElementById("add_company_phone_type"));
+
+    for (var i = 0; i < selectList.length; i++)
+        for (var j = 0; j < selectList[i].options.length; j++)
+            if (selectList[i].options[j].innerHTML == name)
+                selectList[i].options[j].selected = true;
+}
+
+function cancelClick() {
+    cancelContactClick();
+}
+
 window.onload = function() {
 
     document.getElementById("add_contact_button").onclick = addContactClick;
     document.getElementById("cancel_contact_button").onclick = cancelContactClick;
-    document.getElementById("add_cancel_contact_button").onclick = cancelContactClick;
+    document.getElementById("add_cancel_contact_button").onclick = addCancelContactClick;
+    document.getElementById("add_save_contact_button").onclick = add_save_contact_button;
 
     document.getElementById("add_company_button").onclick = addCompanyClick;
     document.getElementById("cancel_company_button").onclick = cancelCompanyClick;
-    document.getElementById("add_cancel_company_button").onclick = cancelCompanyClick;
+    document.getElementById("add_cancel_company_button").onclick = addCancelCompanyClick;
+    document.getElementById("add_save_company_button").onclick = add_save_company_button;
 
     document.getElementById("exist-contact").onchange = changeContact;
+
+    setDefaultPhoneType("Рабочий");
+
+    document.getElementById("cancel_button").onclick = cancelClick;
 }

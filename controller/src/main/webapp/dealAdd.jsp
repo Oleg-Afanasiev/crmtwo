@@ -122,41 +122,33 @@
                 <fieldset class="add-contact">
                   <legend>Добавить контакт</legend>
 
-                  <label for="add_name">Имя Фамилия</label>
-                  <input id="add_name" type="text"/>
+                  <label for="add_contact_name">Имя Фамилия</label>
+                  <input id="add_contact_name" type="text"/>
 
-                  <label for="add_company_name">Название компании</label>
-                  <select id="add_company_name">
+                  <label for="add_contact_company_name">Название компании</label>
+                  <select id="add_contact_company_name">
                     <option value="0">--Выберите компанию--</option>
                     <c:forEach items="${companies}" var="company">
                       <option value="${company.getId()}">${company.getName()}</option>
                     </c:forEach>
                   </select>
 
-                  <label for="add_position">Название должности</label>
-                  <select id="add_position">
-                    <option value="0">--Выберите должность--</option>
-                    <c:forEach items="${jopPositions}" var="jopPosition">
-                      <option value="${jopPosition}">${jopPosition}</option>
+                  <label for="add_contact_job_position">Название должности</label>
+                  <input id="add_contact_job_position" type="text" />
+
+                  <label for="add_contact_phone_type">Телефон</label>
+                  <select id="add_contact_phone_type" class="phone-type">
+                    <c:forEach items="${phoneTypes}" var="phoneType">
+                      <option value="${phoneType.getPhoneType()}">${phoneType.getName()}</option>
                     </c:forEach>
                   </select>
+                  <input id="add_contact_phone_number" type="text" class="phone"/>
 
-                  <label for="add_contact_phone">Телефон</label>
-                  <select id="add_contact_phone" class="phone-type">
-                    <option value="1" selected>Рабочий</option>
-                    <option value="2">Раб. прямой</option>
-                    <option value="3">Мобильный</option>
-                    <option value="4">Факс</option>
-                    <option value="5">Домашний</option>
-                    <option value="6">Другой</option>
-                  </select>
-                  <input type="text" class="phone"/>
+                  <label for="add_contact_email">Email</label>
+                  <input id="add_contact_email" type="text"/>
 
-                  <label for="contact_email">Email</label>
-                  <input id="contact_email" type="text"/>
-
-                  <label for="contact_skype">Skype</label>
-                  <input id="contact_skype" type="text"/>
+                  <label for="add_contact_skype">Skype</label>
+                  <input id="add_contact_skype" type="text"/>
 
                   <div class="buttons-wrapper">
                     <input id="add_save_contact_button" class="button" type="button" value="Сохранить контакт" />
@@ -188,25 +180,22 @@
                 <fieldset class="add-company">
                   <legend>Добавить компанию</legend>
 
-                  <label for="add_company">Название компании</label>
-                  <input id="add_company" type="text"/>
+                  <label for="add_company_name">Название компании</label>
+                  <input id="add_company_name" type="text"/>
 
-                  <label for="add_company_phone">Телефон</label>
-                  <select id="add_company_phone" class="phone-type">
-                    <option value="1" selected>Рабочий</option>
-                    <option value="2">Раб. прямой</option>
-                    <option value="3">Мобильный</option>
-                    <option value="4">Факс</option>
-                    <option value="5">Домашний</option>
-                    <option value="6">Другой</option>
+                  <label for="add_company_phone_type">Телефон</label>
+                  <select id="add_company_phone_type" class="phone-type">
+                    <c:forEach items="${phoneTypes}" var="phoneType">
+                      <option value="${phoneType.getPhoneType()}">${phoneType.getName()}</option>
+                    </c:forEach>
                   </select>
-                  <input class="phone" type="text" />
+                  <input id="add_company_phone_number" class="phone" type="text" />
 
-                  <label for="company_email">Email</label>
-                  <input id="company_email" type="text"/>
+                  <label for="add_company_email">Email</label>
+                  <input id="add_company_email" type="text"/>
 
-                  <label for="company_skype">Skype</label>
-                  <input id="company_skype" type="text"/>
+                  <label for="add_company_skype">Skype</label>
+                  <input id="add_company_skype" type="text"/>
 
                   <label for="add_company_address">Адрес</label>
                   <textarea id="add_company_address" rows="4" cols="30"></textarea>
@@ -217,6 +206,17 @@
                   </div>
                 </fieldset>
               </div>
+            </div>
+            <div class="hidden">
+              <ul id="added_contact_list">
+
+              </ul>
+            </div>
+
+            <div class="hidden">
+              <ul id="added_company_list">
+
+              </ul>
             </div>
           </fieldset>
         </td>

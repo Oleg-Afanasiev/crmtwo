@@ -4,20 +4,22 @@ import com.becomejavasenior.impl.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
+import org.apache.log4j.Logger;
+
 
 /**
  * Created by oleg on 9/17/15.
  */
 
 @WebServlet(name = "DealAddServlet", urlPatterns = "/dealadd", loadOnStartup = 0)
-public class DealAddServlet extends HttpServlet {
+public class DealAddServlet extends PersistServlet {
     private DaoManager daoManager;
+    private Logger logger = Logger.getLogger(DealAddServlet.class);
 
     @Override
     public void init() throws ServletException {
@@ -25,12 +27,13 @@ public class DealAddServlet extends HttpServlet {
         daoManager = DaoManager.getInstance();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doPostInPersistentCtx(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
 
         String name = request.getParameter("name");
 
-        Set<Tag> tags = splitTag(request.getParameter("tags"));
+        Set<Tag> tagList = splitTag(request.getParameter("tags"));
         Long respUserId = Long.parseLong(request.getParameter("responsibleUser"));
         BigDecimal budget = new BigDecimal(request.getParameter("budget"));
         Long statusId = Long.parseLong(request.getParameter("status"));
@@ -39,15 +42,14 @@ public class DealAddServlet extends HttpServlet {
         Set<Comment> commentList = splitComments(request.getParameter("comments"));
         Set<Company> companyList = getCompaniesById(companyId);
         Set<Contact> contactList = getContactsFromRequest(request);
-        Set<File> fileList = getFilesFromRequest(request);
+        //Set<File> fileList = getFilesFromRequest(request);
 
-        System.out.println("name: " + name);
-        System.out.println("tags: " + tags);
-        System.out.println("respUserId: " + respUserId);
-        System.out.println("budget: " + budget);
-        System.out.println("statusId: " + statusId);
-        System.out.println("companyId: " + companyId);
-        System.out.println("comments: " + commentList);
+        logger.info("name: " + name);
+        logger.info("tags: " + tagList);
+        logger.info("respUserId: " + respUserId);
+        logger.info("budget: " + budget);
+        logger.info("statusId: " + statusId);
+        logger.info("companyId: " + companyId);
 
         DaoManager daoManager = DaoManager.getInstance();
         User user = daoManager.getUserDAO().getById(respUserId);
@@ -59,33 +61,36 @@ public class DealAddServlet extends HttpServlet {
         Deal newDeal = new DealImpl();
 
         newDeal.setName(name);
-        //newDeal.setTags(tags);
+        newDeal.setTags(tagList);
         newDeal.setBudget(budget);
         newDeal.setResponsibleUser(user);
         newDeal.setDealStatus(dealStatus);
-        //newDeal.setComments(comments);
+        newDeal.setComments(commentList);
         newDeal.setCompanies(companyList);
         newDeal.setContacts(contactList);
-        newDeal.setFiles(fileList);
+        //newDeal.setFiles(fileList);
         newDeal.setCreated(date);
         newDeal.setUpdated(date);
 
         dealDAO.insertOrUpdate(newDeal);
-        System.out.println(newDeal);
-        System.out.println(contactList);
-        System.out.println(companyList);
-        System.out.println(commentList);
-        System.out.println(tags);
+
+        logger.info(newDeal);
+        logger.info(contactList);
+        logger.info(companyList);
+        logger.info(commentList);
+        logger.info(tagList);
+
        response.sendRedirect("/");
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    protected void doGetInPersistentCtx(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             request.setAttribute("users", getRangeUsers(0, 50));
             request.setAttribute("dealStatuses", getRangeDealStatuses(0, 50));
             request.setAttribute("contacts", getRangeContacts(0, 50));
             request.setAttribute("companies", getRangeCompanies(0, 50));
-            request.setAttribute("jopPositions", getRangeJobPositions(0, 50));
+            request.setAttribute("phoneTypes", getPhoneTypes());
 
         } catch(DAOException e) {
             e.printStackTrace();
@@ -121,6 +126,19 @@ public class DealAddServlet extends HttpServlet {
         return companies;
     }
 
+    private Collection<phoneTypeTmp> getPhoneTypes() {
+        Collection<phoneTypeTmp> phoneTypes = new ArrayList<phoneTypeTmp>();
+
+        phoneTypes.add(new phoneTypeTmp("Рабочий", Integer.toUnsignedLong(1)));
+        phoneTypes.add(new phoneTypeTmp("Раб.прямой", Integer.toUnsignedLong(2)));
+        phoneTypes.add(new phoneTypeTmp("Мобильный", Integer.toUnsignedLong(3)));
+        phoneTypes.add(new phoneTypeTmp("Факс", Integer.toUnsignedLong(4)));
+        phoneTypes.add(new phoneTypeTmp("Домашний", Integer.toUnsignedLong(5)));
+        phoneTypes.add(new phoneTypeTmp("Другой", Integer.toUnsignedLong(6)));
+
+        return phoneTypes;
+    }
+
     private Set<Company> getCompaniesById(long company_id) {
         Set<Company> companies = new HashSet<Company>();
 
@@ -130,22 +148,6 @@ public class DealAddServlet extends HttpServlet {
         }
 
         return companies;
-    }
-
-    private Collection<String> getRangeJobPositions(long from, long to) throws DAOException {
-        Collection<Contact> contacts = getRangeContacts(from, to);
-        Collection<String> jopPositions = new ArrayList<String>();
-
-        String nextJobPosition;
-
-        for (Contact contact: contacts) {
-            nextJobPosition = contact.getJobPosition();
-
-            if (!jopPositions.contains(nextJobPosition))
-                jopPositions.add(nextJobPosition);
-        }
-
-        return jopPositions;
     }
 
     private Set<Tag> splitTag(String tagsString) {
@@ -202,7 +204,7 @@ public class DealAddServlet extends HttpServlet {
         Date date = new Date();
 
         file.setMimeType("mime");
-        file.setPath("path");
+        file.setName("path");
         file.setCreated(date);
         file.setUpdated(date);
 
