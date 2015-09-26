@@ -85,7 +85,7 @@
                                 <div class="form-group">
                                     <label for="skype" class="col-sm-3 control-label">Skype</label>
                                     <div class="col-sm-8">
-                                        <input id="skype" required = "required" class="form-control" name="skype" type="text" value="" size="30" pattern="[A-Za-z._]{1,30}"/>
+                                        <input id="skype" required = "required" class="form-control" name="skype" type="text" value="" size="30" pattern="[A-Za-z._0-9]{1,30}"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
