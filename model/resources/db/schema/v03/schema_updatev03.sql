@@ -1,0 +1,35 @@
+
+ALTER TABLE crm.task ALTER COLUMN contact_id DROP NOT NULL;
+ALTER TABLE crm.task ALTER COLUMN deal_id DROP NOT NULL;
+ALTER TABLE crm.task ALTER COLUMN company_id DROP NOT NULL;
+
+ALTER TABLE crm.contact ALTER COLUMN company_id DROP NOT NULL;
+
+ALTER TABLE crm.user ALTER COLUMN created SET DEFAULT now();
+ALTER TABLE crm.user ALTER COLUMN updated SET DEFAULT now();
+ALTER TABLE crm.user ALTER COLUMN is_deleted SET DEFAULT FALSE;
+
+ALTER TABLE crm.task ALTER COLUMN is_deleted SET DEFAULT FALSE;
+ALTER TABLE crm.task ALTER COLUMN created SET DEFAULT now();
+ALTER TABLE crm.task ALTER COLUMN updated SET DEFAULT now();
+
+ALTER TABLE crm.contact ALTER COLUMN is_deleted SET DEFAULT FALSE;
+ALTER TABLE crm.contact ALTER COLUMN created SET DEFAULT now();
+ALTER TABLE crm.contact ALTER COLUMN updated SET DEFAULT now();
+
+ALTER TABLE crm.company ALTER COLUMN is_deleted SET DEFAULT FALSE;
+ALTER TABLE crm.company ALTER COLUMN created SET DEFAULT now();
+ALTER TABLE crm.company ALTER COLUMN updated SET DEFAULT now();
+
+ALTER TABLE crm.deal ALTER COLUMN is_deleted SET DEFAULT FALSE;
+ALTER TABLE crm.deal ALTER COLUMN created SET DEFAULT now();
+ALTER TABLE crm.deal ALTER COLUMN updated SET DEFAULT now();
+
+ALTER TABLE crm.comment ADD COLUMN is_deleted BOOL;
+ALTER TABLE crm.comment ALTER COLUMN is_deleted SET DEFAULT FALSE;
+ALTER TABLE crm.comment ALTER COLUMN created SET DEFAULT now();
+ALTER TABLE crm.comment ALTER COLUMN updated SET DEFAULT now();
+
+ALTER TABLE crm.deal ALTER COLUMN budget TYPE NUMERIC USING budget::NUMERIC;
+
+ALTER TABLE crm.task RENAME COLUMN comment TO description;
