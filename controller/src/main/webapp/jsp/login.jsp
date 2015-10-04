@@ -21,8 +21,8 @@
             <br>
             <label class="col-sm-offset-2 label-error">${errorMessage}</label>
             <br>
-            <label class="col-sm-offset-2">Guest: avma@mail.ru / pass</label>
-            <label class="col-sm-offset-2">Admin: puva@mail.ru / pass</label>
+            <label class="col-sm-offset-1">Guest: avma@mail.ru / password</label>
+            <label class="col-sm-offset-1">Admin: puva@mail.ru / password</label>
         </form>
     </div>
 </body>

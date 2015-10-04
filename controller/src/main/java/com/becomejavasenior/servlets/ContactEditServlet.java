@@ -44,28 +44,35 @@ public class ContactEditServlet extends PersistServlet {
             DaoManager daoManager = DaoManager.getInstance();
 
             ContactDAO contactDAO = daoManager.getContactDAO();
-            Contact contact = contactDAO.getById(id);
-            req.setAttribute("contact", contact);
+            Contact contact;
+            try {
+                contact = contactDAO.getById(id);
+                req.setAttribute("contact", contact);
 
-            UserDAO userDAO = daoManager.getUserDAO();
-            Collection<User> users = userDAO.getRange(0, 100);
-            req.setAttribute("users", users);
+                UserDAO userDAO = daoManager.getUserDAO();
+                Collection<User> users = userDAO.getRange(0, 100);
+                req.setAttribute("users", users);
 
-            CompanyDAO companyDAO = daoManager.getCompanyDAO();
-            Collection<Company> companies = companyDAO.getRange(0, 100);
-            req.setAttribute("companies", companies);
+                CompanyDAO companyDAO = daoManager.getCompanyDAO();
+                Collection<Company> companies = companyDAO.getRange(0, 100);
+                req.setAttribute("companies", companies);
 
-            StringBuilder tags = new StringBuilder("");
-            Collection<Tag> tagCollection = contact.getTags();
-            if (tagCollection != null) {
-                for (Tag t : tagCollection) {
-                    tags.append(t.getName());
-                    tags.append(" ");
+                StringBuilder tags = new StringBuilder("");
+                Collection<Tag> tagCollection = contact.getTags();
+                if (tagCollection != null) {
+                    for (Tag t : tagCollection) {
+                        tags.append(t.getName());
+                        tags.append(" ");
+                    }
                 }
+
+                req.setAttribute("tags", tags.toString());
+                req.getRequestDispatcher("/jsp/contactEdit.jsp").forward(req, resp);
+            } catch (DAOException e) {
+                logger.debug(e.getMessage() + "forward to contactList.jsp");
+                resp.sendRedirect("/crm/contactlist");
             }
 
-            req.setAttribute("tags", tags.toString());
-            req.getRequestDispatcher("/jsp/contactEdit.jsp").forward(req, resp);
         }
     }
 

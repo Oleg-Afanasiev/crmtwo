@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
     <head>
-        <title>Список контктов</title>
+        <title>Список контактов</title>
         <jsp:include page="fragments/headTag.jsp"/>
         <style>
             .link {

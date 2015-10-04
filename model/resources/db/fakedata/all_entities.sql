@@ -128,14 +128,14 @@ INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '+999883786468');
 INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '+787879386789');
 
 INSERT INTO crm.tag (name) VALUES ('#urgent');
-INSERT INTO crm.tag (name) VALUES ('#new deal');
+INSERT INTO crm.tag (name) VALUES ('#newDeal');
 INSERT INTO crm.tag (name) VALUES ('#BSDM');
 INSERT INTO crm.tag (name) VALUES ('#important');
-INSERT INTO crm.tag (name) VALUES ('#high costs');
-INSERT INTO crm.tag (name) VALUES ('#low costs');
+INSERT INTO crm.tag (name) VALUES ('#highCosts');
+INSERT INTO crm.tag (name) VALUES ('#lowCosts');
 INSERT INTO crm.tag (name) VALUES ('#global');
 INSERT INTO crm.tag (name) VALUES ('#Asia');
-INSERT INTO crm.tag (name) VALUES ('#CIS region');
+INSERT INTO crm.tag (name) VALUES ('#CISregion');
 INSERT INTO crm.tag (name) VALUES ('#Africa');
 
 

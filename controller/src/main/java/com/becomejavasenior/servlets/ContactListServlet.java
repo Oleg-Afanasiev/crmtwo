@@ -26,7 +26,7 @@ public class ContactListServlet extends PersistServlet {
 
     @Override
     protected void doGetInPersistentCtx(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.debug("creating new contact");
+        logger.debug("contact list forward");
         DaoManager daoManager = DaoManager.getInstance();
         ContactDAO contactDAO = daoManager.getContactDAO();
         Collection<Contact> contacts = contactDAO.getRange(0, 1000);
