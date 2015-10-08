@@ -32,9 +32,6 @@ public class LoginPage extends WebPage<LoginPage>{
                getLoginButton().waitUntilAvalible().isAvailable();
     }
 
-    private TextInput getUsernameInput(){
-        return new TextInput(driver, By.id("inputLogin"));
-    }
 
     public AdminHomePage loginAs(String username, String password){
         getUsernameInput().inputText(username);
@@ -44,11 +41,20 @@ public class LoginPage extends WebPage<LoginPage>{
         return new  AdminHomePage(driver).waitUntilAvalible();
     }
 
+    public LoginPage loadAsAnonymusUser(){
+        load();
+        return new LoginPage(driver).waitUntilAvalible();
+    }
+
+    private TextInput getUsernameInput(){
+        return new TextInput(driver, By.id("input-login"));
+    }
+
     private TextInput getPasswordInput(){
-        return new TextInput(driver, By.id("inputPassword"));
+        return new TextInput(driver, By.id("input-password"));
     }
 
     private Button getLoginButton(){
-        return new Button(driver, By.xpath("html/body/div[1]/form/button"));
+        return new Button(driver, By.id("signin-button"));
     }
 }

@@ -1,23 +1,23 @@
 package com.becomejavasenior.pages;
 
-import com.becomejavasenior.webcomponent.Link;
 import com.becomejavasenior.WebPage;
+import com.becomejavasenior.webcomponent.Link;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 /**
  * Created by pyavchik.a on 27.09.15.
  */
-public class AdminHomePage extends WebPage<AdminHomePage>{
+public class GuestHomePage extends WebPage<GuestHomePage>{
 
     private static final String PAGE_URL = "http://crm2rad.herokuapp.com/login";
 
-    public AdminHomePage(WebDriver driver) {
+    public GuestHomePage(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public AdminHomePage load() {
+    public GuestHomePage load() {
         driver.get(PAGE_URL);
 
         return this;

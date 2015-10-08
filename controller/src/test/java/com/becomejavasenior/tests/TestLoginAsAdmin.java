@@ -1,6 +1,7 @@
 package com.becomejavasenior.tests;
 
 import com.becomejavasenior.pages.AdminHomePage;
+import com.becomejavasenior.pages.LoginPage;
 import org.testng.annotations.Test;
 
 /**
@@ -8,11 +9,14 @@ import org.testng.annotations.Test;
  */
 public class TestLoginAsAdmin extends BaseTest {
 
-    @Test
+    private static final String LOGIN = "puva@mail.ru";
+    private static final String PASSWORD = "password";
+
+    @Test(alwaysRun = true)
     public void testLoginAsAdmin(){
-        new AdminHomePage(driver)
+        new LoginPage(driver)
                 .loadAsAnonymusUser()
-                .loginAs("puva", "pass");
+                .loginAs(LOGIN, PASSWORD);
 
         new AdminHomePage(driver).waitUntilAvalible();
 
