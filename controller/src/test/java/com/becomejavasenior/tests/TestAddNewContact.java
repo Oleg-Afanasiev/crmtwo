@@ -22,8 +22,8 @@ public class TestAddNewContact extends BaseTest {
     }
 
 
-    @Test
-    public void testLoginAsGuest() {
+    @Test(alwaysRun = true)
+    public void testAddNewContact() {
 
         UserGenerator userGenerator = new UserGenerator();
 
