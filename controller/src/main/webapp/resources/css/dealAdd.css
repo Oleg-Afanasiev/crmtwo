@@ -54,7 +54,7 @@ label {
     margin: 5px 20px 5px 0;
     display: inline-block;
     width: 160px;
-    vertical-align: center;
+    vertical-align: top;
     /*max-width: 125px;*/
 }
 
@@ -172,6 +172,10 @@ textarea {
     overflow: scroll;
 }
 
+.list-files ul {
+    padding: 10px;
+}
+
 .buttons-wrapper {
     text-align: center;
 }
@@ -215,7 +219,7 @@ textarea {
     border-radius: 5px;
 }
 
-.total-contacts {
+.total {
     margin-left: 5px;
     /*font-weight: bold;*/
     font-style: italic;
@@ -251,4 +255,9 @@ textarea {
     background: #fff;
     background: -webkit-linear-gradient(#fff, #999);
     background: -o-linear-gradient(#fff, #999);
+}
+
+.error {
+    color: red;
+    font-size: 12px;
 }

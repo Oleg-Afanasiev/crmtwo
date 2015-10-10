@@ -22,7 +22,7 @@ function reSetNameAttribute(n) {
     }
 }
 
-function setCountDockContacts() {
+function updateCountDockContacts() {
 
     var div_container = document.getElementById("dock_contacts_container");
     var el_ul = document.getElementById("dock_contacts");
@@ -41,12 +41,22 @@ function setCountDockContacts() {
     reSetNameAttribute(n_li);
 }
 
+function initUnDockContactClick() {
+    var parentNode = document.getElementById("dock_contacts");
+    var aList = parentNode.getElementsByTagName("a");
+
+    for (var item in aList) {
+        if (aList[item].innerHTML == "x")
+            aList[item].onclick  = closeDockContactClick;
+    }
+}
+
 function closeDockContactClick() {
     var currentLi = this.parentNode.parentNode;
     var parent_ul = currentLi.parentNode;
 
     parent_ul.removeChild(currentLi);
-    setCountDockContacts();
+    updateCountDockContacts();
 }
 
 function isContactDocked(id) {
@@ -117,10 +127,10 @@ function cancelContactClick() {
     while (dockUl.firstChild) {
         dockUl.removeChild(dockUl.firstChild);
     }
-    setCountDockContacts();
+    updateCountDockContacts();
 }
 
-function selectByValue(id, value) {
+function selectByValue(id, value, callOnChange) {
     var selectEl = document.getElementById(id);
 
     for (var i = 0; i < selectEl.options.length; i++) {
@@ -130,10 +140,11 @@ function selectByValue(id, value) {
         }
     }
 
-    selectEl.onchange(); //
+    if (callOnChange)
+        selectEl.onchange(); //
 }
 
-function insertIntoSelect(id, value, text) {
+function insertIntoSelect(id, value, text, doSelect, callOnChange) {
     var selectEl = document.getElementById(id);
     var optionEl = document.createElement("option");
 
@@ -141,7 +152,8 @@ function insertIntoSelect(id, value, text) {
     optionEl.text = text;
     selectEl.add(optionEl);
 
-    selectByValue(id, value);
+    if (doSelect)
+        selectByValue(id, value, callOnChange);
  }
 
 function readContactData() {
@@ -154,10 +166,10 @@ function readContactData() {
     index = document.getElementById("add_contact_company_name").selectedIndex;
     contactData.companyId = document.getElementById("add_contact_company_name").options[index].value;
 
-    contactData.jopPosition = document.getElementById("add_contact_job_position").value;
+    contactData.jobPosition = document.getElementById("add_contact_job_position").value;
 
     index = document.getElementById("add_contact_phone_type").selectedIndex;
-    contactData.phoneType = document.getElementById("add_contact_phone_type").options[index].value;
+    contactData.phoneTypeId = document.getElementById("add_contact_phone_type").options[index].value;
 
     contactData.phoneNumber = document.getElementById("add_contact_phone_number").value;
     contactData.email = document.getElementById("add_contact_email").value;
@@ -173,29 +185,32 @@ function readCompanyData() {
     companyData.name = document.getElementById("add_company_name").value;
 
     index = document.getElementById("add_company_phone_type").selectedIndex;
-    companyData.phoneType = document.getElementById("add_company_phone_type").options[index].value;
+    companyData.phoneTypeId = document.getElementById("add_company_phone_type").options[index].value;
 
     companyData.phoneNumber = document.getElementById("add_company_phone_number").value;
     companyData.email = document.getElementById("add_company_email").value;
-    companyData.skype = document.getElementById("add_company_skype").value;
+    companyData.webAddress = document.getElementById("add_company_web_address").value;
     companyData.address = document.getElementById("add_company_address").value;
 
     return companyData;
 }
 
-function SaveNewData(contactData, id) {
+function SaveNewEntity(newEntity, idUl, idCountContainer, nameEntity) {
 
-    var parentNodeUl = document.getElementById(id);
+    var parentNodeUl = document.getElementById(idUl);
     var liNode = document.createElement("li");
-    var count = countLiItems(parentNodeUl);
+    var count = countLiItems(parentNodeUl) + 1; // '... + 1' - because newEntity wasn't append
     var inputEl;
-    console.log("contactData: ", contactData);
-    for (var item in contactData) {
-        console.log("item: ", item);
+    console.log("newEntity: ", newEntity);
+
+    newEntity['pseudoId'] = -count;
+
+    for (var item in newEntity) {
+        //console.log("item: ", item);
         inputEl = document.createElement("input");
         inputEl.setAttribute("type", "hidden");
-        inputEl.setAttribute("name", item.toString() + "_" +(count + 1).toString());
-        inputEl.value = contactData[item];
+        inputEl.setAttribute("name", nameEntity + "_" + item.toString() + "_" + count.toString());
+        inputEl.value = newEntity[item];
         liNode.appendChild(inputEl);
     }
 
@@ -204,19 +219,36 @@ function SaveNewData(contactData, id) {
     return count;
 }
 
+function updateCountNewContacts() {
+    var parentNodeUl = document.getElementById("added_contact_list");
+    var countContacts = countLiItems(parentNodeUl);
+    document.getElementById("count_new_contacts").value = countContacts;
+}
+
 function add_save_contact_button() {
 
     var contactData = readContactData();
-    var count = SaveNewData(contactData, "added_contact_list");
+    var countContacts = SaveNewEntity(contactData, "added_contact_list", "count_new_contacts", "contact");
     addCancelContactClick();
-    insertIntoSelect("exist-contact", -(count+1), contactData.name);
+    insertIntoSelect("exist-contact", -countContacts, contactData.name, true, true);
+    updateCountNewContacts();
+}
+
+function updateCountNewCompanies() {
+    var parentNodeUl = document.getElementById("added_company_list");
+    var countCompanies = countLiItems(parentNodeUl);
+    document.getElementById("count_new_companies").value = countCompanies;
 }
 
 function add_save_company_button() {
     var companyData = readCompanyData();
-    var count = SaveNewData(companyData, "added_company_list");
+    var countCompanies = SaveNewEntity(companyData, "added_company_list", "count_new_companies", "company");
     addCancelCompanyClick();
-    insertIntoSelect("company", -(count+1), companyData.name);
+
+    insertIntoSelect("company", parseInt(-countCompanies), companyData.name, true, false);
+    insertIntoSelect("add_contact_company_name", parseInt(-countCompanies), companyData.name, false, false);
+
+    updateCountNewCompanies();
 }
 
 function addCompanyClick() {
@@ -247,10 +279,10 @@ function changeContact(event) {
     var id = this.value;
     var contactName = this.options[this.selectedIndex].text;
 
-    if (!isContactDocked(id))
+    if (!isContactDocked(id) && id != 0)
         dockContact(id, contactName);
 
-    setCountDockContacts();
+    updateCountDockContacts();
 }
 
 function setDefaultPhoneType(name) {
@@ -267,7 +299,9 @@ function setDefaultPhoneType(name) {
 
 function cancelClick() {
     cancelContactClick();
+    fileCancelClick();
 }
+
 
 window.onload = function() {
 
@@ -286,4 +320,12 @@ window.onload = function() {
     setDefaultPhoneType("Рабочий");
 
     document.getElementById("cancel_button").onclick = cancelClick;
+
+    updateCountDockContacts();
+    updateCountNewCompanies();
+    updateCountNewContacts();
+
+    initUnDockContactClick();
+
+    fileUploadMain();
 }

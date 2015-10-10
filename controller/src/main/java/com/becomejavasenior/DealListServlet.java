@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * Created by oleg on 9/17/15.
  */
-@WebServlet(name="DealListServlet", urlPatterns = "/deals", loadOnStartup = 0)
+@WebServlet(name="DealListServlet", urlPatterns = "/deallist", loadOnStartup = 0)
 public class DealListServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

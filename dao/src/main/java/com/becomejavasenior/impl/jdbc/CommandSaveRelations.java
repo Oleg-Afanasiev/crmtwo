@@ -60,8 +60,8 @@ public enum CommandSaveRelations {
         tempEntityRelations.put("deal_comment", "comment_id");
         tempEntityRelations.put("deal_tag", "tag_id");
         tempEntityRelations.put("deal_file", "file_id");
-        tempEntityRelations.put("deal_company", "company_id");  // +
-        tempEntityRelations.put("deal_contact", "contact_id");  // +
+        tempEntityRelations.put("deal_company", "company_id");
+        tempEntityRelations.put("deal_contact", "contact_id");
         tempClassToTables.put(Deal.class, tempEntityRelations);
 
         entityRelations = Collections.unmodifiableMap(tempClassToTables);
@@ -74,8 +74,8 @@ public enum CommandSaveRelations {
         tempColumnToMethod.put("file_id", "getFiles");
         tempColumnToMethod.put("phone_number_id", "getPhones");
         tempColumnToMethod.put("deal_id", "getDeals");
-        tempColumnToMethod.put("company_id", "getCompanies");   // +
-        tempColumnToMethod.put("contact_id", "getContacts");    // +
+        tempColumnToMethod.put("company_id", "getCompanies");
+        tempColumnToMethod.put("contact_id", "getContacts");
         columnToMethod = Collections.unmodifiableMap(tempColumnToMethod);
     }
 

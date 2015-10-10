@@ -27,7 +27,6 @@ public class IdentityImpl implements Identity {
         Identity identity = (Identity) o;
 
         return id == identity.getId();
-
     }
 
     @Override
