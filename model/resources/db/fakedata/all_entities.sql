@@ -64,25 +64,25 @@ INSERT INTO crm."user" (role_id, username, last_name, first_name, email, created
 VALUES (10, 'miev', 'Mironov', 'Evgeniy', 'miev@mail.ru', current_timestamp, current_timestamp, FALSE);
 
 
-INSERT INTO crm.file (file_path, file_mime_type, created, updated)
+INSERT INTO crm.file (file_name, file_mime_type, created, updated)
 VALUES ('c:\files\file1.txt', 'text/plain', current_timestamp, current_timestamp);
-INSERT INTO crm.file (file_path, file_mime_type, created, updated)
+INSERT INTO crm.file (file_name, file_mime_type, created, updated)
 VALUES ('c:\files\spravka0.pdf', 'application/pdf', current_timestamp, current_timestamp);
-INSERT INTO crm.file (file_path, file_mime_type, created, updated)
+INSERT INTO crm.file (file_name, file_mime_type, created, updated)
 VALUES ('c:\files\screenshot003.jpg', 'image/jpeg', current_timestamp, current_timestamp);
-INSERT INTO crm.file (file_path, file_mime_type, created, updated)
+INSERT INTO crm.file (file_name, file_mime_type, created, updated)
 VALUES ('c:\files\screenshot9.png', 'image/png', current_timestamp, current_timestamp);
-INSERT INTO crm.file (file_path, file_mime_type, created, updated)
+INSERT INTO crm.file (file_name, file_mime_type, created, updated)
 VALUES ('c:\files\config33.xml', 'text/xml', current_timestamp, current_timestamp);
-INSERT INTO crm.file (file_path, file_mime_type, created, updated)
+INSERT INTO crm.file (file_name, file_mime_type, created, updated)
 VALUES ('c:\files\review.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', current_timestamp, current_timestamp);
-INSERT INTO crm.file (file_path, file_mime_type, created, updated)
+INSERT INTO crm.file (file_name, file_mime_type, created, updated)
 VALUES ('c:\files\teachers.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', current_timestamp, current_timestamp);
-INSERT INTO crm.file (file_path, file_mime_type, created, updated)
+INSERT INTO crm.file (file_name, file_mime_type, created, updated)
 VALUES ('c:\files\presentation.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', current_timestamp, current_timestamp);
-INSERT INTO crm.file (file_path, file_mime_type, created, updated)
+INSERT INTO crm.file (file_name, file_mime_type, created, updated)
 VALUES ('c:\files\screencast.avi', 'video/avi', current_timestamp, current_timestamp);
-INSERT INTO crm.file (file_path, file_mime_type, created, updated)
+INSERT INTO crm.file (file_name, file_mime_type, created, updated)
 VALUES ('c:\files\video.mp4', 'video/mp4', current_timestamp, current_timestamp);
 
 
@@ -109,31 +109,34 @@ VALUES ('task review1', 'bla-bla-bla ololololo 111111!!!!!', current_timestamp, 
 
 
 INSERT INTO crm.phone_type (phone_type, name) VALUES (1, 'Рабочий');
-INSERT INTO crm.phone_type (phone_type, name) VALUES (2, 'Мобильный');
-INSERT INTO crm.phone_type (phone_type, name) VALUES (3, 'Домашний');
+INSERT INTO crm.phone_type (phone_type, name) VALUES (2, 'Раб.прямой');
+INSERT INTO crm.phone_type (phone_type, name) VALUES (3, 'Мобильный');
+INSERT INTO crm.phone_type (phone_type, name) VALUES (4, 'Факс');
+INSERT INTO crm.phone_type (phone_type, name) VALUES (5, 'Домашний');
+INSERT INTO crm.phone_type (phone_type, name) VALUES (6, 'Другой');
 
 
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (1, '1354326755');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '5423626234');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '4345654379');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '5454354365');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '4765283673');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '7654937058');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '6753455697');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '5487635947');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '9998');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '78787');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (1, '+135432675554');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '+542362623454');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '+434565437954');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '+545435436554');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '+476528367354');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '+765493705854');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '+675345569754');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '+548763594754');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '+999883786468');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '+787879386789');
 
-INSERT INTO crm.tag (name) VALUES ('urgent');
-INSERT INTO crm.tag (name) VALUES ('new deal');
-INSERT INTO crm.tag (name) VALUES ('BSDM');
-INSERT INTO crm.tag (name) VALUES ('important');
-INSERT INTO crm.tag (name) VALUES ('high costs');
-INSERT INTO crm.tag (name) VALUES ('low costs');
-INSERT INTO crm.tag (name) VALUES ('global');
-INSERT INTO crm.tag (name) VALUES ('Asia');
-INSERT INTO crm.tag (name) VALUES ('CIS region');
-INSERT INTO crm.tag (name) VALUES ('Africa');
+INSERT INTO crm.tag (name) VALUES ('#urgent');
+INSERT INTO crm.tag (name) VALUES ('#newDeal');
+INSERT INTO crm.tag (name) VALUES ('#BSDM');
+INSERT INTO crm.tag (name) VALUES ('#important');
+INSERT INTO crm.tag (name) VALUES ('#highCosts');
+INSERT INTO crm.tag (name) VALUES ('#lowCosts');
+INSERT INTO crm.tag (name) VALUES ('#global');
+INSERT INTO crm.tag (name) VALUES ('#Asia');
+INSERT INTO crm.tag (name) VALUES ('#CISregion');
+INSERT INTO crm.tag (name) VALUES ('#Africa');
 
 
 INSERT INTO crm.task_type (task_type_id, name) VALUES (1, 'Follow-up');

@@ -7,7 +7,7 @@
 
 
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>jsp/index.jsp</welcome-file>
     </welcome-file-list>
     <servlet-mapping>
         <servlet-name>default</servlet-name>
@@ -21,7 +21,7 @@
 
     <servlet>
         <servlet-name>TestServlet</servlet-name>
-        <servlet-class>com.becomejavasenior.TestServlet</servlet-class>
+        <servlet-class>com.becomejavasenior.servlets.TestServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
     <servlet-mapping>

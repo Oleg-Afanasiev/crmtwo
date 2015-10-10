@@ -2,6 +2,7 @@ package com.becomejavasenior.impl;
 
 import com.becomejavasenior.*;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -32,15 +33,15 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact {
 
     private Date updated;
 
-    private Set<File> files;
+    private Collection<File> files;
 
-    private Set<Comment> comments;
+    private Collection<Comment> comments;
 
-    private Set<Tag> tags;
+    private Collection<Tag> tags;
 
-    private Set<Phone> phones;
+    private Collection<Phone> phones;
 
-    private Set<Deal> deals;
+    private Collection<Deal> deals;
 
     public ContactImpl() {
     }
@@ -54,7 +55,7 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact {
         return responsibleUser;
     }
 
-    public Set<Phone> getPhones() {
+    public Collection<Phone> getPhones() {
         return phones;
     }
 
@@ -82,19 +83,19 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact {
         return updated;
     }
 
-    public Set<File> getFiles() {
+    public Collection<File> getFiles() {
         return files;
     }
 
-    public Set<Comment> getComments() {
+    public Collection<Comment> getComments() {
         return comments;
     }
 
-    public Set<Tag> getTags() {
+    public Collection<Tag> getTags() {
         return tags;
     }
 
-    public Set<Deal> getDeals() {
+    public Collection<Deal> getDeals() {
         return deals;
     }
 
@@ -106,7 +107,7 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact {
         this.responsibleUser = responsibleUser;
     }
 
-    public void setPhones(Set<Phone> phones) {
+    public void setPhones(Collection<Phone> phones) {
         this.phones = phones;
     }
 
@@ -134,19 +135,19 @@ public class ContactImpl extends IdentityImpl implements Identity, Contact {
         this.updated = updated;
     }
 
-    public void setFiles(Set<File> files) {
+    public void setFiles(Collection<File> files) {
         this.files = files;
     }
 
-    public void setComments(Set<Comment> comments) {
+    public void setComments(Collection<Comment> comments) {
         this.comments = comments;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(Collection<Tag> tags) {
         this.tags = tags;
     }
 
-    public void setDeals(Set<Deal> deals) {
+    public void setDeals(Collection<Deal> deals) {
         this.deals = deals;
     }
 

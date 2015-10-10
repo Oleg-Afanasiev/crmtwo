@@ -1,9 +1,7 @@
 package com.becomejavasenior.impl.jdbc;
 
 import com.becomejavasenior.*;
-import com.becomejavasenior.Deal;
 import com.becomejavasenior.impl.DealImpl;
-import com.becomejavasenior.DealStatus;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -105,7 +103,7 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         InvocationHandler handler = new InvocationHandler() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                return loadEntities(method, deal, args);
+                return improveMethods(method, deal, args);
             }
         };
         Deal proxy =
@@ -113,229 +111,27 @@ public class DealDAOImpl extends GenericDAO<Deal> implements DealDAO {
         return proxy;
     }
 
-    private <T extends Identity> Object loadEntities(Method method, T instance, Object[] args)
-            throws InvocationTargetException, IllegalAccessException, SQLException {
+    private <T extends Identity> Object improveMethods(Method method, T instance, Object[] args)
+            throws InvocationTargetException, IllegalAccessException, SQLException, NoSuchFieldException {
         Object result = method.invoke(instance, args);
         if (result != null) {
             return result;
         }
         String methodName = method.getName();
 
-        switch (methodName) {
-            case "getCompanies": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    Set<Company> set = new HashSet<>();
-                    CompanyDAO dao = DaoManager.getInstance().getCompanyDAO();
-                    for (Long id : ids) {
-                        set.add(dao.getById(id));
-                    }
-                    result = set;
-                    ((Deal) instance).setCompanies((Set<Company>) result);
-                }
-            }
-            break;
-            case "getDealStatus": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    DealStatusDAO dao = DaoManager.getInstance().getDealStatusDAO();
-                    result = dao.getById(ids.iterator().next());
-                    ((Deal) instance).setDealStatus((DealStatus) result);
-                }
-            }
-            break;
-            case "getTags": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    Set<Tag> set = new HashSet<Tag>();
-                    TagDAO dao = DaoManager.getInstance().getTagDAO();
-                    for (Long id : ids) {
-                        set.add(dao.getById(id));
-                    }
-                    result = set;
-                    ((Deal) instance).setTags((Set<Tag>) result);
-                }
-            }
-            break;
-            case "getFiles": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    Set<File> set = new HashSet<File>();
-                    FileDAO dao = DaoManager.getInstance().getFileDAO();
-                    for (Long id : ids) {
-                        set.add(dao.getById(id));
-                    }
-                    result = set;
-                    ((Deal) instance).setFiles((Set<File>) result);
-                }
-            }
-            break;
-            case "getComments": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    Set<Comment> set = new HashSet<Comment>();
-                    CommentDAO dao = DaoManager.getInstance().getCommentDAO();
-                    for (Long id : ids) {
-                        set.add(dao.getById(id));
-                    }
-                    result = set;
-                    ((Deal) instance).setComments((Set<Comment>) result);
-                }
-            }
-            break;
-            case "getResponsibleUser": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    result = DaoManager.getInstance().getUserDAO().getById(ids.iterator().next());
-                    ((Deal) instance).setResponsibleUser((User) result);
-                }
-            }
-            break;
-            case "getContacts": {
-                Collection<Long> ids = getRelatedIds(methodName, instance);
-                if (!ids.isEmpty()) {
-                    Set<Contact> set = new HashSet<Contact>();
-                    ContactDAO dao = DaoManager.getInstance().getContactDAO();
-                    for (Long id : ids) {
-                        set.add(dao.getById(id));
-                    }
-                    result = set;
-                    ((Deal) instance).setContacts((Set<Contact>) result);
-                }
-            }
-            default:
-                result = method.invoke(instance, args);
-                break;
-        }
+        result =
+                CommandMethod.valueOf(methodName)
+                        .init()
+                        .setRelatedIDs(getRelatedIds(methodName, instance))
+                        .execute(method, instance, args);
+
         return result;
     }
 
     @Override
-    protected void saveRelations(Deal entity) throws SQLException {
-
-        Set<Comment> comments = entity.getComments();
-        if (comments != null && !comments.isEmpty()) {
-            Set<Long> ids = new HashSet<>();
-            for (Comment comment : comments) {
-                DaoManager.getInstance().getCommentDAO().insertOrUpdate(comment);
-                ids.add(comment.getId());
-            }
-            clearRelationsWithComments(entity);
-            writeRelationsWithComments(entity, ids);
-        }
-
-        Set<Tag> tags = entity.getTags();
-        if (tags != null && !tags.isEmpty()) {
-            Set<Long> ids = new HashSet<>();
-            for (Tag tag : tags) {
-                DaoManager.getInstance().getTagDAO().insertOrUpdate(tag);
-                ids.add(tag.getId());
-            }
-            clearRelationsWithTags(entity);
-            writeRelationsWithTags(entity, ids);
-        }
-
-        Set<File> files = entity.getFiles();
-        if (files != null && !files.isEmpty()) {
-            Set<Long> ids = new HashSet<>();
-            for (File file : files) {
-                DaoManager.getInstance().getFileDAO().insertOrUpdate(file);
-                ids.add(file.getId());
-            }
-            clearRelationsWithFiles(entity);
-            writeRelationsWithFiles(entity, ids);
-        }
-
+    protected void saveRelations(Deal entity) throws SQLException, IllegalAccessException, NoSuchFieldException, InvocationTargetException {
+        CommandSaveRelations commandSaveRelations;
+        commandSaveRelations = CommandSaveRelations.valueOf(Deal.class.getSimpleName());
+        commandSaveRelations.execute(entity);
     }
-
-    private void clearRelationsWithComments(Deal entity) throws SQLException {
-        String clearQuery = "DELETE FROM crm.deal_comment WHERE deal_id = " + entity.getId();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(clearQuery);
-        } catch (SQLException e) {
-            throw new DAOException("Can't delete relations with comments", e);
-        }
-    }
-
-    private void writeRelationsWithComments(Deal entity, Set<Long> comments) throws SQLException {
-        Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crm.deal_comment (deal_id, comment_id) VALUES ";
-        StringBuilder builder = new StringBuilder(insertQuery);
-        for (Iterator<Long> iterator = comments.iterator(); iterator.hasNext(); ) {
-            builder.append("( ");
-            builder.append(entityId);
-            builder.append(", ");
-            Long id = iterator.next();
-            builder.append(id);
-            builder.append(" )");
-            if (iterator.hasNext()) builder.append(", ");
-        }
-        builder.append(" ;");
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(builder.toString());
-        } catch (SQLException e) {
-            throw new DAOException("Can't update relations with comments", e);
-        }
-    }
-
-    private void clearRelationsWithTags(Deal entity) throws SQLException {
-        String clearQuery = "DELETE FROM crm.deal_tag WHERE deal_id = " + entity.getId();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(clearQuery);
-        } catch (SQLException e) {
-            throw new DAOException("Can't delete relations with tags", e);
-        }
-    }
-
-    private void writeRelationsWithTags(Deal entity, Set<Long> tags) throws SQLException {
-        Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crm.deal_tag (deal_id, tag_id) VALUES ";
-        StringBuilder builder = new StringBuilder(insertQuery);
-        for (Iterator<Long> iterator = tags.iterator(); iterator.hasNext(); ) {
-            builder.append("( ");
-            builder.append(entityId);
-            builder.append(", ");
-            Long id = iterator.next();
-            builder.append(id);
-            builder.append(" )");
-            if (iterator.hasNext()) builder.append(", ");
-        }
-        builder.append(" ;");
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(builder.toString());
-        } catch (SQLException e) {
-            throw new DAOException("Can't update relations with tags", e);
-        }
-    }
-
-    private void clearRelationsWithFiles(Deal entity) throws SQLException {
-        String clearQuery = "DELETE FROM crm.deal_file WHERE deal_id = " + entity.getId();
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(clearQuery);
-        } catch (SQLException e) {
-            throw new DAOException("Can't delete relations with files", e);
-        }
-    }
-
-    private void writeRelationsWithFiles(Deal entity, Set<Long> files) throws SQLException {
-        Long entityId = entity.getId();
-        String insertQuery = "INSERT INTO crm.deal_file (deal_id, file_id) VALUES ";
-        StringBuilder builder = new StringBuilder(insertQuery);
-        for (Iterator<Long> iterator = files.iterator(); iterator.hasNext(); ) {
-            builder.append("( ");
-            builder.append(entityId);
-            builder.append(", ");
-            Long id = iterator.next();
-            builder.append(id);
-            builder.append(" )");
-            if (iterator.hasNext()) builder.append(", ");
-        }
-        builder.append(" ;");
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(builder.toString());
-        } catch (SQLException e) {
-            throw new DAOException("Can't update relations with files", e);
-        }
-    }
-
 }

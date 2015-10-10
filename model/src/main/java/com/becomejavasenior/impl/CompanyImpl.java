@@ -3,6 +3,7 @@ package com.becomejavasenior.impl;
 
 import com.becomejavasenior.*;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public class CompanyImpl extends IdentityImpl implements Company {
 
     private String email;
 
-    private String webAdress;
+    private String webAddress;
 
     private String adress;
 
@@ -31,15 +32,15 @@ public class CompanyImpl extends IdentityImpl implements Company {
 
     private Date updated;
 
-    private Set<Phone> phones;
+    private Collection<Phone> phones;
 
-    private Set<Deal> deals;
+    private Collection<Deal> deals;
 
-    private Set<Tag> tags;
+    private Collection<Tag> tags;
 
-    private Set<File> files;
+    private Collection<File> files;
 
-    private Set<Comment> comments;
+    private Collection<Comment> comments;
 
     public CompanyImpl() {
     }
@@ -61,7 +62,7 @@ public class CompanyImpl extends IdentityImpl implements Company {
 
     @Override
     public String getWebAddress() {
-        return webAdress;
+        return webAddress;
     }
 
     @Override
@@ -80,27 +81,27 @@ public class CompanyImpl extends IdentityImpl implements Company {
     }
 
     @Override
-    public Set<Phone> getPhones() {
+    public Collection<Phone> getPhones() {
         return phones;
     }
 
     @Override
-    public Set<Deal> getDeals() {
+    public Collection<Deal> getDeals() {
         return deals;
     }
 
     @Override
-    public Set<Tag> getTags() {
+    public Collection<Tag> getTags() {
         return tags;
     }
 
     @Override
-    public Set<File> getFiles() {
+    public Collection<File> getFiles() {
         return files;
     }
 
     @Override
-    public Set<Comment> getComments() {
+    public Collection<Comment> getComments() {
         return comments;
     }
 
@@ -120,13 +121,13 @@ public class CompanyImpl extends IdentityImpl implements Company {
     }
 
     @Override
-    public void setWebAdress(String webAdress) {
-        this.webAdress = webAdress;
+    public void setWebAddress(String webAddress) {
+        this.webAddress = webAddress;
     }
 
     @Override
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.adress = address;
     }
 
     @Override
@@ -140,27 +141,27 @@ public class CompanyImpl extends IdentityImpl implements Company {
     }
 
     @Override
-    public void setPhones(Set<Phone> phones) {
+    public void setPhones(Collection<Phone> phones) {
         this.phones = phones;
     }
 
     @Override
-    public void setDeals(Set<Deal> deals) {
+    public void setDeals(Collection<Deal> deals) {
         this.deals = deals;
     }
 
     @Override
-    public void setTags(Set<Tag> tags) {
+    public void setTags(Collection<Tag> tags) {
         this.tags = tags;
     }
 
     @Override
-    public void setFiles(Set<File> files) {
+    public void setFiles(Collection<File> files) {
         this.files = files;
     }
 
     @Override
-    public void setComments(Set<Comment> comments) {
+    public void setComments(Collection<Comment> comments) {
         this.comments = comments;
     }
 
@@ -170,7 +171,7 @@ public class CompanyImpl extends IdentityImpl implements Company {
                 "id=" + super.getId() +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", webAdress='" + webAdress + '\'' +
+                ", webAddress='" + webAddress + '\'' +
                 ", adress='" + adress + '\'' +
                 ", created=" + created +
                 ", updated=" + updated +
