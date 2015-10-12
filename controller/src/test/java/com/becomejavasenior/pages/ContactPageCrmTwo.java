@@ -8,17 +8,17 @@ import org.openqa.selenium.WebDriver;
 /**
  * Created by pyavchik on 30.08.15.
  */
-public class СontactPageCrmTwo extends WebPage<СontactPageCrmTwo> {
+public class ContactPageCrmTwo extends WebPage<ContactPageCrmTwo> {
 
 
     private static final String PAGE_URL = "http://crmtwo.herokuapp.com/contactlist";
 
-    public СontactPageCrmTwo(WebDriver driver) {
+    public ContactPageCrmTwo(WebDriver driver) {
         super(driver);
     }
 
     @Override
-    public СontactPageCrmTwo load() {
+    public ContactPageCrmTwo load() {
         driver.get(PAGE_URL);
         return this;
     }

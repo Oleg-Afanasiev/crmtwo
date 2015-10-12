@@ -36,13 +36,13 @@ public class AddContactPageCrmTwo extends WebPage<AddContactPageCrmTwo> {
                 getContactSubmitButton().isAvailable();
     }
 
-    public СontactPageCrmTwo addNewContactCrmtwo(String name,
-                                                  String tags,
-                                                  String jobPosition,
-                                                  String phoneNumber,
-                                                  String email,
-                                                  String skype,
-                                                  String message){
+    public void fillNewContactForm(String name,
+                                   String tags,
+                                   String jobPosition,
+                                   String phoneNumber,
+                                   String email,
+                                   String skype,
+                                   String message){
         getNameAndSurnameInput().inputText(name);
         getTagsInput()          .inputText(tags);
         getJobPositionInput()   .inputText(jobPosition);
@@ -50,10 +50,35 @@ public class AddContactPageCrmTwo extends WebPage<AddContactPageCrmTwo> {
         getEmailInput()         .inputText(email);
         getSkypeInput()         .inputText(skype);
         getMessageInput()       .inputText(message);
-        getContactSubmitButton().click();
 
-        return new СontactPageCrmTwo(driver).waitUntilAvalible();
     }
+
+    public void submitContactForm(){
+        getContactSubmitButton().click();
+    }
+
+    public ContactPageCrmTwo getContactPageCrmTwo(){
+        return new ContactPageCrmTwo(driver).waitUntilAvalible();
+    }
+
+//    public ContactPageCrmTwo addNewContactCrmtwo(String name,
+//                                                 String tags,
+//                                                 String jobPosition,
+//                                                 String phoneNumber,
+//                                                 String email,
+//                                                 String skype,
+//                                                 String message){
+//        getNameAndSurnameInput().inputText(name);
+//        getTagsInput()          .inputText(tags);
+//        getJobPositionInput()   .inputText(jobPosition);
+//        getPhoneNumberInput()   .inputText(phoneNumber);
+//        getEmailInput()         .inputText(email);
+//        getSkypeInput()         .inputText(skype);
+//        getMessageInput()       .inputText(message);
+//        getContactSubmitButton().click();
+//
+//        return new ContactPageCrmTwo(driver).waitUntilAvalible();
+//    }
 
 
     private TextInput getNameAndSurnameInput(){
