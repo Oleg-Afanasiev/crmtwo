@@ -116,26 +116,26 @@ INSERT INTO crm.phone_type (phone_type, name) VALUES (5, 'Домашний');
 INSERT INTO crm.phone_type (phone_type, name) VALUES (6, 'Другой');
 
 
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (1, '1354326755');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '5423626234');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '4345654379');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '5454354365');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '4765283673');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '7654937058');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '6753455697');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '5487635947');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '9998');
-INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '78787');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (1, '+135432675554');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '+542362623454');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '+434565437954');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '+545435436554');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '+476528367354');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '+765493705854');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '+675345569754');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '+548763594754');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (2, '+999883786468');
+INSERT INTO crm.phone (phone_type, phone_number) VALUES (3, '+787879386789');
 
 INSERT INTO crm.tag (name) VALUES ('#urgent');
-INSERT INTO crm.tag (name) VALUES ('#new deal');
+INSERT INTO crm.tag (name) VALUES ('#newDeal');
 INSERT INTO crm.tag (name) VALUES ('#BSDM');
 INSERT INTO crm.tag (name) VALUES ('#important');
-INSERT INTO crm.tag (name) VALUES ('#high costs');
-INSERT INTO crm.tag (name) VALUES ('#low costs');
+INSERT INTO crm.tag (name) VALUES ('#highCosts');
+INSERT INTO crm.tag (name) VALUES ('#lowCosts');
 INSERT INTO crm.tag (name) VALUES ('#global');
 INSERT INTO crm.tag (name) VALUES ('#Asia');
-INSERT INTO crm.tag (name) VALUES ('#CIS region');
+INSERT INTO crm.tag (name) VALUES ('#CISregion');
 INSERT INTO crm.tag (name) VALUES ('#Africa');
 
 

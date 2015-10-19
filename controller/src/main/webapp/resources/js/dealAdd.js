@@ -1,331 +1,314 @@
 /**
  * Created by oleg on 9/22/15.
  */
-function countLiItems(ul) {
-    var i = 0;
-    var itemCount = 0;
+function showMessage(id, msg) {
+    $("#" + id).tooltip({
+        title: msg,
+        trigger: "manual",
+        placement: "right",
+        animation: true
+    });
+    $("#" + id).tooltip('show');
 
-    while(ul.getElementsByTagName('li')[i++])
-        itemCount++;
-
-    return itemCount;
+    setTimeout( function() {
+            $("#" + id).tooltip('destroy')
+        },
+        2000
+    );
 }
 
-function reSetNameAttribute(n) {
-    var parent_ul = document.getElementById("dock_contacts");
-    var list_input = parent_ul.getElementsByTagName("input");
+function isSelected(id) {
+    var val = $("#" + id).val();
 
-    for (var i = 0; i < list_input.length; i++) {
-        if (list_input[i].getAttribute("type") == "hidden") {
-            list_input[i].name = "dock_contact_" + (i + 1).toString();
-        }
+    return val > 0;
+}
+
+// ------------------DEAL--------------------
+function resetFieldsDeal() {
+    $("#attached_contacts").empty();
+    updateSumAttachedContacts();
+
+    $("#attached_company").empty();
+    $("#attached_company_container").hide();
+}
+
+// ----------------CONTACT--------------------------------------
+
+function isAttachedContact() {
+    var idContact;
+    var $inputList;
+
+    idContact = $("#contact option:selected").val();
+    $inputList = $("#attached_contacts > div");
+
+    for(var i = 0; i < $inputList.size(); i++) {
+        if ($inputList.eq(i).find("input").val() == idContact)
+            return true;
     }
+
+    return false;
 }
 
-function updateCountDockContacts() {
+function countAttachedContacts() {
+    return $("#attached_contacts").children('div').size();
+}
 
-    var div_container = document.getElementById("dock_contacts_container");
-    var el_ul = document.getElementById("dock_contacts");
-    var n_li = countLiItems(el_ul);
-    var span_count = document.getElementById("count_dock_contacts");
+function updateSumAttachedContacts() {
+    var nContacts;
 
-    span_count.innerHTML = n_li;
+    nContacts = countAttachedContacts();
+    $("#n_attached_contacts").html(nContacts);
+    $('input[name="n_attached_contacts"]').val(nContacts);
 
-    document.dealAdd.count_dock_contacts.value = n_li;
-
-    if (n_li == "0")
-        div_container.setAttribute("class", "hidden");
+    if (nContacts > 0)
+        $("#attached_contacts_container").show();
     else
-        div_container.setAttribute("class", "visible");
-
-    reSetNameAttribute(n_li);
+        $("#attached_contacts_container").hide();
 }
 
-function initUnDockContactClick() {
-    var parentNode = document.getElementById("dock_contacts");
-    var aList = parentNode.getElementsByTagName("a");
+function renumberAttachedContacts() {
+    var nContacts;
+    var $listInput;
 
-    for (var item in aList) {
-        if (aList[item].innerHTML == "x")
-            aList[item].onclick  = closeDockContactClick;
+    nContacts = countAttachedContacts();
+    $listInput = $("#attached_contacts > div");
+
+    for (var i = 0; i < nContacts; i++) {
+        $listInput.eq(i).find("input").eq(0).attr("name", "attached_contact_id_" + (i + 1));
+        $listInput.eq(i).find("input").eq(1).attr("name", "attached_contact_name_" + (i + 1));
+        $listInput.eq(i).attr("id", "attached_contact_alert_" + (i + 1));
+        $listInput.eq(i).bind("closed.bs.alert", onAttachedContactClose);
     }
 }
 
-function closeDockContactClick() {
-    var currentLi = this.parentNode.parentNode;
-    var parent_ul = currentLi.parentNode;
+function attacheSelectedContact() {
+    var contactName;
+    var contactId;
+    var $contactOptionEl;
+    var $divItem;
 
-    parent_ul.removeChild(currentLi);
-    updateCountDockContacts();
+    $contactOptionEl = $("#contact option:selected");
+
+    contactName = $contactOptionEl.text().trim();
+    contactId = $contactOptionEl.val();
+
+    $divItem = $("#attached_contact_item > div").clone();
+    $divItem.find("span").html(contactName);
+    $divItem.find("input").eq(0).val(contactId);
+    $divItem.find("input").eq(1).val(contactName);
+
+    $("#attached_contacts").append($divItem);
+    updateSumAttachedContacts();
+    renumberAttachedContacts();
 }
 
-function isContactDocked(id) {
-
-    var section_target = document.getElementById("id_contact_" + id);
-
-    return section_target != null;
+function resetFieldsContact() {
+    $("#contact").val("0");
 }
 
-function dockContact(id, contactName) {
-
-    var el_ul = document.getElementById("dock_contacts");
-    var new_node_li = document.createElement("li");
-    var new_node_section = document.createElement("section");
-    var new_node_contact = document.createElement("a");
-    var new_node_close = document.createElement("a");
-    var new_node_input = document.createElement("input");
-
-    new_node_li.setAttribute("class", "li-dock-contact");
-
-    new_node_section.setAttribute("id", "id_contact_" + id);
-
-    new_node_contact.setAttribute("class", "a-contact");
-    new_node_contact.setAttribute("href", "#");
-    new_node_contact.innerHTML = contactName;
-
-    new_node_close.setAttribute("class", "a-undock");
-    new_node_close.setAttribute("title", "Открепить контакт");
-    new_node_close.setAttribute("href", "#");
-    new_node_close.innerHTML = "x";
-    new_node_close.onclick = closeDockContactClick;
-
-    new_node_input.setAttribute("name", "dock_contact_1");
-    new_node_input.setAttribute("type", "hidden");
-    new_node_input.setAttribute("value", id);
-
-    new_node_section.appendChild(new_node_close);
-    new_node_section.appendChild(new_node_contact);
-    new_node_section.appendChild(new_node_input);
-
-    new_node_li.appendChild(new_node_section);
-    el_ul.appendChild(new_node_li);
-
+function resetFieldsAddContact() {
+    $("#add_contact_container").find("input:text").val("");
+    $("#add_contact_company_name").val("0");
+    $("#add_contact_phone_type").val("1");
 }
 
+// -------------COMPANY-------------------
+function isAttachedCompany() {
+    return $("#attached_company > div").size() > 0;
+}
+
+function attacheSelectedCompany() {
+    var companyName;
+    var companyId;
+    var $companyOptionEl;
+    var $divItem;
+
+    $companyOptionEl = $("#company option:selected");
+
+    companyName = $companyOptionEl.text().trim();
+    companyId = $companyOptionEl.val();
+
+    $divItem = $("#attached_company_item > div").clone();
+    $divItem.find("span").html(companyName);
+    $divItem.find("input").eq(0).attr("name", "attached_company_id");
+    $divItem.find("input").eq(0).val(companyId);
+    $divItem.find("input").eq(1).attr("name", "attached_company_name");
+    $divItem.find("input").eq(1).val(companyName);
+    $divItem.bind("closed.bs.alert", onAttachedCompanyClose);
+
+    $("#attached_company").append($divItem);
+    $("#attached_company_container").show();
+}
+
+function resetFieldsCompany() {
+    $("#company").val("0");
+}
+
+function resetFieldsAddCompany() {
+    $("#add_company_container").find("input:text, textarea").val("");
+    $("#add_company_phone_type").val("1");
+}
+
+// -----------FILES---------------
+function nAttachedFiles() {
+    return $("#attached_files_list > li:visible").size();
+}
+
+function updateSumAttachedFiles() {
+    var nFiles;
+
+    nFiles = nAttachedFiles();
+    $("#n_uploaded_files").html(nFiles);
+    $("input[name='n_uploaded_files']").val(nFiles);
+}
+
+function renumberAttachedFiles () {
+    var $liList;
+
+    $liList = $("#attached_files_list > li:visible");
+
+    for (var i = 0; i < $liList.size(); i++) {
+        $liList.eq(i).find("> div > input").attr("name", "attached_file_" + (i + 1));
+    }
+}
+
+function removeEmptyFileFields() {
+    var $liList;
+
+    $liList = $("#attached_files_list > li:hidden");
+
+    for (var i = 0; i < $liList.size(); i++)
+        $liList.eq(i).remove();
+}
+
+function resetFiles() {
+    $("#attached_files_list").empty();
+    updateSumAttachedFiles();
+}
+
+// -----------EVENTS--------------
 function addContactClick() {
-    var div_container = document.getElementById("add_contact_container");
-    var div_sub_container = document.getElementById("sub_add_contact");
+    var idSelect = "contact";
 
-    div_container.setAttribute("class", "dialog");
-    div_sub_container.setAttribute("class", "sub-add-content");
-}
-
-function addCancelContactClick() {
-    var div_container = document.getElementById("add_contact_container");
-    var div_sub_container = document.getElementById("sub_add_contact");
-
-    div_container.setAttribute("class", "hidden");
-    div_sub_container.setAttribute("class", "none");
-}
-
-function cancelContactClick() {
-    var selectEl = document.getElementById("exist-contact");
-    var dockUl = document.getElementById("dock_contacts");
-
-    selectEl.selectedIndex = 0;
-
-    while (dockUl.firstChild) {
-        dockUl.removeChild(dockUl.firstChild);
+    if (!isSelected(idSelect)) {
+        showMessage(idSelect, "Необходимо выбрать контакт!")
+    } else if (isAttachedContact()){
+        showMessage(idSelect, "Этот контакт уже прикреплен к сделке!");
+    } else {
+        attacheSelectedContact();
+        showMessage(idSelect, "Контакт успешно прикреплен!");
     }
-    updateCountDockContacts();
 }
 
-function selectByValue(id, value, callOnChange) {
-    var selectEl = document.getElementById(id);
-
-    for (var i = 0; i < selectEl.options.length; i++) {
-        if (selectEl.options[i].value == value) {
-            selectEl.options[i].selected = true;
-            break;
-        }
-    }
-
-    if (callOnChange)
-        selectEl.onchange(); //
-}
-
-function insertIntoSelect(id, value, text, doSelect, callOnChange) {
-    var selectEl = document.getElementById(id);
-    var optionEl = document.createElement("option");
-
-    optionEl.value = value;
-    optionEl.text = text;
-    selectEl.add(optionEl);
-
-    if (doSelect)
-        selectByValue(id, value, callOnChange);
- }
-
-function readContactData() {
-
-    var index;
-    var contactData = {};
-
-    contactData.name = document.getElementById("add_contact_name").value;
-
-    index = document.getElementById("add_contact_company_name").selectedIndex;
-    contactData.companyId = document.getElementById("add_contact_company_name").options[index].value;
-
-    contactData.jobPosition = document.getElementById("add_contact_job_position").value;
-
-    index = document.getElementById("add_contact_phone_type").selectedIndex;
-    contactData.phoneTypeId = document.getElementById("add_contact_phone_type").options[index].value;
-
-    contactData.phoneNumber = document.getElementById("add_contact_phone_number").value;
-    contactData.email = document.getElementById("add_contact_email").value;
-    contactData.skype = document.getElementById("add_contact_skype").value;
-
-    return contactData;
-}
-
-function readCompanyData() {
-    var index;
-    var companyData = {};
-
-    companyData.name = document.getElementById("add_company_name").value;
-
-    index = document.getElementById("add_company_phone_type").selectedIndex;
-    companyData.phoneTypeId = document.getElementById("add_company_phone_type").options[index].value;
-
-    companyData.phoneNumber = document.getElementById("add_company_phone_number").value;
-    companyData.email = document.getElementById("add_company_email").value;
-    companyData.webAddress = document.getElementById("add_company_web_address").value;
-    companyData.address = document.getElementById("add_company_address").value;
-
-    return companyData;
-}
-
-function SaveNewEntity(newEntity, idUl, idCountContainer, nameEntity) {
-
-    var parentNodeUl = document.getElementById(idUl);
-    var liNode = document.createElement("li");
-    var count = countLiItems(parentNodeUl) + 1; // '... + 1' - because newEntity wasn't append
-    var inputEl;
-    console.log("newEntity: ", newEntity);
-
-    newEntity['pseudoId'] = -count;
-
-    for (var item in newEntity) {
-        //console.log("item: ", item);
-        inputEl = document.createElement("input");
-        inputEl.setAttribute("type", "hidden");
-        inputEl.setAttribute("name", nameEntity + "_" + item.toString() + "_" + count.toString());
-        inputEl.value = newEntity[item];
-        liNode.appendChild(inputEl);
-    }
-
-    parentNodeUl.appendChild(liNode);
-
-    return count;
-}
-
-function updateCountNewContacts() {
-    var parentNodeUl = document.getElementById("added_contact_list");
-    var countContacts = countLiItems(parentNodeUl);
-    document.getElementById("count_new_contacts").value = countContacts;
-}
-
-function add_save_contact_button() {
-
-    var contactData = readContactData();
-    var countContacts = SaveNewEntity(contactData, "added_contact_list", "count_new_contacts", "contact");
-    addCancelContactClick();
-    insertIntoSelect("exist-contact", -countContacts, contactData.name, true, true);
-    updateCountNewContacts();
-}
-
-function updateCountNewCompanies() {
-    var parentNodeUl = document.getElementById("added_company_list");
-    var countCompanies = countLiItems(parentNodeUl);
-    document.getElementById("count_new_companies").value = countCompanies;
-}
-
-function add_save_company_button() {
-    var companyData = readCompanyData();
-    var countCompanies = SaveNewEntity(companyData, "added_company_list", "count_new_companies", "company");
-    addCancelCompanyClick();
-
-    insertIntoSelect("company", parseInt(-countCompanies), companyData.name, true, false);
-    insertIntoSelect("add_contact_company_name", parseInt(-countCompanies), companyData.name, false, false);
-
-    updateCountNewCompanies();
+function onAttachedContactClose() {
+    renumberAttachedContacts();
+    updateSumAttachedContacts();
 }
 
 function addCompanyClick() {
+    var idSelect = "company";
 
-    var div_container = document.getElementById("add_company_container");
-    var div_sub_container = document.getElementById("sub_add_company");
-
-    div_container.setAttribute("class", "dialog");
-    div_sub_container.setAttribute("class", "sub-add-content");
+    if (!isSelected(idSelect)) {
+        showMessage(idSelect, "Необходимо выбрать компанию!")
+    } else if (isAttachedCompany()) {
+        showMessage(idSelect, "Некоторая компания уже прикреплена к сделке!");
+    } else {
+        attacheSelectedCompany();
+        showMessage(idSelect, "Компания успешно прикреплена!")
+    }
 }
 
-function addCancelCompanyClick() {
-    var div_container = document.getElementById("add_company_container");
-    var div_sub_container = document.getElementById("sub_add_company");
-
-    div_container.setAttribute("class", "hidden");
-    div_sub_container.setAttribute("class", "none");
+function onAttachedCompanyClose() {
+    $("#attached_company_container").hide();
 }
 
-function cancelCompanyClick() {
-    var selectEl = document.getElementById("company");
+function onChangeInputFile() {
+    var $inputFile;
+    var fileName;
 
-    selectEl.selectedIndex = 0;
+    $inputFile = $(this);
+    fileName = $inputFile.val().split("\\")[2];
+    $inputFile.prev("span").html(fileName);
+    $inputFile.parent().parent().show(); // <li>...</li>
+
+    removeEmptyFileFields();
+    updateSumAttachedFiles();
+    renumberAttachedFiles();
 }
 
-function changeContact(event) {
+function onUnAttachFileClick() {
+    var $liItem;
 
-    var id = this.value;
-    var contactName = this.options[this.selectedIndex].text;
+    $liItem = $(this).parent().parent();
+    $liItem.remove();
 
-    if (!isContactDocked(id) && id != 0)
-        dockContact(id, contactName);
-
-    updateCountDockContacts();
+    updateSumAttachedFiles();
+    renumberAttachedFiles();
 }
 
-function setDefaultPhoneType(name) {
-    var selectList = [];
+function addFileClick() {
+    var $ulContainer;
+    var $liItem;
+    var $inputFile;
 
-    selectList.push(document.getElementById("add_contact_phone_type"));
-    selectList.push(document.getElementById("add_company_phone_type"));
+    $ulContainer = $("#attached_files_list");
+    $liItem = $("#attached_file_li_item > li").clone();
+    $ulContainer.append($liItem);
+    $liItem.hide();
+    $inputFile = $liItem.find('input');
+    $inputFile.click();
 
-    for (var i = 0; i < selectList.length; i++)
-        for (var j = 0; j < selectList[i].options.length; j++)
-            if (selectList[i].options[j].innerHTML == name)
-                selectList[i].options[j].selected = true;
+    $inputFile.hide();
+    $inputFile.change(onChangeInputFile);
+    $liItem.find("div > a.close").click(onUnAttachFileClick);
 }
 
-function cancelClick() {
-    cancelContactClick();
-    fileCancelClick();
+function cancelBtnClick() {
+    resetFieldsDeal();
+    resetFiles();
+
+    resetFieldsAddContact();
+    resetFieldsContact();
+    resetFieldsAddCompany();
+    resetFieldsCompany();
 }
 
-
-window.onload = function() {
-
-    document.getElementById("add_contact_button").onclick = addContactClick;
-    document.getElementById("cancel_contact_button").onclick = cancelContactClick;
-    document.getElementById("add_cancel_contact_button").onclick = addCancelContactClick;
-    document.getElementById("add_save_contact_button").onclick = add_save_contact_button;
-
-    document.getElementById("add_company_button").onclick = addCompanyClick;
-    document.getElementById("cancel_company_button").onclick = cancelCompanyClick;
-    document.getElementById("add_cancel_company_button").onclick = addCancelCompanyClick;
-    document.getElementById("add_save_company_button").onclick = add_save_company_button;
-
-    document.getElementById("exist-contact").onchange = changeContact;
-
-    setDefaultPhoneType("Рабочий");
-
-    document.getElementById("cancel_button").onclick = cancelClick;
-
-    updateCountDockContacts();
-    updateCountNewCompanies();
-    updateCountNewContacts();
-
-    initUnDockContactClick();
-
-    fileUploadMain();
+function addContactCancelBtnClick() {
+    resetFieldsAddContact();
 }
+
+function contactCancelBtnClick() {
+    resetFieldsContact();
+}
+
+function addCompanyCancelBtnClick() {
+    resetFieldsAddCompany();
+}
+
+function companyCancelBtnClick() {
+    resetFieldsCompany();
+}
+
+function onLoad() {
+    $("#contact_add_button").click(addContactClick);
+    $("#company_add_button").click(addCompanyClick);
+    $("#add_files_btn").click(addFileClick);
+    $("#cancel_button").click(cancelBtnClick);
+    $("#company_cancel_button").click(companyCancelBtnClick);
+    $("#add_company_cancel_button").click(addCompanyCancelBtnClick);
+    $("#add_contact_cancel_button").click(addContactCancelBtnClick);
+    $("#contact_cancel_button").click(contactCancelBtnClick);
+
+    updateSumAttachedContacts();
+    renumberAttachedContacts();
+
+    if ($("#attached_company > div").size() > 0) {
+        $("#attached_company_container").show();
+
+    }
+
+    //$("#add_contact_button").on("click", addContactClick);
+}
+
+$(onLoad);
+

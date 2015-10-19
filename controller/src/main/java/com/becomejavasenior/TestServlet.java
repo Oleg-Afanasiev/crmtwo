@@ -1,13 +1,14 @@
 package com.becomejavasenior;
 
+import com.becomejavasenior.impl.DealImpl;
+import com.becomejavasenior.servlets.PersistServlet;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by Dmytro Tsapko on 9/11/2015.
@@ -17,31 +18,19 @@ public class TestServlet extends PersistServlet {
     @Override
     protected void doGetInPersistentCtx(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DaoManager dm = DaoManager.getInstance( );
-//        PrintWriter writer = resp.getWriter();
-        File file = dm.getFileDAO().getById(4);
-        java.io.File myFile = new java.io.File("C:\\Users\\user\\Downloads\\RTS_Sample_Dashboard.png");
-        FileInputStream fis = new FileInputStream(myFile);
-        byte[] temp = null;
-        ArrayList<Byte> data = new ArrayList<>();
-        int c;
-        while((c = fis.read()) > -1){
-            data.add((byte)c);
-        }
-        temp = new byte[data.size()];
-        for (int i = 0; i < data.size(); i++) {
-            Byte b = data.get(i);
-            temp[i] = b;
-
-        }
-        file.setContent(temp);
-        file.setMimeType("image/png");
-        file.setName(null);
-        dm.getFileDAO().insertOrUpdate(file);
-
-        resp.setContentType(file.getMimeType());
-            OutputStream os = resp.getOutputStream();
-        os.write(file.getContent());
-
+        PrintWriter writer = resp.getWriter();
+        writer.println(dm.getCommentDAO().getById(1));
+        writer.println(dm.getCompanyDAO().getById(1));
+        writer.println(dm.getContactDAO().getById(1));
+        writer.println(dm.getDealDAO().getById(1));
+        writer.println(dm.getDealStatusDAO().getById(1));
+        writer.println(dm.getFileDAO().getById(1));
+        writer.println(dm.getPhoneDAO().getById(1));
+        writer.println(dm.getRoleDAO().getById(1));
+        writer.println(dm.getTagDAO().getById(1));
+        writer.println(dm.getTaskDAO().getById(1));
+        writer.println(dm.getTaskPeriodDAO().getById(1));
+        writer.println(dm.getTaskTypeDAO().getById(1));
+        writer.println(dm.getUserDAO().getById(1));
     }
-
 }

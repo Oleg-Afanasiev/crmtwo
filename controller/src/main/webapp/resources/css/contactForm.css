@@ -9,3 +9,14 @@
 select, .file {
     cursor: pointer;
 }
+.contact-delete-buttons {
+    margin-top: 35px;
+}
+#delete-file-list {
+    border-bottom: 1px solid gainsboro;
+    padding-bottom: 7px;
+    margin-bottom: 10px;
+}
+textarea {
+    resize: none;
+}

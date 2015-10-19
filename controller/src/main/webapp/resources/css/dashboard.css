@@ -103,3 +103,12 @@ body {
     display: inline-block;
     border-radius: 50%;
 }
+#sidebar-content {
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 40px;
+}
+#logout-sidebar-button {
+    position: absolute;
+    bottom: 0;
+}
