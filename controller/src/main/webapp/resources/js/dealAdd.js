@@ -227,7 +227,8 @@ function onChangeInputFile() {
     var fileName;
 
     $inputFile = $(this);
-    fileName = $inputFile.val().split("\\")[2];
+
+    fileName = $inputFile[0].files[0].name
     $inputFile.prev("span").html(fileName);
     $inputFile.parent().parent().show(); // <li>...</li>
 

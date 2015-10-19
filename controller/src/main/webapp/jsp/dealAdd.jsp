@@ -101,7 +101,7 @@
                                                 <div class="col-sm-8">
                                                     <select id="status" class="form-control" name="status">
                                                         <c:forEach items="${dealStatuses}" var="dealStatus">
-                                                            <option value="${dealStatus.id}" ${dealFields.statusId == dealStatus.id ? 'selected' : ""}>
+                                                            <option value="${dealStatus.id}" ${dealFields.statusId == dealF.id ? 'selected' : ""}>
                                                                     ${dealStatus.name}
                                                             </option>
                                                         </c:forEach>
@@ -124,7 +124,7 @@
                                                             <legend>Список файлов</legend>
                                                             <div  class="list-files">
                                                                 <ul id="attached_file_li_item" class="list-group" hidden>
-                                                                    <li class="list-group-item" hidden>
+                                                                    <li class="list-group-item">
                                                                         <div>
                                                                             <a href="#" class="close" title="Открепить файл">x</a>
                                                                             <span></span>
@@ -142,7 +142,7 @@
                                                         <em>Кол-во загруженных: <span id="n_uploaded_files">0</span></em>
                                                     </div>
                                                     <div class="text-right">
-                                                        <input id="add_files_btn" class="btn btn-default text-right" type="button" value="Добавить файлы"/>
+                                                        <input id="add_files_btn" class="btn btn-default text-right" type="button" value="Добавить файл"/>
                                                     </div>
                                                 </fieldset>
                                             </div>
