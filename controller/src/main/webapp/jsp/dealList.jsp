@@ -43,7 +43,7 @@
               <c:forEach items="${deals}" var="deal">
                 <tr>
                   <td>
-                    <a class="link" href="/crm/dealedit?id={$deal.id}" name="deal-edit-id" title="Редактировать сделку">
+                    <a class="link" href="/crm/dealedit?id=${deal.id}" name="deal-edit-id" title="Редактировать сделку">
                       ${deal.name}
                     </a>
                   </td>

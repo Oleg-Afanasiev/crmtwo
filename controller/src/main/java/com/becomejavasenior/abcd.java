@@ -1,7 +1,28 @@
 package com.becomejavasenior;
 
+import com.becomejavasenior.dealAddClasses.ContactFields;
+import com.becomejavasenior.dealAddClasses.DealFields;
+
+import javax.accessibility.Accessible;
+import java.util.Set;
+
 class abcd {
     public static void main(String[] args) {
+
+        //int i = Integer.MAX_VALUE;
+        //float f = i;
+       // double d = i;
+        double x = 2.0 -1.1;
+        double f = 0.0;
+
+        for (int i = 1; i <= 10; i++) {
+            f += 0.1;
+        }
+
+        //System.out.println("i = " + i);
+        System.out.println("f = " + f);
+        //System.out.println("d = " + d);
+        System.out.println("x = " + x);
 
 //        DaoManager daoManager = DaoManager.getInstance();
 //        DealDAO dealDAO = daoManager.getDealDAO();

@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  * Created by oleg on 9/17/15.
  */
 @WebServlet(name = "DealAddServlet", urlPatterns = "/crm/dealadd", loadOnStartup = 0)
-@MultipartConfig(maxFileSize = 102400)
+@MultipartConfig
 public class DealAddServlet extends PersistServlet {
     private DaoManager daoManager;
     private DealInputError dealInputError;
@@ -110,7 +110,9 @@ public class DealAddServlet extends PersistServlet {
         dealFields.setComments(request.getParameter("comments"));
         dealFields.setCompany(request.getParameter("attached_company_id"), request.getParameter("attached_company_name"));
 
-        int nContacts = Integer.parseInt(request.getParameter("n_attached_contacts"));
+        String n = request.getParameter("n_attached_contacts");
+
+        int nContacts = (n == null ? 0 : Integer.parseInt(n));
 
         for (int i = 1; i <= nContacts; i++)
             dealFields.setContact(request.getParameter("attached_contact_id_" + i), request.getParameter("attached_contact_name_" + i));

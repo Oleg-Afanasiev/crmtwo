@@ -211,7 +211,7 @@ function addCompanyClick() {
     if (!isSelected(idSelect)) {
         showMessage(idSelect, "Необходимо выбрать компанию!")
     } else if (isAttachedCompany()) {
-        showMessage(idSelect, "Некоторая компания уже прикреплена к сделке!");
+        showMessage(idSelect, "К сделке можно прикрепить только одну компанию!");
     } else {
         attacheSelectedCompany();
         showMessage(idSelect, "Компания успешно прикреплена!")
