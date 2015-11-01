@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by oleg on 9/17/15.
  */
-@WebServlet(name = "DealAddServlet", urlPatterns = "/crm/dealadd", loadOnStartup = 0)
+@WebServlet(name = "DealAddServlet", urlPatterns = "/crm/dealadd")
 @MultipartConfig
 public class DealAddServlet extends PersistServlet {
     private DaoManager daoManager;
@@ -39,6 +39,7 @@ public class DealAddServlet extends PersistServlet {
     public void init() throws ServletException {
         super.init();
 
+        System.out.println("init method");
         dealInputError = new DealInputError();
         dealFields = new DealFields();
         contactFields = new ContactFields();

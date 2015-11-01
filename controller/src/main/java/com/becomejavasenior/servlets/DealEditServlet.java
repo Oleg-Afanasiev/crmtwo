@@ -74,7 +74,7 @@ public class DealEditServlet extends PersistServlet {
                     }
                 }
 
-                dealCompany = dealCompanies.iterator().next();
+               // dealCompany = dealCompanies.iterator().next();
                 dealContacts = deal.getContacts();
 
                 request.setAttribute("deal", deal);
@@ -82,7 +82,7 @@ public class DealEditServlet extends PersistServlet {
                 request.setAttribute("dealStatuses", dealStatuses);
                 request.setAttribute("phoneTypes", phoneTypeCollect.getPhoneTypes());
                 request.setAttribute("dealTags", dealTags.toString());
-                request.setAttribute("dealCompany", dealCompany);
+               // request.setAttribute("dealCompany", dealCompany);
                 request.setAttribute("companies", companies);
                 request.setAttribute("dealContacts", dealContacts);
 
