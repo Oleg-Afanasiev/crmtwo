@@ -34,18 +34,18 @@ public class DataContainer {
         PhoneTypeCollect phoneTypeCollect = new PhoneTypeCollect();
         int phoneTypeId;
 
-        contactFields.setContactName(savedContact.getName());
-        contactFields.setCompanyId(savedContact.getCompany().getId().toString());
-        contactFields.setCompanyName(savedContact.getCompany().getName());
-        contactFields.setJobPosition(savedContact.getJobPosition());
-        contactFields.setEmail(savedContact.getEmail());
-        contactFields.setSkype(savedContact.getSkype());
+        savedContactFields.setContactName(savedContact.getName());
+        savedContactFields.setCompanyId(savedContact.getCompany().getId().toString());
+        savedContactFields.setCompanyName(savedContact.getCompany().getName());
+        savedContactFields.setJobPosition(savedContact.getJobPosition());
+        savedContactFields.setEmail(savedContact.getEmail());
+        savedContactFields.setSkype(savedContact.getSkype());
 
         if (phones.size() > 0) {
             phoneTypeId = phones.iterator().next().getPhoneType();
-            contactFields.setPhoneTypeId(Integer.toString(phoneTypeId));
-            contactFields.setPhoneTypeName(phoneTypeCollect.getPhoneTypeNameById(phoneTypeId));
-            contactFields.setPhoneNumber(phones.iterator().next().getNumber());
+            savedContactFields.setPhoneTypeId(Integer.toString(phoneTypeId));
+            savedContactFields.setPhoneTypeName(phoneTypeCollect.getPhoneTypeNameById(phoneTypeId));
+            savedContactFields.setPhoneNumber(phones.iterator().next().getNumber());
         }
 
         savedContacts.add(savedContactFields);

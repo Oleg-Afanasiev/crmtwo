@@ -22,25 +22,31 @@
 
           <div class="col-xs-4 text-muted  text-right">Имя Фамилия:</div>
           <div class="col-xs-8 text-primary"><a href="" title="Редактировать контакт">${savedContact.contactName}</a></div>
+          <div class="clearfix"></div>
           <input type="hidden" value="${savedContact.contactName}" name="saved_contact_name_${loop.index + 1}"/>
+
 
           <div class="col-xs-4 text-muted  text-right">Название компании:</div>
           <div class="col-xs-8 text-primary">${savedContact.companyName}</div>
+          <div class="clearfix"></div>
           <input type="hidden" value="${savedContact.companyId}" name="saved_contact_companyId_${loop.index + 1}"/>
           <input type="hidden" value="${savedContact.companyName}" name="saved_contact_companyName_${loop.index + 1}"/>
 
           <div class="col-xs-4 text-muted  text-right">Название должности:</div>
           <div class="col-xs-8 text-primary">${savedContact.jobPosition}</div>
+          <div class="clearfix"></div>
           <input type="hidden" value="${savedContact.jobPosition}" name="saved_contact_jobPosition_${loop.index + 1}"/>
 
           <div class="col-xs-4 text-muted  text-right">Телефон:</div>
           <div class="col-xs-8 text-primary">${savedContact.phoneTypeName} ${savedContact.phoneNumber}</div>
+          <div class="clearfix"></div>
           <input type="hidden" value="${savedContact.phoneTypeId}" name="saved_contact_phoneTypeId_${loop.index + 1}"/>
           <input type="hidden" value="${savedContact.phoneTypeName}" name="saved_contact_phoneTypeName_${loop.index + 1}"/>
           <input type="hidden" value="${savedContact.phoneNumber}" name="saved_contact_phoneNumber_${loop.index + 1}"/>
 
           <div class="col-xs-4 text-muted  text-right">Email:</div>
           <div class="col-xs-8 text-primary">${savedContact.email}</div>
+          <div class="clearfix"></div>
           <input type="hidden" value="${savedContact.email}" name="saved_contact_email_${loop.index + 1}"/>
 
           <div class="col-xs-4 text-muted  text-right">Skype:</div>
