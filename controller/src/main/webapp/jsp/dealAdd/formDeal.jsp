@@ -12,7 +12,7 @@
 <fieldset>
   <legend>Новая сделка</legend>
 
-  <c:if test="${dealInputError.name eq 'name'}">
+  <c:if test="${dealInputError.name eq 'deal: incorrect name'}">
     <c:set var="markNameDealError" value="has-error" scope="page"/>
     <c:set var="msgNameDealError" value="placeholder='Введите корректное название'" scope="page" />
   </c:if>

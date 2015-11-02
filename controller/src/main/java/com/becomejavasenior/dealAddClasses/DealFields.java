@@ -2,6 +2,7 @@ package com.becomejavasenior.dealAddClasses;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.servlet.http.Part;
 
 /**
  * Created by oleg on 10/2/15.
@@ -15,12 +16,14 @@ public class DealFields {
     private String comments;
     private Collection<DealAttachEntity> companies;
     private Collection<DealAttachEntity> contacts;
+    private Collection<Part> partFiles;
 
     public DealFields() {
         companies = new ArrayList<>();
         contacts = new ArrayList<>();
+        partFiles = new ArrayList<>();
 
-        reset();
+        clear();
     }
 
     public void setName(String name) {
@@ -63,11 +66,15 @@ public class DealFields {
         this.companies.add(company);
     }
 
-    public void setContact(String id, String name) {
+    public void addContact(String id, String name) {
         DealAttachEntity newContact = new DealAttachEntity();
         newContact.setId(id);
         newContact.setName(name);
         this.contacts.add(newContact);
+    }
+
+    public void addPartFile(Part partFile) {
+        this.partFiles.add(partFile);
     }
 
     public String getName() {
@@ -101,6 +108,10 @@ public class DealFields {
             return this.companies.iterator().next().getId();
     }
 
+    public Collection<Part> getPartFiles() {
+        return this.partFiles;
+    }
+
     public Collection<DealAttachEntity> getCompanies() {
         return companies;
     }
@@ -119,7 +130,7 @@ public class DealFields {
         return contactsId;
     }
 
-    public void reset() {
+    public void clear() {
         name = "";
         tags = "";
         responsibleUserId = "";
@@ -128,5 +139,6 @@ public class DealFields {
         comments = "";
         companies.clear();
         contacts.clear();
+        partFiles.clear();
     }
 }

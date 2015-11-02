@@ -22,10 +22,8 @@ public class CompanyFields {
     private String email;
     private String webAddress;
     private String address;
-    private Company company;
 
     public CompanyFields() {
-        company = new CompanyImpl();
     }
 
     public void setPhoneTypeId(String phoneTypeId) {
@@ -84,7 +82,7 @@ public class CompanyFields {
         return this.address;
     }
 
-    public void reset() {
+    public void clear() {
         phoneTypeId = "";
         phoneNumber = "";
         companyName = "";
@@ -92,33 +90,5 @@ public class CompanyFields {
         email = "";
         webAddress = "";
         address = "";
-        company = new CompanyImpl();
     }
-
-    public boolean checkFields() {
-
-        try {
-            Integer.parseInt(this.phoneTypeId);
-            Integer.parseInt(this.phoneNumber);
-        }
-        catch(Exception ex) {
-            ex.printStackTrace(System.out);
-            return false;
-        }
-
-        if (this.email.indexOf('@') == -1)
-            return false;
-
-        if (this.companyName == "")
-            return false;
-
-        if (this.address == "")
-            return false;
-
-        if (this.webAddress == "")
-            return false;
-
-        return true;
-    }
-
  }

@@ -11,9 +11,9 @@
 <fieldset>
   <legend>Добавить контакт</legend>
 
-  <c:if test="${dealInputError.name eq 'contact: name is empty'}">
+  <c:if test="${dealInputError.name eq 'contact: name is incorrect'}">
     <c:set var="mrkContactNameError" value="has-error" scope="page" />
-    <c:set var="msgContactNameError" value="placeholder='Введите Имя Фамилия'" scope="page" />
+    <c:set var="msgContactNameError" value="placeholder='Введите корретно Имя Фамилия'" scope="page" />
   </c:if>
   <div class="form-group ${mrkContactNameError}">
     <label for="add_contact_name" class="col-sm-3 control-label">Имя Фамилия</label>

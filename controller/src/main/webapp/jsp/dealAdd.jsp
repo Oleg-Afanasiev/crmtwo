@@ -9,7 +9,7 @@
 --%>
 <html>
 <head>
-    <title>Добавление сделки</title>
+    <title>Добавление сделки ${testValue}</title>
     <jsp:include page="fragments/headTag.jsp"/>
     <link rel="stylesheet" href="<c:url value="../resources/css/dealAdd.css" />">
     <script type="text/javascript" src="<c:url value="../resources/js/dealAdd.js" />"></script>

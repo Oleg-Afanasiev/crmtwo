@@ -108,7 +108,7 @@ public class ContactFields implements Cloneable {
         return this.skype;
     }
 
-    public void reset() {
+    public void clear() {
         contactName = "";
         contactId = "";
         companyName = "";
@@ -128,32 +128,6 @@ public class ContactFields implements Cloneable {
             ex.printStackTrace(System.out);
         }
         return null;
-    }
-
-    public boolean checkFields() {
-        try {
-            Long.parseLong(companyId);
-            Integer.parseInt(this.phoneTypeId);
-            Integer.parseInt(this.phoneNumber);
-        }
-        catch(Exception ex) {
-            ex.printStackTrace(System.out);
-            return false;
-        }
-
-        if (contactName == "")
-            return false;
-
-        if (jobPosition == "")
-            return false;
-
-        if (email == "")
-            return false;
-
-        if (skype == "")
-            return false;
-
-        return true;
     }
 
 }

@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * Created by oleg on 9/30/15.
  */
-public class DealInputError {
+public class ErrorsContainer {
 
     private List<String> nameErrors;
 
-    public DealInputError() {
+    public ErrorsContainer() {
         nameErrors = new ArrayList<>();
     }
 
