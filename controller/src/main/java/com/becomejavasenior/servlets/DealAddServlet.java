@@ -74,7 +74,6 @@ public class DealAddServlet extends PersistServlet {
             req.setAttribute("companyFields", dataContainer.getCompanyFields());
             req.setAttribute("dealInputError", dataValidator.getErrorList());
             req.setAttribute("savedContacts", dataContainer.getSavedContacts());
-            System.out.println(req.getParameter("tags"));
             req.setAttribute("testValue", req.getParameter("tags"));
         }
 
