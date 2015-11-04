@@ -5,10 +5,12 @@ import com.becomejavasenior.impl.ContactImpl;
 import java.util.Collection;
 import java.util.Date;
 
+import static com.becomejavasenior.dealAddClasses.InstanceParcer.*;
+
 /**
  * Created by oleg on 11/2/15.
  */
-public class ContactCreator extends InstanceDBCreator {
+public class ContactCreator {
     public ContactCreator() {
 
     }

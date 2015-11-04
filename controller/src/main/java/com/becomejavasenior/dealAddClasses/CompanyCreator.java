@@ -8,10 +8,12 @@ import com.becomejavasenior.impl.CompanyImpl;
 import java.util.Collection;
 import java.util.Date;
 
+import static com.becomejavasenior.dealAddClasses.InstanceParcer.*;
+
 /**
  * Created by oleg on 11/2/15.
  */
-public class CompanyCreator extends InstanceDBCreator{
+public class CompanyCreator {
     public CompanyCreator() {
 
     }

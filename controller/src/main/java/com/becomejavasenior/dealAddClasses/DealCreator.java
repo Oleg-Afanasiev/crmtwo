@@ -2,21 +2,15 @@ package com.becomejavasenior.dealAddClasses;
 
 import com.becomejavasenior.*;
 import com.becomejavasenior.impl.DealImpl;
-import com.becomejavasenior.impl.FileImpl;
-
-import javax.activation.MimetypesFileTypeMap;
-import javax.servlet.http.Part;
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import static com.becomejavasenior.dealAddClasses.InstanceParcer.*;
 
 /**
  * Created by oleg on 11/2/15.
  */
-public class DealCreator extends InstanceDBCreator {
+public class DealCreator {
     public DealCreator() {
 
     }
