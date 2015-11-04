@@ -18,9 +18,9 @@ import java.util.Date;
 /**
  * Created by oleg on 11/2/15.
  */
-abstract class InstanceDBCreator {
+class InstanceParcer {
 
-    protected Collection<Tag> parseTags(String tagsString) {
+    public static  Collection<Tag> parseTags(String tagsString) {
         String arrTags[] = tagsString.split(" ");
         Collection<Tag> tagList = new ArrayList<>();
 
@@ -42,7 +42,7 @@ abstract class InstanceDBCreator {
         return tagList;
     }
 
-    protected Long parseId(String idStr) {
+    public static Long parseId(String idStr) {
 
         try {
             return Long.parseLong(idStr);
@@ -53,7 +53,7 @@ abstract class InstanceDBCreator {
         }
     }
 
-    protected BigDecimal parseBudget(String budgetInput) {
+    public static BigDecimal parseBudget(String budgetInput) {
 
         BigDecimal budget;
 
@@ -68,7 +68,7 @@ abstract class InstanceDBCreator {
         return budget;
     }
 
-    protected Collection<Company> parseCompanies(String companyIdInput) {
+    public static Collection<Company> parseCompanies(String companyIdInput) {
         Collection<Company> companies = new ArrayList<>();
 
         if (companyIdInput == null || companyIdInput.equals(""))
@@ -86,7 +86,7 @@ abstract class InstanceDBCreator {
         return companies;
     }
 
-    protected Collection<Contact> parseContacts(Collection<String> contactsIdInput) {
+    public static Collection<Contact> parseContacts(Collection<String> contactsIdInput) {
         Collection<Contact> contacts = new ArrayList<>();
         Long contactId;
         Contact contact;
@@ -104,7 +104,7 @@ abstract class InstanceDBCreator {
         return contacts;
     }
 
-    protected Collection<Comment> parseComments(String commentsString, String instance,  String instanceName) {
+    public static Collection<Comment> parseComments(String commentsString, String instance,  String instanceName) {
         Collection<Comment> commentList = new ArrayList<>();
 
         if (commentsString.equals(""))
@@ -128,7 +128,7 @@ abstract class InstanceDBCreator {
         return commentList;
     }
 
-    protected Collection<Phone> parsePhones(String phoneTypeId, String phoneNumber) {
+    public static Collection<Phone> parsePhones(String phoneTypeId, String phoneNumber) {
         Collection<Phone> phones = new ArrayList<>();
         int typeId;
         Phone phone;
@@ -152,7 +152,7 @@ abstract class InstanceDBCreator {
         return phones;
     }
 
-    protected Collection<File> parseFiles(Collection<Part> partFiles) {
+    public static Collection<File> parseFiles(Collection<Part> partFiles) {
         Collection<File> fileList = new ArrayList<>();
         File file;
 
@@ -169,7 +169,7 @@ abstract class InstanceDBCreator {
         return fileList;
     }
 
-    private File getFile(Part filePart) {
+    public static File getFile(Part filePart) {
         File file = new FileImpl();
         Date date = new Date();
 
@@ -204,7 +204,7 @@ abstract class InstanceDBCreator {
         return file;
     }
 
-    private String getFileName(Part part) {
+    public static String getFileName(Part part) {
 
         for (String content : part.getHeader("content-disposition").split(";")) {
             if (content.trim().startsWith("filename")) {
