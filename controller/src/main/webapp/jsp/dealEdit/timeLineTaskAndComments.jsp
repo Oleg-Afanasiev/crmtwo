@@ -11,7 +11,7 @@
 <!-- Vertical Timeline -->
 <section id="conference-timeline">
   <%--<div class="timeline-start">Start</div>--%>
-  <div class="conference-center-line"></div>
+  <div class="conference-center-line bg-primary"></div>
   <div class="conference-timeline-content">
     <!-- Article -->
     <div class="timeline-article">

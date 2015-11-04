@@ -32,7 +32,7 @@ body {
   left: 50%;
   margin-left: -2px;
   background: #00b0bd;
-  z-index: -1;
+  /*z-index: -1;*/
 }
 #conference-timeline .conference-timeline-content {
   padding-top: 67px;

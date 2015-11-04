@@ -165,10 +165,7 @@ public class DataValidator {
     }
 
     private boolean isValidName(String name) {
-        if (name == null)
-            return false;
-
-        if (name.equals(""))
+        if (name == null || name.equals(""))
             return false;
 
         return true;
@@ -188,10 +185,7 @@ public class DataValidator {
     }
 
     private boolean isValidTags(String tags) {
-        if (tags == null)
-            return true;
-
-        if (tags.equals(""))
+        if (tags == null || tags.equals(""))
             return true;
 
         String arrTags[] = tags.split(" ");
