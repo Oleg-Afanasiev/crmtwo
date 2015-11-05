@@ -12,6 +12,13 @@
 <fieldset>
   <legend>Задачи и примечания</legend>
   <jsp:include page="menuTaskAndComments.jsp" />
+  <div id="add_contact_comment_container" hidden>
+    <jsp:include page="formCommentAdd.jsp" />
+  </div>
+
+  <div id="add_task_container">
+    <jsp:include page="formTaskAdd.jsp" />
+  </div>
   <jsp:include page="timeLineTaskAndComments.jsp"/>
 
 </fieldset>

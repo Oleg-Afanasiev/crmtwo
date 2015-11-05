@@ -48,10 +48,10 @@
                             </div>
                             <div class="clearfix"></div>
                             <div class="col-md-6">
-                                <jsp:include page="dealEdit/formContacts.jsp" />
+                                <jsp:include page="dealEdit/formTasksAndComments.jsp" />
                             </div>
                             <div class="col-md-6">
-                                <jsp:include page="dealEdit/formTasksAndComments.jsp" />
+                                <jsp:include page="dealEdit/formContacts.jsp" />
                             </div>
                         </div>
                     </form>

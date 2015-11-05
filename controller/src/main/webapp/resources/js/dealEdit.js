@@ -24,6 +24,7 @@ function initContactTabs() {
 
 
 function onResize() {
+    return;
     if($(window).width() < '762') {
         $('#block_company_comments').detach().insertAfter('#block_crearfix');
         $('#block_add_task').detach().insertBefore('#block_crearfix');
